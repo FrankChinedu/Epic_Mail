@@ -51,10 +51,19 @@ a:hover {
 
 .brand-name {
   font-family: Helvetica, sans-serif;
-  text-shadow: -2px 0px 0px grey;
+  text-shadow: 0px 2px 2px black;
   background: #80808017;
   padding: 1px;
   box-shadow: 0px 0px 374px grey;
+}
+
+.brand-name-1{
+    font-family: Helvetica, sans-serif;
+    text-shadow: 0px 2px 2px black;
+    background: #80808017;
+    padding: 1px;
+    box-shadow: 0px 0px 374px grey;
+    color: white;
 }
 
 .nav-header {   
@@ -62,12 +71,40 @@ a:hover {
   padding: 0 20px;
 }
 
-/* .txt-shadow{
-  text-shadow: 
-} */
+.main {
+    background: url('../img/email.png');
+    background-repeat: no-repeat;
+    height: 100vh;
+    filter: brightness(65%);
+    width: 100%;
+    position: absolute;
+}
 
-/* .main {
-} */
+.index-body {
+    position: relative;
+    color: white;
+    height: 100vh;
+}
+
+.index-content {
+    display: flex;
+    justify-content: center;
+    margin-top: -80px;
+    box-sizing: content-box;
+}
+.index-sub-title {
+    font-size: 50px;
+    padding: 0;
+    margin: 0;
+}
+
+.index-sub-cont {
+    margin-bottom: 40px;
+}
+
+.footer {
+    padding: 0 20px
+}
 
 .form-cover{
   border: 1px solid #dadce0;
@@ -85,6 +122,10 @@ a:hover {
   border-radius: .25rem;
 }
 
+.contact-us:hover {
+    color: #32383e;
+}
+
 .btn{
     background: #3261c8;
     padding: 0.6rem 1.5rem;
@@ -95,6 +136,20 @@ a:hover {
     font-size: medium;
     font-weight: bold;
     cursor: pointer;
+}
+
+.txt-white {
+    color: white;
+}
+
+.join-us {
+    padding: 5px 43px;
+    border: 1px solid white;
+    border-radius: 50px;
+}
+
+.join-us:hover{
+    border: 1px solid black;
 }
 
 .btn-default{
@@ -123,6 +178,11 @@ cursor: text;
     border-color: #28a745;
 }
 
+.index-btn {
+    padding: 13px 46px;
+    border-radius: 20px;
+}
+
 .center-text{
   text-align: center;
 }
@@ -137,6 +197,10 @@ cursor: text;
 
 .align-item-center{
     align-items: center;
+}
+
+.flex-dir-col {
+    flex-direction: column;
 }
 
 
@@ -274,15 +338,27 @@ cursor: text;
 
 
 @media only screen and (max-width: 768px) {
-  .brand-name {
-    font-size: 20px;
-  }
+    .brand-name {
+        font-size: 20px;
+    }
 
-  [class*="col-"] {
-    width: 83%;
-  }
+    .index-sub-title {
+        font-size: 38px; 
+    }
 
-  .sign-in-out {
-    font-size: 15px;
-  }
+    .index-btn {
+        padding: 11px 37px;
+    }
+
+    .join-us {
+        padding: 1px 26px; 
+    }
+
+    [class*="col-"] {
+        width: 83%;
+    }
+
+    .sign-in-out {
+        font-size: 15px;
+    }
 }
