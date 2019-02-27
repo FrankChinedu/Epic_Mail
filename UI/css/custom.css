@@ -1,0 +1,35 @@
+.profile-section {
+    background: white;
+    width: 120px;
+    position: absolute;
+    right: 10px;
+    top: 68px;
+    border-radius: 0 0 3px 3px;
+    height: 0;
+    overflow: hidden;
+    z-index: 200;
+    transition: height 0.3s linear 0s;
+    border: 1px solid #00000054;
+}
+
+.profile-section > div > ul > li {
+    list-style: none;
+    padding: 6px;
+    margin: 1px 1px 1px 1px;
+    background: #dc354540;
+    border-radius: 2px;
+}
+
+.profile-section > div > ul {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+    .profile-section {
+        top: 45px;
+    }
+}
