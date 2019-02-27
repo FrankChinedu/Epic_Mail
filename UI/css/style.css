@@ -138,6 +138,24 @@ a:hover {
     cursor: pointer;
 }
 
+.user-panel {
+
+}
+
+.container {
+
+}
+
+.prof-img {
+    width: 35px;
+    height: 35px;
+    background-image: url('../img/avata.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 30px;
+}
+
 .txt-white {
     color: white;
 }
@@ -348,6 +366,10 @@ cursor: text;
 
     .index-btn {
         padding: 11px 37px;
+    }
+
+    .form-cover {
+        margin-top: 26%;
     }
 
     .join-us {
