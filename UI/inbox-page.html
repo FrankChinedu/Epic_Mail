@@ -58,9 +58,14 @@
           <div class="space-100"></div>
           <div class="left-side-panel">
             <ul>
-              <li class="inbox-active">
+              <li class="listForJs" id="inbox" onclick="displayPanel('inbox')">
                 <a href="#">
                   inbox
+                </a>
+              </li>
+              <li class="inbox-active listForJs" id="draft" onclick="displayPanel('draft')" >
+                <a href="#">
+                  draft
                 </a>
               </li>
               <!-- <li>inbox</li>
@@ -72,7 +77,7 @@
           <div class="space-100"></div>
           <div class="right-in-main flex">
             <div class="col-11 message-body">
-              <div class="inbox-message" id="inbox-message">
+              <div class="displayForJs" id="inbox-message" style="display:none" >
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
                     <span class="col-1 arrow-cover"><i class="fas fa-arrow-circle-right arrow"></i></span>
@@ -143,6 +148,20 @@
                     <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
                     <span class="col-2 center-text start-text"><i class="fas fa-check read"></i></span>
                     <span class="col-8 center-text start-text">03 : 56 pm</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="displayForJs" id="draft-message">
+                <div class="main-flex message-list">
+                  <span class="col-3 flex">
+                    <span class="col-1 arrow-cover"><i class="fas fa-arrow-circle-right arrow"></i></span>
+                    <span class="col-10 mail-head draft-t">DRAFT</span>
+                  </span>
+                  <article class="col-7 mail-body">some content added here again </article>
+                  <span class="col-2 flex justify-content-sb">
+                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
+                    <span class="col-8 center-text start-text">02 : 00 am</span>
                   </span>
                 </div>
               </div>
