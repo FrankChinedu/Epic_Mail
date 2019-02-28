@@ -62,12 +62,17 @@
             <ul>
               <li class="listForJs" id="inbox" onclick="displayPanel('inbox')">
                 <a href="#">
-                  inbox
+                  <i class="fas fa-inbox mr-5 danger-col"></i> Inbox
                 </a>
               </li>
-              <li class="inbox-active listForJs" id="draft" onclick="displayPanel('draft')" >
+              <li class=" listForJs" id="draft" onclick="displayPanel('draft')" >
                 <a href="#">
-                  draft
+                  <i class="fas fa-bookmark mr-5 warning-col"></i> Draft
+                </a>
+              </li>
+              <li class="inbox-active listForJs" id="sent" onclick="displayPanel('sent')" >
+                <a href="#">
+                <i class="fas fa-plane-departure mr-5 success-col"></i> Sent
                 </a>
               </li>
               <!-- <li>inbox</li>
@@ -79,11 +84,15 @@
           <div class="space-100"></div>
           <div class="right-in-main flex">
             <div class="col-11 message-body">
+
               <div class="displayForJs" id="inbox-message" style="display:none" >
+
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
-                    <span class="col-1 arrow-cover"><i class="fas fa-arrow-circle-right arrow"></i></span>
-                    <span class="col-11 mail-head">some thing </span>
+                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                      <i class="fas fa-inbox danger-col ml-25"></i>
+                    </span>
+                    <span class="col-9 mail-head">some thing </span>
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
                   <span class="col-2 flex justify-content-sb">
@@ -94,8 +103,10 @@
                 </div>
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
-                    <span class="col-1 arrow-cover"><i class="fas fa-arrow-circle-right arrow"></i></span>
-                    <span class="col-11 mail-head">some thing </span>
+                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                      <i class="fas fa-inbox danger-col ml-25"></i>
+                    </span>
+                    <span class="col-9 mail-head">some thing </span>
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
                   <span class="col-2 flex justify-content-sb">
@@ -104,60 +115,16 @@
                     <span class="col-8 center-text start-text">03 : 56 pm</span>
                   </span>
                 </div>
-                <div class="main-flex message-list">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover"><i class="fas fa-arrow-circle-right arrow"></i></span>
-                    <span class="col-11 mail-head">some thing </span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text"><i class="fas fa-check read"></i></span>
-                    <span class="col-8 center-text start-text">03 : 56 pm</span>
-                  </span>
-                </div>
-                <div class="main-flex message-list">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover"><i class="fas fa-arrow-circle-right arrow"></i></span>
-                    <span class="col-11 mail-head">some thing </span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text"><i class="fas fa-check read"></i></span>
-                    <span class="col-8 center-text start-text">03 : 56 pm</span>
-                  </span>
-                </div>
-                <div class="main-flex message-list">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover"><i class="fas fa-arrow-circle-right arrow"></i></span>
-                    <span class="col-11 mail-head">some thing </span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text"><i class="fas fa-check read"></i></span>
-                    <span class="col-8 center-text start-text">03 : 56 pm</span>
-                  </span>
-                </div>
-                <div class="main-flex message-list">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover"><i class="fas fa-arrow-circle-right arrow"></i></span>
-                    <span class="col-11 mail-head">some thing </span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text"><i class="fas fa-check read"></i></span>
-                    <span class="col-8 center-text start-text">03 : 56 pm</span>
-                  </span>
-                </div>
+
               </div>
 
-              <div class="displayForJs" id="draft-message">
+              <div class="displayForJs" id="draft-message" style="display:none">
+
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
-                    <span class="col-1 arrow-cover"><i class="fas fa-arrow-circle-right arrow"></i></span>
+                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                      <i class="fas fa-bookmark warning-col ml-25"></i>
+                    </span>
                     <span class="col-10 mail-head draft-t">DRAFT</span>
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
@@ -166,8 +133,55 @@
                     <span class="col-8 center-text start-text">02 : 00 am</span>
                   </span>
                 </div>
+
               </div>
+
+              <div class="displayForJs" id="sent-message">
+
+                <div class="main-flex message-list">
+                  <span class="col-3 flex">
+                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                      <i class="fas fa-plane-departure success-col ml-25"></i>
+                    </span>
+                    <span class="col-9 mail-head draft-t">Sent</span>
+                  </span>
+                  <article class="col-7 mail-body">some content added here again </article>
+                  <span class="col-2 flex justify-content-sb">
+                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
+                    <span class="col-8 center-text start-text">12 : 44 pm</span>
+                  </span>
+                </div>
+                <div class="main-flex message-list">
+                  <span class="col-3 flex">
+                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                      <i class="fas fa-plane-departure success-col ml-25"></i>
+                    </span>
+                    <span class="col-9 mail-head draft-t">Sent</span>
+                  </span>
+                  <article class="col-7 mail-body">some content added here again </article>
+                  <span class="col-2 flex justify-content-sb">
+                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
+                    <span class="col-8 center-text start-text">12 : 44 pm</span>
+                  </span>
+                </div>
+                <div class="main-flex message-list">
+                  <span class="col-3 flex">
+                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                      <i class="fas fa-plane-departure success-col ml-25"></i>
+                    </span>
+                    <span class="col-9 mail-head draft-t">Sent</span>
+                  </span>
+                  <article class="col-7 mail-body">some content added here again </article>
+                  <span class="col-2 flex justify-content-sb">
+                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
+                    <span class="col-8 center-text start-text">12 : 44 pm</span>
+                  </span>
+                </div>
+
+              </div>
+
             </div>
+
             <div class="col-1 right-in-main-lt">
               
             </div>

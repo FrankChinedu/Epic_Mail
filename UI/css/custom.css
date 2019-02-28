@@ -108,7 +108,7 @@
 }
 
 .message-list > span span {
-  display: inline-block;
+  display: flex;
 }
 
 .message-list:hover {
