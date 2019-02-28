@@ -60,7 +60,7 @@
           </div>
           <div class="left-side-panel">
             <ul>
-              <li class="listForJs" id="inbox" onclick="displayPanel('inbox')">
+              <li class="listForJs inbox-active" id="inbox" onclick="displayPanel('inbox')">
                 <a href="#">
                   <i class="fas fa-inbox mr-5 danger-col"></i>&nbsp;&nbsp;&nbsp;Inbox
                 </a>
@@ -75,7 +75,7 @@
                 <i class="fas fa-plane-departure mr-5 success-col"></i> &nbsp;Sent
                 </a>
               </li>
-              <li class="inbox-active listForJs" id="contact" onclick="displayPanel('contact')" >
+              <li class=" listForJs" id="contact" onclick="displayPanel('contact')" >
                 <a href="#">
                   <i class="fas fa-address-book mr-5 primary-col"></i>&nbsp;&nbsp;&nbsp;Contacts
                 </a>
@@ -88,7 +88,7 @@
           <div class="right-in-main flex">
             <div class="col-11 message-body">
 
-              <div class="displayForJs" id="inbox-message" style="display:none" >
+              <div class="displayForJs" id="inbox-message">
 
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
@@ -175,7 +175,7 @@
 
               </div>
 
-              <div class="displayForJs" id="contact-message">
+              <div class="displayForJs" id="contact-message" style="display:none;">
                 <div class="flex justify-content-ctr">
                   <div class="contact-head center-text contact-head-active" id="ind-contact-all" onclick="switchContact('ind-contact-all')">
                     <h3>Contacts</h3>
