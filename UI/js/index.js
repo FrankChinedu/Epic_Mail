@@ -1,15 +1,15 @@
-let profile_panel = document.getElementById("profile-panel");
+let profilePanel = document.getElementById("profile-panel");
 
-profile_panel.addEventListener("click", function() {
+profilePanel.addEventListener("click", () => {
   let arrow = document.getElementById("drop-down");
-  let profile_section = document.getElementById("profile-section");
+  let profileSection = document.getElementById("profile-section");
   let height = "fit-content";
 
-  if (profile_section.style.height == height) {
-    profile_section.style.height = '0px'
+  if (profileSection.style.height == height) {
+    profileSection.style.height = '0px'
     arrow.innerHTML = '&#9650;';
   }else{
-    profile_section.style.height = height;
+    profileSection.style.height = height;
     arrow.innerHTML = '&#9660;';
   }
 });
