@@ -67,7 +67,7 @@
 }
 
 .left-side-panel > ul > li {
-    background: beige;
+    background: #1d1b1b17;
     border-radius: 0 23px 23px 0;
     padding: 7px;
     margin-bottom: 1px;
@@ -163,6 +163,10 @@
 
 .read {
   color: var(--warning);
+}
+
+.draft-t {
+  color: var(--danger)
 }
 
 .start-text {

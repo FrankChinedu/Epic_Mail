@@ -13,3 +13,24 @@ profilePanel.addEventListener("click", () => {
     arrow.innerHTML = '&#9660;';
   }
 });
+
+const displayPanel = (id) => {
+  const idName = `${id}-message`;
+  const allMessageDisplay = document.querySelectorAll(".displayForJs");
+  allMessageDisplay.forEach(node => {
+    node.style.display = 'none';
+  });
+
+  const allListDisplay = document.querySelectorAll(".listForJs");
+  
+  allListDisplay.forEach(node => {
+    node.classList.remove("inbox-active");
+  });
+
+  const newListItem = document.getElementById(id);
+  newListItem.classList.add("inbox-active");
+
+  const newElm = document.getElementById(idName);
+  newElm.style.display = 'block';
+
+}
