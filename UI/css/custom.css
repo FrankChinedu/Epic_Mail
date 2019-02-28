@@ -236,6 +236,14 @@
   text-align: start;
 }
 
+.retract {
+  color: var(--danger)
+}
+
+.retracted {
+  color: var(--success)
+}
+
 
 @media only screen and (max-width: 768px) {
     .profile-section {

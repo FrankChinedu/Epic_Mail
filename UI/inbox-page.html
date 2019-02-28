@@ -62,17 +62,17 @@
             <ul>
               <li class="listForJs" id="inbox" onclick="displayPanel('inbox')">
                 <a href="#">
-                  <i class="fas fa-inbox mr-5 danger-col"></i> Inbox
+                  <i class="fas fa-inbox mr-5 danger-col"></i>&nbsp;&nbsp;&nbsp;Inbox
                 </a>
               </li>
               <li class=" listForJs" id="draft" onclick="displayPanel('draft')" >
                 <a href="#">
-                  <i class="fas fa-bookmark mr-5 warning-col"></i> Draft
+                  <i class="fas fa-bookmark mr-5 warning-col"></i> &nbsp;&nbsp;&nbsp;Draft
                 </a>
               </li>
               <li class="inbox-active listForJs" id="sent" onclick="displayPanel('sent')" >
                 <a href="#">
-                <i class="fas fa-plane-departure mr-5 success-col"></i> Sent
+                <i class="fas fa-plane-departure mr-5 success-col"></i> &nbsp;Sent
                 </a>
               </li>
               <!-- <li>inbox</li>
@@ -96,7 +96,7 @@
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
                   <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
+                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
                     <span class="col-2 center-text start-text"><i class="fas fa-check read"></i></span>
                     <span class="col-8 center-text start-text">03 : 56 pm</span>
                   </span>
@@ -110,7 +110,7 @@
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
                   <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
+                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
                     <span class="col-2 center-text start-text"><i class="fas fa-check read"></i></span>
                     <span class="col-8 center-text start-text">03 : 56 pm</span>
                   </span>
@@ -129,7 +129,7 @@
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
                   <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
+                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
                     <span class="col-8 center-text start-text">02 : 00 am</span>
                   </span>
                 </div>
@@ -141,40 +141,32 @@
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
                     <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-plane-departure success-col ml-25"></i>
+                      <i class="fas fa-plane-departure success-col ml-25" title="sent message"></i>
                     </span>
-                    <span class="col-9 mail-head draft-t">Sent</span>
+                    <span class="col-9 mail-head draft-t">To : Frank Angelo</span>
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
                   <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-8 center-text start-text">12 : 44 pm</span>
+                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
+                    <span class="col-2 center-text start-text retract" title="Retract Sent Message"><i class="fas fa-undo"></i></span>
+                    <span class="col-6 center-text start-text">12 : 44 pm</span>
                   </span>
                 </div>
+
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
                     <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-plane-departure success-col ml-25"></i>
+                      <i class="fas fa-exclamation-triangle ml-25 warning-col" title="retracted Message"></i>
                     </span>
-                    <span class="col-9 mail-head draft-t">Sent</span>
+                    <span class="col-9 mail-head draft-t">To : Angelo Frank</span>
                   </span>
-                  <article class="col-7 mail-body">some content added here again </article>
+                  <article class="col-7 mail-body">Awesome message from us  added here again </article>
                   <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-8 center-text start-text">12 : 44 pm</span>
-                  </span>
-                </div>
-                <div class="main-flex message-list">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-plane-departure success-col ml-25"></i>
+                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
+                    <span class="col-2 center-text start-text retracted" title="ReSend Message">
+                      <i class="fas fa-share-square"></i>
                     </span>
-                    <span class="col-9 mail-head draft-t">Sent</span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-8 center-text start-text">12 : 44 pm</span>
+                    <span class="col-6 center-text start-text">14 : 04 pm</span>
                   </span>
                 </div>
 
