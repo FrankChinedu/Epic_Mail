@@ -70,13 +70,16 @@
                   <i class="fas fa-bookmark mr-5 warning-col"></i> &nbsp;&nbsp;&nbsp;Draft
                 </a>
               </li>
-              <li class="inbox-active listForJs" id="sent" onclick="displayPanel('sent')" >
+              <li class="listForJs" id="sent" onclick="displayPanel('sent')" >
                 <a href="#">
                 <i class="fas fa-plane-departure mr-5 success-col"></i> &nbsp;Sent
                 </a>
               </li>
-              <!-- <li>inbox</li>
-              <li>inbox</li> -->
+              <li class="inbox-active listForJs" id="contact" onclick="displayPanel('contact')" >
+                <a href="#">
+                  <i class="fas fa-address-book mr-5 primary-col"></i>&nbsp;&nbsp;&nbsp;Contacts
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -136,7 +139,7 @@
 
               </div>
 
-              <div class="displayForJs" id="sent-message">
+              <div class="displayForJs" id="sent-message" style="display:none;">
 
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
@@ -170,6 +173,94 @@
                   </span>
                 </div>
 
+              </div>
+
+              <div class="displayForJs" id="contact-message">
+                <div class="flex justify-content-ctr">
+                  <div class="contact-head center-text contact-head-active" id="ind-contact-all" onclick="switchContact('ind-contact-all')">
+                    <h3>Contacts</h3>
+                  </div>
+                  <div class="contact-head center-text" id="ind-contact-grp" onclick="switchContact('ind-contact-grp')">
+                    <h3>Groups</h3>
+                  </div>
+                </div>
+
+                <div class="add-contact" onclick="openAddForm()">
+                  <i class="fas fa-plus"></i>
+                </div>
+
+                <!-- <div class="addIndContact formAddContactJs ind-contact-all-1" style="display:none">
+                  <div class="flex justify-content-sb mb-25">
+                    <h4>Add contact</h4>
+                    <span onclick="closeAddPanel()">X</span>
+                  </div>
+                  <form class="">
+                    <label for="addIndContact">Email</label>
+                    <input type="email" required class="form-control mt-25" placeholder="user@email.com">
+                    <button type="submit" class="btn btn-sm btn-success">Add</button>
+                  </form>
+                </div> -->
+
+                <div class="addIndContact  formAddContactJs ind-contact-grp-1" style="display:none;">
+                  <div class="flex justify-content-sb mb-25">
+                    <h4>Create Group</h4>
+                    <span onclick="closeAddPanel()">X</span>
+                  </div>
+                  <form class="">
+                    <label for="addIndContact1">Group Name</label>
+                    <input type="text" minlength="3" id="addIndContact1" required class="form-control mt-25" placeholder="group name">
+                    <button type="submit" class="btn btn-sm btn-success">Add</button>
+                  </form>
+                </div>
+
+                <div class="ind-contact-all contactJs flex flex-dir-col align-item-center">
+
+                  <div class="ind-contact">
+                    <div class="flex">
+                      <div class="ab-avatar">FA</div>
+                      <div class="contact-info flex align-item-center justify-content-sb">
+                        <h4 class="elipsis">Frank Angelo</h4>
+                        <div class="flex ">
+                          <button class="btn btn-sm btn-success ">Email</button>
+                          <button class="btn btn-sm btn-danger ">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="ind-contact">
+                    <div class="flex">
+                      <div class="ab-avatar">FA</div>
+                      <div class="contact-info flex align-item-center justify-content-sb">
+                        <h4 class="elipsis">Frank Angelo</h4>
+                        <div class="flex ">
+                          <button class="btn btn-sm btn-success ">Email</button>
+                          <button class="btn btn-sm btn-danger ">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+
+                <div class="ind-contact-grp contactJs flex flex-dir-col align-item-center" style="display:none;">
+
+                  <div class="ind-contact">
+                    <div class="flex">
+                      <div class="ab-avatar">G1</div>
+                      <div class="contact-info flex align-item-center justify-content-sb">
+                        <h4 class="elipsis">Group 1 </h4>
+                        <div class="flex ">
+                          <button class="btn btn-sm">Add</button>
+                          <button class="btn btn-sm btn-success ">Email</button>
+                          <button class="btn btn-sm btn-danger ">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
               </div>
 
             </div>

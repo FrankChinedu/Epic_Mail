@@ -52,3 +52,32 @@ const createContent = (flag = false) => {
     emailHead.style.display = value;
   }
 }
+
+const switchContact = (Name) => {
+  const contactPanel = document.querySelectorAll(".contactJs");
+  const className = document.querySelector(`.${Name}`);
+  const currentActive = document.querySelector(".contact-head-active");
+  const idName = document.querySelector(`#${Name}`);
+  contactPanel.forEach(node => {
+    node.style.display = "none";
+  });
+
+  className.style.display = 'flex';
+  currentActive.classList.remove("contact-head-active");
+  idName.classList.add("contact-head-active");
+}
+
+const openAddForm = () => {
+  const currentActive = document.querySelector(".contact-head-active");
+  closeAddPanel();
+  const idName = `${currentActive.id}-1`;
+  const className = document.querySelector(`.${idName}`);
+  className.style.display = 'block'
+}
+
+const closeAddPanel = () => {
+  const addForms = document.querySelectorAll(".formAddContactJs");
+  addForms.forEach(node => {
+    node.style.display = "none";
+  });
+}

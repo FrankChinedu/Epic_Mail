@@ -90,6 +90,7 @@
   /* background: tomato; */
     padding: 12px 5px;
 }
+
 .message-body {
   max-height:70vh;
   overflow-y: scroll;
@@ -147,7 +148,7 @@
   color: var(--danger);
 }
 
-.mail-body, .mail-head {
+.mail-body, .mail-head, .elipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -190,7 +191,7 @@
   position: absolute;
   bottom: 0px;
   right: 55px;
-  z-index: 20;
+  z-index: 220;
 }
 
 .email-header {
@@ -244,6 +245,118 @@
   color: var(--success)
 }
 
+.ind-contact-all {
+  max-height:50vh;
+  overflow-y: scroll;
+}
+
+.ind-contact-grp {
+  max-height:50vh;
+  overflow-y: scroll;
+}
+
+.contact-head {
+  width: 302px;
+  height: 55px;
+  background: #1d1b1b26;
+  margin-right: 2px;
+  color: black;
+  cursor: pointer;
+}
+
+.contact-head-active {
+  color: black;
+  background: #007bff78;
+}
+
+.ab-avatar {
+  width: 46px;
+  height: 46px;
+  background: steelblue;
+  color: white;
+  font-size: 22px;
+  border-radius: 61px;
+  text-align: center;
+  line-height: 50px;
+}
+
+.contact-info {
+  width: 100%;
+}
+
+.contact-info > button {
+  height: fit-content;
+}
+.contact-info > h4 {
+  padding: 0px;
+  margin: 0px 0 0 10px;
+  color: white;
+}
+
+.contact-info > div > button {
+  margin-right: 10px;
+}
+
+.ind-contact {
+  width: 59.09%;
+  height: 55px;
+  margin: 4px -3px 0 0;
+  padding: 5px 8px;
+  background: #32383e;
+  box-shadow: 0px 1px 1px black;
+}
+
+.add-contact {
+  width: 50px;
+  height: 50px;
+  background: #007bff;
+  border-radius: 50px;
+  font-size: 15px;
+  text-align: center;
+  line-height: 50px;
+  box-shadow: -2px 0px 1px black;
+  cursor: pointer;
+  color: white;
+  position: absolute;
+  right: 239px;
+  bottom: 233px;
+  z-index: 150;
+}
+
+.elipsis {
+  min-width: 85px;
+  max-width: 330px;
+}
+
+.addIndContact {
+  width: 300px;
+  background: #32383e;
+  padding: 11px;
+  position: absolute;
+  color: white;
+  border-radius: 2px;
+  bottom: 187px;
+  right: 305px;
+  z-index: 150;
+}
+
+.addIndContact > div > h4 {
+  margin: 0px;
+  padding: 0px;
+}
+
+.addIndContact > div > span {
+  cursor: pointer;
+}
+
+.addIndContact > form > button {
+  float: right;
+  margin-top: 3px;
+}
+
+.addIndContact > form > label {
+  margin-top: 3px;
+}
 
 @media only screen and (max-width: 768px) {
     .profile-section {
@@ -297,14 +410,33 @@
       right: 15px;
     }
 
+    .add-contact {
+      bottom: 103px;
+      right: 15px;
+    }
+
     .mobile-create:hover {
       box-shadow: -4px 3px 9px black;
-    }   
+    }
+
+    .ind-contact {
+      width: 99%;
+    }
 
     .email-body{
       width: 89%;
       right: 20px;
       bottom: 96px;
+    }
+
+    .elipsis {
+      max-width: 85px;
+    }
+
+    .addIndContact{
+     bottom: 187px;
+    right: 32px;
+    box-shadow: -2px 0px 6px white;
     }
 
     .arrow-cover {
