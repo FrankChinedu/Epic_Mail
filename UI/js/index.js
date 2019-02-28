@@ -34,3 +34,21 @@ const displayPanel = (id) => {
   newElm.style.display = 'block';
 
 }
+
+const createContent = (flag = false) => {
+  const emailMainBody = document.querySelector(".email-main-body");
+  const emailBody = document.querySelector(".email-body");
+  const emailHead = document.querySelector(".email-header");
+  // const mobileCreateBtn = document.querySelector("#mobile-create");
+  const value = 'none';
+
+  if (emailMainBody.style.display === value) {
+    emailMainBody.style.display = "block";
+    emailBody.style.display = "block";
+    emailHead.style.display = "flex";
+  } else {
+    emailBody.style.display = value;   
+    emailMainBody.style.display = value;
+    emailHead.style.display = value;
+  }
+}
