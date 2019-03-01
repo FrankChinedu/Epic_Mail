@@ -8,6 +8,10 @@ messages/information over the internet.
  - Css
  - Javascript
 
+## gh pages
+[home](https://frankchinedu.github.io/Epic_Mail/UI/index.html)
+
+
 ## Pivotal Tracker
   [url](https://www.pivotaltracker.com/n/projects/2315126)
 
