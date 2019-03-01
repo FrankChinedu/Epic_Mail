@@ -47,6 +47,10 @@ a:hover {
   color: black;
 }
 
+.cursor {
+    cursor: pointer;
+}
+
 .flex {
   display: flex;
 }
@@ -143,13 +147,13 @@ a:hover {
     cursor: pointer;
 }
 
-.user-panel {
+/* .user-panel {
 
 }
 
 .container {
 
-}
+} */
 
 .prof-img {
     width: 35px;
