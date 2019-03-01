@@ -47,6 +47,10 @@ a:hover {
   color: black;
 }
 
+.cursor {
+    cursor: pointer;
+}
+
 .flex {
   display: flex;
 }

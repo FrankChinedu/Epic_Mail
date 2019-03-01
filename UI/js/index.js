@@ -36,6 +36,7 @@ const displayPanel = (id) => {
 }
 
 const createContent = (flag = false) => {
+  populate(false);
   const emailMainBody = document.querySelector(".email-main-body");
   const emailBody = document.querySelector(".email-body");
   const emailHead = document.querySelector(".email-header");
@@ -80,4 +81,49 @@ const closeAddPanel = () => {
   addForms.forEach(node => {
     node.style.display = "none";
   });
+}
+
+const openMessage = (panel) => {
+  const allMessageDisplay = document.querySelectorAll(".displayForJs");
+  allMessageDisplay.forEach(node => {
+    node.style.display = "none";
+  });
+
+  const elm = document.querySelector(`.${panel}`);
+  elm.style.display  = 'block';
+}
+
+const goBack = (from, to) => {
+
+  const elm = document.querySelector(`.${from}`);
+  elm.style.display = 'none';
+
+  displayPanel(to)
+}
+
+const openDraft = () => {
+  createContent();
+  populate();
+}
+
+const populate = (flag = true) => {
+  const receipient = document.getElementById("receipient");
+  const subject = document.getElementById("subject");
+  const textArea = document.getElementById("text-area");
+
+  if (flag) {
+    receipient.value = "fromDraft@draft.com";
+    subject.value = "Being an amazing guy";
+    textArea.value = `
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+    Ab exercitationem dicta, illo dolorum quia
+    ,asperiores distinctio voluptate iure eum labore debitis.
+    Vero possimus doloribus laudantium illo soluta obcaecati tempore ipsam.
+    `;
+  }else {
+    receipient.value = '';
+    subject.value = '';
+    textArea.value = ''
+  }
+
 }

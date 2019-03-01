@@ -358,6 +358,45 @@
   margin-top: 3px;
 }
 
+.Email-message {
+  width: 100%;
+  height: -webkit-fill-available;
+  /* background: #0000000f; */
+}
+
+.Email-message > div {
+  border: 1px solid gray;
+}
+
+.go-back {
+  width: 30px;
+  cursor: pointer;
+  padding: 6px 8px;
+  margin: 3px 3px 0 3px;
+  display: inline-block;
+  border-radius: 20px;
+}
+
+.go-back:hover {
+  background: grey ;
+}
+
+.read-mailContent {
+/* background: steelblue; */
+  padding: 8px 30px;
+  height: inherit;
+}
+
+.tag{
+  background: #8083867d;
+  padding: 2px 5px;
+  border-radius: 30px;
+}
+
+.mailContent {
+  margin-top: 15px;
+}
+
 @media only screen and (max-width: 768px) {
     .profile-section {
         top: 45px;
