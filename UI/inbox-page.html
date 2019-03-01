@@ -60,7 +60,7 @@
           </div>
           <div class="left-side-panel">
             <ul>
-              <li class="listForJs inbox-active" id="inbox" onclick="displayPanel('inbox')">
+              <li class="inbox-active listForJs" id="inbox" onclick="displayPanel('inbox')">
                 <a href="#">
                   <i class="fas fa-inbox mr-5 danger-col"></i>&nbsp;&nbsp;&nbsp;Inbox
                 </a>
@@ -214,7 +214,6 @@
               </div>
 
               <div class="displayForJs" id="sent-message" style="display:none;">
-
                 <div class="main-flex message-list" onclick="openMessage('sentMail')">
                   <span class="col-3 flex">
                     <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
@@ -249,7 +248,7 @@
 
               </div>
 
-              <div class="displayForJs" id="contact-message" style="display:none;">
+              <div class="displayForJs" id="contact-message" style="display:none">
                 <div class="flex justify-content-ctr">
                   <div class="contact-head center-text contact-head-active" id="ind-contact-all" onclick="switchContact('ind-contact-all')">
                     <h3>Contacts</h3>
@@ -320,16 +319,49 @@
 
                 <div class="ind-contact-grp contactJs flex flex-dir-col align-item-center" style="display:none;">
 
-                  <div class="ind-contact">
-                    <div class="flex">
-                      <div class="ab-avatar">G1</div>
-                      <div class="contact-info flex align-item-center justify-content-sb">
-                        <h4 class="elipsis">Group 1 </h4>
-                        <div class="flex ">
-                          <button class="btn btn-sm">Add</button>
-                          <button class="btn btn-sm btn-success ">Email</button>
-                          <button class="btn btn-sm btn-danger ">Delete</button>
+                    <div class="ind-contact group-name">
+                      <div class="flex">
+                        <div class="ab-avatar cursor" onclick="listMember()">G1</div>
+                        <div class="contact-info flex align-item-center justify-content-sb" >
+                          <h4 class="elipsis cursor" onclick="listMember()" >Group 1 </h4>
+                          <div class="flex ">
+                            <button class="btn btn-sm">Add</button>
+                            <button class="btn btn-sm btn-success ">Email</button>
+                            <button class="btn btn-sm btn-danger ">Delete</button>
+                          </div>
                         </div>
+                      </div>
+                    </div>
+
+                  <div class="group-members" style="display:none;">
+                    <div class="flex justify-content-sb" style="margin-bottom: 20px;">
+                      <h3>Group 1</h3>
+                      <span class="cursor grp-back" onclick="backToList()"><i class="fas fa-arrow-left"></i></span>
+                    </div>
+                    <div class="add-member flex align-item-center mb-25 justify-content-ctr">
+                      <span class="mr-25">Add</span>
+                      <select class="mr-25 cursor">
+                        <option value="frank@ang.com">frank@ang.com</option>
+                        <option value="frank@ang.com">frank@ang.com</option>
+                      </select>
+                      <button class="btn btn-sm ml-25 cursor"> add </button>
+                    </div>
+                    <div class="members-list">
+                      <div class="a-member flex cursor ">
+                        <p>frank@ang.com</p>
+                        <span class="cursor">x</span>
+                      </div>
+                      <div class="a-member flex cursor ">
+                        <p>frank@ang.com</p>
+                        <span class="cursor">x</span>
+                      </div>
+                      <div class="a-member flex cursor ">
+                        <p>frank@ang.com</p>
+                        <span class="cursor">x</span>
+                      </div>
+                      <div class="a-member flex cursor ">
+                        <p>frank@ang.com</p>
+                        <span class="cursor">x</span>
                       </div>
                     </div>
                   </div>

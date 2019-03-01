@@ -127,3 +127,23 @@ const populate = (flag = true) => {
   }
 
 }
+
+const listMember = () => {
+  const groupName = document.querySelectorAll(".group-name");
+  groupName.forEach(node => {
+    node.style.display = "none";
+  });
+
+  const groupMembers = document.querySelector(".group-members");
+  groupMembers.style.display = 'block';
+}
+
+const backToList = () => {
+  const groupName = document.querySelectorAll(".group-name");
+  groupName.forEach(node => {
+    node.style.display = "block";
+  });
+
+  const groupMembers = document.querySelector(".group-members");
+  groupMembers.style.display = "none";
+}
