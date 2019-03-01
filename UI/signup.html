@@ -27,7 +27,7 @@
   <main class="flex justify-content-ctr">
     <div class="col-5 mt-25 form-cover">
       <h3 class="center-text">Sign Up</h3>
-      <form class="">
+      <form class="" onsubmit="event.preventDefault(); submitForm()">
         <div class="mt-25">
           <label for="firstname">first Name</label>
           <input type="text" class="form-control mt-5" id="firstname" required placeholder="jefferson">
@@ -55,6 +55,7 @@
       </form>
     </div>
   </main>
-  
+
+  <script src="./js/index.js"></script>  
 </body>
 </html>

@@ -1,18 +1,20 @@
 let profilePanel = document.getElementById("profile-panel");
 
-profilePanel.addEventListener("click", () => {
-  let arrow = document.getElementById("drop-down");
-  let profileSection = document.getElementById("profile-section");
-  let height = "fit-content";
+if (profilePanel) {
+  profilePanel.addEventListener("click", () => {
+    let arrow = document.getElementById("drop-down");
+    let profileSection = document.getElementById("profile-section");
+    let height = "fit-content";
 
-  if (profileSection.style.height == height) {
-    profileSection.style.height = '0px'
-    arrow.innerHTML = '&#9650;';
-  }else{
-    profileSection.style.height = height;
-    arrow.innerHTML = '&#9660;';
-  }
-});
+    if (profileSection.style.height == height) {
+      profileSection.style.height = "0px";
+      arrow.innerHTML = "&#9650;";
+    } else {
+      profileSection.style.height = height;
+      arrow.innerHTML = "&#9660;";
+    }
+  });
+}
 
 const displayPanel = (id) => {
   const idName = `${id}-message`;
@@ -146,4 +148,8 @@ const backToList = () => {
 
   const groupMembers = document.querySelector(".group-members");
   groupMembers.style.display = "none";
+}
+
+const submitForm = () => {
+  location.href = "./inbox-page.html";
 }
