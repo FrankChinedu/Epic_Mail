@@ -11,9 +11,22 @@ messages/information over the internet.
 ## gh pages
 [home](https://frankchinedu.github.io/Epic_Mail/UI/index.html)
 
+## gh pages login data 
+```
+ - username : anything@mail.com
+ - password : anything
+```
 
 ## Pivotal Tracker
   [url](https://www.pivotaltracker.com/n/projects/2315126)
+
+
+## Project References
+ - - -
+### UI reference
+ - gmail
+ - whatsapp
+- - -
 
 ### Licence
 This project is licensed under the MIT License.
