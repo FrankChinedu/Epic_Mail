@@ -5,5 +5,7 @@ export default class Users {
     this.lastName = null;
     this.email = null;
     this.password = null;
+    this.createdAt = new Date();
+    this.updateAt = new Date();
   }
 }

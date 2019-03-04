@@ -10,7 +10,7 @@ userRoute.get('/allUsers', UserController.allUsers);
 
 userRoute.get('/user', (req, res) => {
   res.status(200).send({
-    message: 'here again',
+    message: 'users ----',
   });
 });
 
