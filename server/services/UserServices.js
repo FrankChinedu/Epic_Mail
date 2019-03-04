@@ -23,7 +23,7 @@ export default class UserServices {
     const res = {
       status: 200,
       data: {
-        ...user,
+        // ...user,
         token: Helper.jwtSignUser(userJson),
       },
     };
