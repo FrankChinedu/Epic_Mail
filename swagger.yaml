@@ -1,0 +1,16 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Epic Meal"
+  description: " Epic mail is a web app that helps people exchange messages/information over the internet."
+host: "localhost:4000"
+basePath: "/api/v1"
+schemes:
+- http
+- https
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  
