@@ -5,9 +5,9 @@ import cors from 'cors';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import routes from './routes/api';
 
-const swaggerDocument = YAML.load(`${process.cwd()}/swagger.yaml`);
-
+const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
 
 const app = express();
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -32,11 +32,30 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/', (req, res) => {
+const apiURL = '/api/v1';
+global.apiURL = apiURL;
+
+Object.keys(routes).forEach((value) => {
+  app.use(`${apiURL}/`, value);
+});
+
+app.use('/', (req, res, next) => {
+  if (req.originalUrl !== '/') {
+    next();
+    return;
+  }
   res.send({
     message: 'welcome to EPIC MAIL',
   });
 });
+
+app.use((req, res) => {
+  res.status(404);
+  res.send({
+    error: 'not found',
+  });
+});
+
 
 app.listen(process.env.PORT, () => {
   console.log(`server start at port ${process.env.PORT} `);
