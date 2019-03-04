@@ -4,7 +4,7 @@ const userRoute = express.Router();
 
 userRoute.get('/user', (req, res) => {
   res.status(200).send({
-    message: 'here again'
+    message: 'here again',
   });
 });
 
