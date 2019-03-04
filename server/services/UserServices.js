@@ -19,7 +19,8 @@ export default class UserServices {
   }
 
   static getJsonWebToken(user) {
-    const userJson = JSON.stringify(user);
+    let userJson = JSON.stringify(user);
+    userJson = JSON.parse(userJson);
     const res = {
       status: 200,
       data: {
