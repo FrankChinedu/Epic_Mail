@@ -49,8 +49,24 @@ export default class messageServices {
     };
   }
 
-  static getRecievedEmails(userId) {
+  static deleteAnInboxMessage({ userId, id }) {
+    let response = 'unsuccessful';
+    const inboxId = inboxs.findIndex(data => (data.senderId === parseInt(userId, 10)
+     && data.messageId === parseInt(id, 10)));
 
+    if (inboxId !== -1) {
+      inboxs.splice(inboxId, 1);
+      response = 'deleted successfully';
+    } else {
+      response = 'not found';
+    }
+    return {
+      status: 200,
+      data: [{ message: response }],
+    };
+  }
+
+  static getRecievedEmails(userId) {
     const response = this.getUsersMessages(userId);
 
     return {
@@ -62,7 +78,7 @@ export default class messageServices {
   static saveDraft(data) {
     const { userId, contactEmail } = data;
 
-    const receiverId = this.getMessageReceiver(contactEmail);
+    const receiverId = this.getMessageReceiverId(contactEmail);
     const message = this.createMessage(data);
 
     const draft = new Draft();
@@ -80,7 +96,7 @@ export default class messageServices {
     };
   }
 
-  static getMessageReceiver(email) {
+  static getMessageReceiverId(email) {
     const user = users.find(data => data.email === email);
     if (user) {
       return user.id;
@@ -91,7 +107,7 @@ export default class messageServices {
   static sendMessage(data) {
     const { userId, contactEmail } = data;
 
-    const receiverId = this.getMessageReceiver(contactEmail);
+    const receiverId = this.getMessageReceiverId(contactEmail);
     const message = this.createMessage(data);
 
     const inbox = new Inbox();

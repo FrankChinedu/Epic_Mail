@@ -32,4 +32,12 @@ export default class MessageController {
     const userId = 1;
     res.status(200).send(MessageServices.getUnReadEmails(userId));
   }
+
+  static deleteAnInboxMessage(req, res) {
+    const userId = 1;
+    const { id } = req.params;
+
+    const data = { userId, id };
+    res.status(202).send(MessageServices.deleteAnInboxMessage(data));
+  }
 }
