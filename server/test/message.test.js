@@ -32,4 +32,21 @@ describe('Message ', () => {
       done();
     });
   });
+
+  describe('/GET /messages', () => {
+    it('user should be able to get all received emails as inbox', (done) => {
+      chai.request(server)
+        .get(`${apiURL}/messages`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.status.should.equal(200);
+        });
+      done();
+    });
+  });
 });
