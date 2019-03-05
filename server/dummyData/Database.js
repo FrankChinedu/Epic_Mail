@@ -22,8 +22,8 @@ module.exports = {
   messages: [
     {
       id: 1,
-      subject: 'my first sent subject',
-      message: 'my first official sent message',
+      subject: 'my first inbox subject',
+      message: 'my first official inbox message',
       parentMessageId: null,
       status: 'sent',
       createdOn: '2019-03-05',
@@ -51,6 +51,7 @@ module.exports = {
     {
       id: 1,
       senderId: 1,
+      receiverId: 2,
       messageId: 1,
       createdOn: '2019-03-05',
     },
@@ -58,6 +59,7 @@ module.exports = {
   inboxs: [
     {
       id: 1,
+      senderId: 1,
       receiverId: 2,
       messageId: 1,
       read: false,

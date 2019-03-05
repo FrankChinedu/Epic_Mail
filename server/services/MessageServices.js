@@ -19,6 +19,31 @@ export default class messageServices {
     return msg;
   }
 
+  static getRecievedEmails(userId) {
+    const msgs = inboxs.filter(data => data.id === userId);
+
+    const response = [];
+
+    msgs.forEach((inbox) => {
+      const mail = messages.find(data => data.id === inbox.messageId);
+
+      const { subject, message, parentMessageId } = mail;
+
+      const {
+        id, createdOn, read, status, senderId, receiverId,
+      } = inbox;
+
+      response.push({
+        id, createdOn, subject, message, senderId, receiverId, parentMessageId, status, read,
+      });
+    });
+
+    return {
+      status: 200,
+      data: response,
+    };
+  }
+
   static saveDraft(data) {
     const { userId, contactEmail } = data;
 
@@ -57,6 +82,7 @@ export default class messageServices {
     const inbox = new Inbox();
     inbox.id = drafts[drafts.length - 1].id + 1;
     inbox.receiverId = receiverId;
+    inbox.senderId = userId;
     inbox.messageId = message.id;
 
     inboxs.push(inbox);
@@ -65,6 +91,7 @@ export default class messageServices {
     sent.id = sents[sents.length - 1].id + 1;
     sent.messageId = message.id;
     sent.senderId = userId;
+    sent.receiverId = receiverId;
 
     sents.push(sent);
 
