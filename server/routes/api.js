@@ -1,7 +1,7 @@
 import userRoute from './user';
-import emailRoute from './email';
+import messageRoute from './message';
 
 module.exports = {
   userRoute,
-  emailRoute,
+  messageRoute,
 };
