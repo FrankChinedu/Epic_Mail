@@ -3,7 +3,7 @@ import UserServices from '../services/UserServices';
 export default class UserController {
   static createUser(req, res) {
     const data = req.body;
-    res.status(200).send(UserServices.createUser(data));
+    res.status(201).send(UserServices.createUser(data));
   }
 
   static allUsers(req, res) {
@@ -18,6 +18,6 @@ export default class UserController {
       res.status(403).send(response);
       return;
     }
-    res.status(200).send(response);
+    res.status(201).send(response);
   }
 }

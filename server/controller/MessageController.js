@@ -12,7 +12,7 @@ export default class MessageController {
     } else {
       response = MessageController.saveAsDraft(data);
     }
-    res.status(200).send(response);
+    res.status(201).send(response);
   }
 
   static saveAsDraft(data) {

@@ -34,7 +34,7 @@ export default class messageServices {
     drafts.push(draft);
 
     return {
-      status: 200,
+      status: 201,
       message: 'draft saved successfully',
       data: [message],
     };
@@ -69,7 +69,7 @@ export default class messageServices {
     sents.push(sent);
 
     return {
-      status: 200,
+      status: 201,
       message: 'message sent successfully',
       data: [message],
     };
