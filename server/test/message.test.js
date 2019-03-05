@@ -49,4 +49,21 @@ describe('Message ', () => {
       done();
     });
   });
+
+  describe('/GET /messages/unread', () => {
+    it('user should be able to get all unread messages', (done) => {
+      chai.request(server)
+        .get(`${apiURL}/messages/unread`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.status.should.equal(200);
+        });
+      done();
+    });
+  });
 });
