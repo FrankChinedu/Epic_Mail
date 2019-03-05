@@ -1,5 +1,5 @@
-import { users } from '../dummyData/Database';
 import Helper from '../helpers/Helpers';
+import Helpers from '../helpers/Helpers';
 
 const Joi = require('joi');
 
@@ -49,12 +49,7 @@ export default class Auth {
   static emailExist(req, res, next) {
     const { email } = req.body;
 
-    const AllEmails = [];
-
-    users.forEach((data) => {
-      AllEmails.push(data.email);
-    });
-    const emailExist = Helper.emailExist(AllEmails, email);
+    const emailExist = Helper.emailExist(Helpers.AllEmails(), email);
 
     if (emailExist) {
       res.status(403).send({

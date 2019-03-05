@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/FrankChinedu/Epic_Mail#readme",
   "dependencies": {
+    "bcrypt": "3.0.4",
     "body-parser": "1.18.3",
     "cors": "2.8.5",
     "dotenv": "6.2.0",

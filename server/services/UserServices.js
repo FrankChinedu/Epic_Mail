@@ -18,13 +18,33 @@ export default class UserServices {
     return this.getJsonWebToken(user);
   }
 
+
+  static login({ email, password }) {
+    const user = users.find(data => data.email === email);
+
+    if (!user) {
+      return {
+        status: 403,
+        error: ['The login email information was incorrect'],
+      };
+    }
+
+    if (user.password !== password) {
+      return {
+        status: 403,
+        error: ['The login information was incorrect'],
+      };
+    }
+    return this.getJsonWebToken(user);
+  }
+
   static getJsonWebToken(user) {
     let userJson = JSON.stringify(user);
     userJson = JSON.parse(userJson);
     const res = {
       status: 200,
       data: {
-        // ...user,
+        ...user,
         token: Helper.jwtSignUser(userJson),
       },
     };
