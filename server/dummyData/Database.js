@@ -51,6 +51,7 @@ module.exports = {
     {
       id: 1,
       senderId: 1,
+      receiverId: 2,
       messageId: 1,
       createdOn: '2019-03-05',
     },
@@ -58,6 +59,7 @@ module.exports = {
   inboxs: [
     {
       id: 1,
+      senderId: 1,
       receiverId: 2,
       messageId: 1,
       read: false,

@@ -19,6 +19,10 @@ export default class messageServices {
     return msg;
   }
 
+  static getRecievedEmails(userId) {
+    const msg = messages.filter()
+  }
+
   static saveDraft(data) {
     const { userId, contactEmail } = data;
 
@@ -57,6 +61,7 @@ export default class messageServices {
     const inbox = new Inbox();
     inbox.id = drafts[drafts.length - 1].id + 1;
     inbox.receiverId = receiverId;
+    inbox.senderId = userId;
     inbox.messageId = message.id;
 
     inboxs.push(inbox);
@@ -65,6 +70,7 @@ export default class messageServices {
     sent.id = sents[sents.length - 1].id + 1;
     sent.messageId = message.id;
     sent.senderId = userId;
+    sent.receiverId = receiverId;
 
     sents.push(sent);
 

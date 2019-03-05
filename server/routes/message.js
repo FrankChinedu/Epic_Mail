@@ -6,6 +6,8 @@ const messageRoute = express.Router();
 
 messageRoute.post('/messages', MessageController.createMessage);
 
+// messageRoute.get('/messages', MessageController.getRecievedEmails);
+
 messageRoute.get('/messages', (req, res) => {
   res.status(200).send({
     database,
