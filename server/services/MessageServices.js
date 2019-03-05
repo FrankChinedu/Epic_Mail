@@ -20,7 +20,28 @@ export default class messageServices {
   }
 
   static getRecievedEmails(userId) {
-    const msg = messages.filter()
+    const msgs = inboxs.filter(data => data.id === userId);
+
+    const response = [];
+
+    msgs.forEach((inbox) => {
+      const mail = messages.find(data => data.id === inbox.messageId);
+
+      const { subject, message, parentMessageId } = mail;
+
+      const {
+        id, createdOn, read, status, senderId, receiverId,
+      } = inbox;
+
+      response.push({
+        id, createdOn, subject, message, senderId, receiverId, parentMessageId, status, read,
+      });
+    });
+
+    return {
+      status: 200,
+      data: response,
+    };
   }
 
   static saveDraft(data) {
