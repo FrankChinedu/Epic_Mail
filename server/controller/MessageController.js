@@ -27,4 +27,9 @@ export default class MessageController {
     const userId = 1; // this would be provided from jwt
     res.status(200).send(MessageServices.getRecievedEmails(userId));
   }
+
+  static getUnReadEmails(req, res) {
+    const userId = 1;
+    res.status(200).send(MessageServices.getUnReadEmails(userId));
+  }
 }
