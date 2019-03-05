@@ -61,7 +61,7 @@ export default class messageServices {
       response = 'not found';
     }
     return {
-      status: 200,
+      status: 202,
       data: [{ message: response }],
     };
   }
