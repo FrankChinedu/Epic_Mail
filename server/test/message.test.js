@@ -66,4 +66,21 @@ describe('Message ', () => {
       done();
     });
   });
+
+  describe('/DELETE /messages/:id', () => {
+    it('user should be able to delete a message from there inbox', (done) => {
+      chai.request(server)
+        .delete(`${apiURL}/messages/:id`)
+        .end((err, res) => {
+          res.should.have.status(202);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.status.should.equal(202);
+        });
+      done();
+    });
+  });
 });
