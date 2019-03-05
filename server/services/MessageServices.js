@@ -26,9 +26,7 @@ export default class messageServices {
 
     msgs.forEach((inbox) => {
       const mail = messages.find(data => data.id === inbox.messageId);
-
       const { subject, message, parentMessageId } = mail;
-
       const {
         id, createdOn, read, status, senderId, receiverId,
       } = inbox;
