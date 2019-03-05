@@ -4,7 +4,7 @@ export default class Emails {
     this.subject = null;
     this.message = null;
     this.parentMessageId = null;
-    this.status = null;
+    this.status = null; // sent, draft
     this.createdOn = new Date();
   }
 }
