@@ -10,6 +10,8 @@ messageRoute.get('/messages', MessageController.getRecievedEmails);
 
 messageRoute.get('/messages/unread', MessageController.getUnReadEmails);
 
+messageRoute.delete('/messages/:id', MessageController.deleteAnInboxMessage);
+
 messageRoute.get('/getAllData', (req, res) => {
   res.status(200).send({
     database,
