@@ -42,7 +42,7 @@ export default class UserServices {
     let userJson = JSON.stringify(user);
     userJson = JSON.parse(userJson);
     const res = {
-      status: 200,
+      status: 201,
       data: {
         ...user,
         token: Helper.jwtSignUser(userJson),
