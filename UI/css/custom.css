@@ -24,9 +24,10 @@
     list-style: none;
     padding: 6px;
     margin: 1px 1px 1px 1px;
-    /* background: #dc354540; */
-    background: #007bff78;
+    background: #868d9478;
     border-radius: 2px;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 .main-flex {
@@ -421,8 +422,8 @@
 .a-member {
   width: fit-content;
   background: #bac2ca;
-  padding: 2px 12px;
-  border-radius: 11px;
+  padding: 6px 11px;
+  border-radius: 5px;
   box-shadow: -1px 1px 1px black;
   margin: 4px 4px 0 0;
 }

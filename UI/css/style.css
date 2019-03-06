@@ -197,12 +197,15 @@ cursor: text;
 }
 
 .btn-danger{
-    background-color: #dc3545;;
-    border-color: #dc3545;
+    background-color: #b5b9bb;
+    border-color: #b5b9bb;
+    color: black;
 }
+
 .btn-success{
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: #3261c8;;
+    border-color: #3261c8;
+    color: white;
 }
 
 .index-btn {
