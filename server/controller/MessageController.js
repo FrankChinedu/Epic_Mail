@@ -46,6 +46,6 @@ export default class MessageController {
     const { id } = req.params;
 
     const data = { userId, id };
-    res.status(202).send(MessageServices.viewAnInboxMessage(data));
+    res.status(200).send(MessageServices.viewAnInboxMessage(data));
   }
 }
