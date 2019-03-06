@@ -20,7 +20,7 @@ export default class messageServices {
   }
 
   static getUsersMessages(userId) {
-    const msgs = inboxs.filter(data => data.id === userId);
+    const msgs = inboxs.filter(data => data.receiverId === userId);
 
     const response = [];
 
