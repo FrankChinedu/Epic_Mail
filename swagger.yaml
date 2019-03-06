@@ -1,10 +1,11 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  version: "1.0.0"
-  title: "Epic Meal"
-  description: " Epic mail is a web app that helps people exchange messages/information over the internet."
-host: "localhost:4000"
-basePath: "/api/v1"
+  version: '1.0'
+  title: EPIC_MEAL
+  description: 'Epic mail is a web app that helps people exchange messages/information over the internet.'
+  contact: {}
+host: 127.0.0.1:4000
+basePath: /api/v1
 schemes:
 - http
 - https
@@ -13,4 +14,197 @@ consumes:
 produces:
 - application/json
 paths:
-  
+  /auth/signup:
+    post:
+      description: user sign up route
+      summary: 127.0.0.1:4000/api/v1/auth/signup
+      tags:
+      - Users
+      operationId: AuthSignupPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: firstName
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: lastName
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: email
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: password
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /auth/login:
+    post:
+      description: user can login with proper params
+      summary: 127.0.0.1:4000/api/v1/auth/login
+      tags:
+      - Users
+      operationId: AuthLoginPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: email
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: password
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /messages:
+    post:
+      description: api for creating or sending a message
+      summary: 127.0.0.1:4000/api/v1/messages
+      tags:
+      - messages
+      operationId: MessagesPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: subject
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: message
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: status
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: contactEmail
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+    get:
+      description: get all users recieved messages i.e inbox messages
+      summary: 127.0.0.1:4000/api/v1/messages
+      tags:
+      - messages
+      operationId: MessagesGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /messages/unread:
+    get:
+      description: 'get the users unread messages '
+      summary: 127.0.0.1:4000/api/v1/messages/unread
+      tags:
+      - messages
+      operationId: MessagesUnreadGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /messages/1:
+    delete:
+      description: route to delete a specific user email
+      summary: 127.0.0.1:4000/api/v1/messages/1
+      tags:
+      - messages
+      operationId: Messages1Delete
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+    get:
+      description: fetch a specific user email
+      summary: 127.0.0.1:4000/api/v1/messages/1
+      tags:
+      - messages
+      operationId: Messages1Get
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /messages/sent:
+    get:
+      description: 'user can view all sent messages '
+      summary: 127.0.0.1:4000/api/v1/messages/sent
+      tags:
+      - messages
+      operationId: MessagesSentGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+tags:
+- name: Users
+  description: 'api route for all users'
+- name: messages
+  description: api route for all messages
