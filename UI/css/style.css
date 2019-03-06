@@ -26,6 +26,14 @@ body {
   color: var(--danger);
 }
 
+.dark-col {
+    color: #2f2e2b;;
+}
+
+.light-blue {
+    color:#3261c8b5;
+}
+
 .warning-col {
   color: var(--warning);
 }
@@ -70,6 +78,16 @@ a:hover {
     padding: 1px;
     box-shadow: 0px 0px 374px grey;
     color: white;
+}
+
+.brand-image {
+    background-image: url('../img/email3.png');
+    width: 30px;
+    height: 30px;
+    background-position: center;
+    background-size: cover;
+    margin-left: 6px;
+    transform: rotate(-20deg);
 }
 
 .nav-header {   
@@ -370,6 +388,11 @@ cursor: text;
 @media only screen and (max-width: 768px) {
     .brand-name {
         font-size: 20px;
+    }
+
+    .brand-image {
+        width: 18px;
+        height: 18px;
     }
 
     .index-sub-title {

@@ -137,7 +137,7 @@
   border-radius: 10px;
 }
 
-.read, .delete, .arrow, .message-list {
+.unread .read, .delete, .arrow, .message-list {
   cursor: pointer;
 }
 
@@ -164,7 +164,11 @@
 }
 
 .read {
-  color: var(--warning);
+  color: #2f2e2b;
+}
+
+.unread {
+  color: var(--danger);
 }
 
 .draft-t {

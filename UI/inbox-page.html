@@ -16,10 +16,12 @@
     <header class="nav-header">
       <div class="flex justify-content-sb">
         <a href="./index.html">
-          <h1 class="brand-name">
-            <span class="success-col">E</span><span class="danger-col">P</span><span class="warning-col">I</span><span
-              class="primary-col">C</span>
-            <span class="black">Mail</span>
+          <h1 class="brand-name flex">
+            <span class="black">EPIC Mail</span>
+            <span></span>
+              <span class="brand-image">
+                <span></span>
+              </span>
           </h1>
         </a>
         <div class="align-self user-panel flex align-item-center">
@@ -67,22 +69,22 @@
             <ul>
               <li class="inbox-active listForJs" id="inbox" onclick="displayPanel('inbox')">
                 <a href="#">
-                  <i class="fas fa-inbox mr-5 danger-col"></i>&nbsp;&nbsp;&nbsp;Inbox
+                  <i class="fas fa-inbox mr-5 dark-col"></i>&nbsp;&nbsp;&nbsp;Inbox
                 </a>
               </li>
               <li class=" listForJs" id="draft" onclick="displayPanel('draft')" >
                 <a href="#">
-                  <i class="fas fa-bookmark mr-5 warning-col"></i> &nbsp;&nbsp;&nbsp;Draft
+                  <i class="fas fa-bookmark mr-5 dark-col"></i> &nbsp;&nbsp;&nbsp;Draft
                 </a>
               </li>
               <li class="listForJs" id="sent" onclick="displayPanel('sent')" >
                 <a href="#">
-                <i class="fas fa-plane-departure mr-5 success-col"></i> &nbsp;Sent
+                <i class="fas fa-plane-departure mr-5 dark-col"></i> &nbsp;Sent
                 </a>
               </li>
               <li class=" listForJs" id="contact" onclick="displayPanel('contact')" >
                 <a href="#">
-                  <i class="fas fa-address-book mr-5 primary-col"></i>&nbsp;&nbsp;&nbsp;Contacts
+                  <i class="fas fa-address-book mr-5 dark-col"></i>&nbsp;&nbsp;&nbsp;Contacts
                 </a>
               </li>
             </ul>
@@ -98,28 +100,28 @@
                 <div class="main-flex message-list" onclick="openMessage('readMail')">
                   <span class="col-3 flex">
                     <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-inbox danger-col ml-25"></i>
+                      <i class="fas fa-inbox dark-col ml-25"></i>
                     </span>
                     <span class="col-9 mail-head">some thing </span>
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
                   <span class="col-2 flex justify-content-sb">
                     <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text"><i class="fas fa-check read"></i></span>
+                    <span class="col-2 center-text start-text" title="unread message"><i class="fas fa-check unread"></i></span>
                     <span class="col-8 center-text start-text">03 : 56 pm</span>
                   </span>
                 </div>
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
                     <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-inbox danger-col ml-25"></i>
+                      <i class="fas fa-inbox dark-col ml-25"></i>
                     </span>
                     <span class="col-9 mail-head">some thing </span>
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
                   <span class="col-2 flex justify-content-sb">
                     <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text"><i class="fas fa-check read"></i></span>
+                    <span class="col-2 center-text start-text" title="read message"><i class="fas fa-check read"></i></span>
                     <span class="col-8 center-text start-text">03 : 56 pm</span>
                   </span>
                 </div>
@@ -130,7 +132,7 @@
                 <div>
                   <span class="go-back" onclick="goBack('readMail', 'inbox')"><i class="fas fa-arrow-left"></i></span>
                   <span class="tag">
-                    <i class="fas fa-inbox mr-5 danger-col"></i>Inbox
+                    <i class="fas fa-inbox mr-5 dark-col"></i>Inbox
                   </span>
                 </div>
                 <div class="read-mailContent">
@@ -166,7 +168,7 @@
                 <div>
                   <span class="go-back" onclick="goBack('sentMail', 'sent')"><i class="fas fa-arrow-left"></i></span>
                   <span class="tag mr-25">
-                    <i class="fas fa-plane-departure mr-5 success-col"></i>Sent
+                    <i class="fas fa-plane-departure mr-5 dark-col"></i>Sent
                   </span>
                   <span class="tag cursor" title="Retract this message">
                     <i class="fas fa-undo danger-col"></i>Retract
@@ -205,7 +207,7 @@
                 <div class="main-flex message-list" onclick="openDraft()">
                   <span class="col-3 flex">
                     <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-bookmark warning-col ml-25"></i>
+                      <i class="fas fa-bookmark dark-col ml-25"></i>
                     </span>
                     <span class="col-10 mail-head draft-t">DRAFT</span>
                   </span>
@@ -222,14 +224,14 @@
                 <div class="main-flex message-list" onclick="openMessage('sentMail')">
                   <span class="col-3 flex">
                     <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-plane-departure success-col ml-25" title="sent message"></i>
+                      <i class="fas fa-plane-departure dark-col ml-25" title="sent message"></i>
                     </span>
                     <span class="col-9 mail-head draft-t">To : Frank Angelo</span>
                   </span>
                   <article class="col-7 mail-body">some content added here again </article>
                   <span class="col-2 flex justify-content-sb">
                     <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text retract" title="Retract Sent Message"><i class="fas fa-undo"></i></span>
+                    <span class="col-2 center-text start-text retract" title="Retract this Sent Message"><i class="fas fa-undo"></i></span>
                     <span class="col-6 center-text start-text">12 : 44 pm</span>
                   </span>
                 </div>
@@ -237,7 +239,7 @@
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
                     <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-exclamation-triangle ml-25 warning-col" title="retracted Message"></i>
+                      <i class="fas fa-exclamation-triangle ml-25 danger-col" title="retracted Message"></i>
                     </span>
                     <span class="col-9 mail-head draft-t">To : Angelo Frank</span>
                   </span>
