@@ -8,6 +8,8 @@ messageRoute.post('/messages', MessageController.createMessage);
 
 messageRoute.get('/messages', MessageController.getRecievedEmails);
 
+messageRoute.get('/messages/:id', MessageController.viewAnInboxMessage);
+
 messageRoute.get('/messages/unread', MessageController.getUnReadEmails);
 
 messageRoute.delete('/messages/:id', MessageController.deleteAnInboxMessage);

@@ -66,6 +66,41 @@ export default class messageServices {
     };
   }
 
+  static viewAnInboxMessage({ userId, id }) {
+    const inbox = inboxs.find(data => (data.receiverId === parseInt(userId, 10)
+      && data.id === parseInt(id, 10)));
+
+    let response = [];
+
+    if (inbox) {
+      const msg = messages.find(data => data.id === parseInt(inbox.messageId, 10));
+
+      const { subject, message, parentMessageId } = msg;
+      const {
+        createdOn, read, status, senderId, receiverId,
+      } = inbox;
+
+      response.push({
+        id: inbox.id,
+        createdOn,
+        read,
+        status,
+        senderId,
+        receiverId,
+        subject,
+        message,
+        parentMessageId,
+      });
+    } else {
+      response = [{ message: 'not found' }];
+    }
+
+    return {
+      status: 200,
+      data: response,
+    };
+  }
+
   static getRecievedEmails(userId) {
     const response = this.getUsersMessages(userId);
 

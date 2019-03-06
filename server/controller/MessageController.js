@@ -40,4 +40,12 @@ export default class MessageController {
     const data = { userId, id };
     res.status(202).send(MessageServices.deleteAnInboxMessage(data));
   }
+
+  static viewAnInboxMessage(req, res) {
+    const userId = 1;
+    const { id } = req.params;
+
+    const data = { userId, id };
+    res.status(202).send(MessageServices.viewAnInboxMessage(data));
+  }
 }

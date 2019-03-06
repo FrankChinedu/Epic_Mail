@@ -22,8 +22,8 @@ module.exports = {
   messages: [
     {
       id: 1,
-      subject: 'my first inbox subject',
-      message: 'my first official inbox message',
+      subject: 'my first sent subject',
+      message: 'my first official sent message',
       parentMessageId: null,
       status: 'sent',
       createdOn: '2019-03-05',
@@ -34,6 +34,14 @@ module.exports = {
       message: 'drafted first official message',
       parentMessageId: null,
       status: 'draft',
+      createdOn: '2019-03-05',
+    },
+    {
+      id: 3,
+      subject: 'my inbox draft',
+      message: 'inbox first official message',
+      parentMessageId: null,
+      status: 'sent',
       createdOn: '2019-03-05',
     },
   ],
@@ -55,6 +63,13 @@ module.exports = {
       messageId: 1,
       createdOn: '2019-03-05',
     },
+    {
+      id: 2,
+      senderId: 2,
+      receiverId: 1,
+      messageId: 3,
+      createdOn: '2019-03-05',
+    },
   ],
   inboxs: [
     {
@@ -62,6 +77,14 @@ module.exports = {
       senderId: 1,
       receiverId: 2,
       messageId: 1,
+      read: false,
+      createdOn: '2019-03-05',
+    },
+    {
+      id: 2,
+      senderId: 2,
+      receiverId: 1,
+      messageId: 3,
       read: false,
       createdOn: '2019-03-05',
     },
