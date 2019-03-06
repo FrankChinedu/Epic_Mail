@@ -100,4 +100,21 @@ describe('Message ', () => {
       done();
     });
   });
+
+  describe('/GET /messages/sent', () => {
+    it('user should be able to get all sent messages ', (done) => {
+      chai.request(server)
+        .get(`${apiURL}/messages/sent`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.status.should.equal(200);
+        });
+      done();
+    });
+  });
 });
