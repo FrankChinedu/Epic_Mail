@@ -48,4 +48,9 @@ export default class MessageController {
     const data = { userId, id };
     res.status(200).send(MessageServices.viewAnInboxMessage(data));
   }
+
+  static getSentEmails(req, res) {
+    const userId = 1;
+    res.status(200).send(MessageServices.getSentEmails(userId));
+  }
 }

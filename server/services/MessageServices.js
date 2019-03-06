@@ -19,9 +19,7 @@ export default class messageServices {
     return msg;
   }
 
-  static getUsersMessages(userId) {
-    const msgs = inboxs.filter(data => data.receiverId === userId);
-
+  static filteredMessage(msgs) {
     const response = [];
 
     msgs.forEach((inbox) => {
@@ -37,6 +35,21 @@ export default class messageServices {
     });
 
     return response;
+  }
+
+  static getUsersMessages(userId) {
+    const msgs = inboxs.filter(data => data.receiverId === userId);
+    const response = this.filteredMessage(msgs);
+    return response;
+  }
+
+  static getSentEmails(userId) {
+    const msgs = sents.filter(data => data.senderId === userId);
+    const response = this.filteredMessage(msgs);
+    return {
+      status: 200,
+      data: response,
+    };
   }
 
   static getUnReadEmails(userId) {

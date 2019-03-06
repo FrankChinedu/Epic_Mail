@@ -6,6 +6,8 @@ const messageRoute = express.Router();
 
 messageRoute.post('/messages', MessageController.createMessage);
 
+messageRoute.get('/messages/sent', MessageController.getSentEmails);
+
 messageRoute.get('/messages', MessageController.getRecievedEmails);
 
 messageRoute.get('/messages/:id', MessageController.viewAnInboxMessage);
