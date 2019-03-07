@@ -7,12 +7,12 @@ const userRoute = express.Router();
 userRoute.post('/auth/signup', Auth.validate, Auth.emailExist, UserController.createUser);
 userRoute.post('/auth/login', UserController.login);
 
-userRoute.get('/allUsers', UserController.allUsers);
+// userRoute.get('/allUsers', UserController.allUsers);
 
-userRoute.get('/user', (req, res) => {
-  res.status(200).send({
-    message: 'users ----',
-  });
-});
+// userRoute.get('/user', (req, res) => {
+//   res.status(200).send({
+//     message: 'users ----',
+//   });
+// });
 
 module.exports = userRoute;
