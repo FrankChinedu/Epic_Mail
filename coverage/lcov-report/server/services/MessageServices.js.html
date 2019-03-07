@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/services/MessageServices.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">server/services</a> MessageServices.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">67.82% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>59/87</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">70% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>7/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">77.78% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">67.09% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>53/79</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
+  messages, drafts, users, inboxs, sents,
+} from '../dummyData/Database';
+import Message from '../model/message';
+import Inbox from '../model/inbox';
+import Sent from '../model/sent';
+import Draft from '../model/draft';
+&nbsp;
+export default class messageServices {
+  static createMessage({ subject, message, status }) {
+    const msg = new Message();
+    msg.id = messages[messages.length - 1].id + 1;
+    msg.subject = subject;
+    msg.message = message;
+    msg.status = status;
+&nbsp;
+    messages.push(msg);
+&nbsp;
+    return msg;
+  }
+&nbsp;
+  static filteredMessage(msgs) {
+    const response = [];
+&nbsp;
+    msgs.forEach((inbox) =&gt; {
+      const mail = messages.find(data =&gt; data.id === inbox.messageId);
+      const { subject, message, parentMessageId } = mail;
+      const {
+        id, createdOn, read, status, senderId, receiverId,
+      } = inbox;
+&nbsp;
+      response.push({
+        id, createdOn, subject, message, senderId, receiverId, parentMessageId, status, read,
+      });
+    });
+&nbsp;
+    return response;
+  }
+&nbsp;
+  static getUsersMessages(userId) {
+    const msgs = inboxs.filter(data =&gt; data.receiverId === userId);
+    const response = this.filteredMessage(msgs);
+    return response;
+  }
+&nbsp;
+  static getSentEmails(userId) {
+    const msgs = sents.filter(data =&gt; data.senderId === userId);
+    const response = this.filteredMessage(msgs);
+    return {
+      status: 200,
+      data: response,
+    };
+  }
+&nbsp;
+  static getUnReadEmails(userId) {
+    const response = <span class="cstat-no" title="statement not covered" >this.getUsersMessages(userId);</span>
+    const res = <span class="cstat-no" title="statement not covered" >response.filter(<span class="fstat-no" title="function not covered" >data<span class="cstat-no" title="statement not covered" > =&gt; data.read === false);</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      status: 200,
+      data: res,
+    };
+  }
+&nbsp;
+  static deleteAnInboxMessage({ userId, id }) {
+    let response = 'unsuccessful';
+    const inboxId = inboxs.findIndex(data =&gt; (data.senderId === parseInt(userId, 10)
+     &amp;&amp; data.messageId === parseInt(id, 10)));
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (inboxId !== -1) {
+<span class="cstat-no" title="statement not covered" >      inboxs.splice(inboxId, 1);</span>
+<span class="cstat-no" title="statement not covered" >      response = 'deleted successfully';</span>
+    } else {
+      response = 'not found';
+    }
+    return {
+      status: 202,
+      data: [{ message: response }],
+    };
+  }
+&nbsp;
+  static viewAnInboxMessage({ userId, id }) {
+    const inbox = inboxs.find(data =&gt; (data.receiverId === parseInt(userId, 10)
+      &amp;&amp; data.id === parseInt(id, 10)));
+&nbsp;
+    let response = [];
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (inbox) {
+      const msg = <span class="cstat-no" title="statement not covered" >messages.find(<span class="fstat-no" title="function not covered" >data<span class="cstat-no" title="statement not covered" > =&gt; data.id === parseInt(inbox.messageId, 10));</span></span></span>
+&nbsp;
+      const { subject, message, parentMessageId } = <span class="cstat-no" title="statement not covered" >msg;</span>
+      const {
+        createdOn, read, status, senderId, receiverId,
+      } = <span class="cstat-no" title="statement not covered" >inbox;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      response.push({</span>
+        id: inbox.id,
+        createdOn,
+        read,
+        status,
+        senderId,
+        receiverId,
+        subject,
+        message,
+        parentMessageId,
+      });
+    } else {
+      response = [{ message: 'not found' }];
+    }
+&nbsp;
+    return {
+      status: 200,
+      data: response,
+    };
+  }
+&nbsp;
+  static getRecievedEmails(userId) {
+    const response = this.getUsersMessages(userId);
+&nbsp;
+    return {
+      status: 200,
+      data: response,
+    };
+  }
+&nbsp;
+  static saveDraft(data) {
+    const { userId, contactEmail } = data;
+&nbsp;
+    const receiverId = this.getMessageReceiverId(contactEmail);
+    const message = this.createMessage(data);
+&nbsp;
+    const draft = new Draft();
+    draft.id = drafts[drafts.length - 1].id + 1;
+    draft.senderId = userId;
+    draft.receiverId = receiverId;
+    draft.messageId = message.id;
+&nbsp;
+    drafts.push(draft);
+&nbsp;
+    return {
+      status: 201,
+      message: 'draft saved successfully',
+      data: [message],
+    };
+  }
+&nbsp;
+  static getMessageReceiverId(email) {
+    const user = users.find(data =&gt; data.email === email);
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (user) {
+      return user.id;
+    }
+<span class="cstat-no" title="statement not covered" >    return null;</span>
+  }
+&nbsp;
+  static sendMessage(data) {
+    const { userId, contactEmail } = <span class="cstat-no" title="statement not covered" >data;</span>
+&nbsp;
+    const receiverId = <span class="cstat-no" title="statement not covered" >this.getMessageReceiverId(contactEmail);</span>
+    const message = <span class="cstat-no" title="statement not covered" >this.createMessage(data);</span>
+&nbsp;
+    const inbox = <span class="cstat-no" title="statement not covered" >new Inbox();</span>
+<span class="cstat-no" title="statement not covered" >    inbox.id = drafts[drafts.length - 1].id + 1;</span>
+<span class="cstat-no" title="statement not covered" >    inbox.receiverId = receiverId;</span>
+<span class="cstat-no" title="statement not covered" >    inbox.senderId = userId;</span>
+<span class="cstat-no" title="statement not covered" >    inbox.messageId = message.id;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    inboxs.push(inbox);</span>
+&nbsp;
+    const sent = <span class="cstat-no" title="statement not covered" >new Sent();</span>
+<span class="cstat-no" title="statement not covered" >    sent.id = sents[sents.length - 1].id + 1;</span>
+<span class="cstat-no" title="statement not covered" >    sent.messageId = message.id;</span>
+<span class="cstat-no" title="statement not covered" >    sent.senderId = userId;</span>
+<span class="cstat-no" title="statement not covered" >    sent.receiverId = receiverId;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    sents.push(sent);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      status: 201,
+      message: 'message sent successfully',
+      data: [message],
+    };
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Mar 07 2019 14:07:41 GMT+0100 (West Africa Standard Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
