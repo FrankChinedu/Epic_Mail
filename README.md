@@ -27,6 +27,12 @@ messages/information over the internet.
  - gmail
  - whatsapp
 - - -
+### swagger 
+ - https://itnext.io/wiring-up-an-api-server-with-express-and-swagger-9bffe0a0d6bd
+
+### server
+ - https://github.com/Rexben001/Politico
+
 
 ### Licence
 This project is licensed under the MIT License.
