@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- "stable"
+
+addons:
+  code_climate:
+    repo_token:
+      secure: "BJCbz8cfuv/SgNAAwH+eU7wM5d8FMqXlF87jbjJraVXpcDrhsm2/Wo5Vq2uMFLX4nx0KrJHz3zD248n6Oukz+GzUNAXGGaTRHuKyzNYljXDK4ON/R+6/OkDPUxR78/v0dQMUsXYJea1pp1rG/5iTN7uPJw590gHwNxZIQXr3Q8Gprmdo5HoY6V/tWHGy1CT1GpdCcvtm0rxvjJSvnkHJMw+RXY2ZUHbEL7H+jY/XUo9tEE2IMKxG29bTrNO70dFg7Si6Mu+5YQr8e1w3aMlvvH1QRa36xJFZGEzDKi7kiP/bcEWEOGGFmYhIbC2qyY0kZRB/d3wRbINTuJWgbsUbVG4vvNNkhmcfMzop2163LlQEezQIrmYytHhP105Sjop7GRrweSEbLRiJVCI3lGnB4XigtOQTHUpHH0rEgJHkFHgfVJ3gGixFnpJrdjr3uCdvKpiayx+5ch8Rq4T7oxQvlizvuDEQje4lFuNdKnlS6FZB1BN/4lExBLq4ByaXQk2jvTchwenIRGqrCWVUXkoo3QpN6iXYiLCzKlJY/oIAbnISwRdGgELSR7dvRZ0P9k693TeTojxaMXIRl45HNZD+9OjNVsfg7I7aqdmjrthY4ip9QfQHD8d5+njlcsaqgu8tarQXe3sJ1CKUldgsFMLJINwNnRCGLGADbbr7+5YF67s="
+
+after_success:
+- npm run coveralls
+
+branches:
+  only:
+  - develop
