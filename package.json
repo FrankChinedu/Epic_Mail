@@ -15,12 +15,12 @@
     "report-html": "nyc npm test && nyc report --reporter=html --reporter=lcov",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
   },
+  "engines": {
+    "node": "10.10.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FrankChinedu/Epic_Mail.git"
-  },
-  "engines": {
-    "node": "10.10.0"
   },
   "keywords": [
     "email",
