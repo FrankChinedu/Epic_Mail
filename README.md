@@ -6,6 +6,8 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/test_coverage)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/test_coverage)
 
+[![Coverage Status](https://coveralls.io/repos/github/FrankChinedu/Epic_Mail/badge.svg?branch=coverage-test)](https://coveralls.io/github/FrankChinedu/Epic_Mail?branch=coverage-test)
+
 
 
 Epic mail is a web app that helps people exchange

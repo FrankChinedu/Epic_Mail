@@ -10,7 +10,7 @@
     "coveralls": "npm run cover --  --report lcovonly && cat ./coverage/lcov.info | coveralls ",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
-    "codeclimate-coverage": "CODECLIMATE_REPO_TOKEN=[c33f3cc4e724d4e0dd87742b0cb889be63564d34cf99b80dd729b03b24908f49] codeclimate-test-reporter < lcov.info",
+    "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
     "report-html": "nyc npm test && nyc report --reporter=html --reporter=lcov",
     "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
   },
