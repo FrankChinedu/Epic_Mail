@@ -1,5 +1,13 @@
 # Epic_Mail
 
+[![Build Status](https://travis-ci.com/FrankChinedu/Epic_Mail.svg?branch=develop)](https://travis-ci.com/FrankChinedu/Epic_Mail)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/maintainability)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/maintainability)
+
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/test_coverage)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/test_coverage)
+
+
+
 Epic mail is a web app that helps people exchange
 messages/information over the internet.
 
