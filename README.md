@@ -1,12 +1,6 @@
 # Epic_Mail
 
-[![Build Status](https://travis-ci.com/FrankChinedu/Epic_Mail.svg?branch=develop)](https://travis-ci.com/FrankChinedu/Epic_Mail)
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/maintainability)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/maintainability)
-
-[![Test Coverage](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/test_coverage)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/test_coverage)
-
-[![Coverage Status](https://coveralls.io/repos/github/FrankChinedu/Epic_Mail/badge.svg?branch=coverage-test)](https://coveralls.io/github/FrankChinedu/Epic_Mail?branch=coverage-test)
+[![Build Status](https://travis-ci.com/FrankChinedu/Epic_Mail.svg?branch=develop)](https://travis-ci.com/FrankChinedu/Epic_Mail) [![Maintainability](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/maintainability)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/maintainability)   [![Test Coverage](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/test_coverage)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/test_coverage) [![Coverage Status](https://coveralls.io/repos/github/FrankChinedu/Epic_Mail/badge.svg?branch=coverage-test)](https://coveralls.io/github/FrankChinedu/Epic_Mail?branch=coverage-test)
 
 
 
@@ -43,7 +37,7 @@ messages/information over the internet.
   [url](https://www.pivotaltracker.com/n/projects/2315126)
 
 ## Link to API documentation
- - [docs](/api-docs)
+ - [docs](https://epic-mail-ocf.herokuapp.com/api-docs)
 
 ## How to clone project 
  - git clone https://github.com/FrankChinedu/Epic_Mail.git
@@ -53,26 +47,26 @@ messages/information over the internet.
 
 ## To test project
 ```
-npm test  to run test
+ - npm test  // to run test
 ```
 ## Routes (api - end points)
  (properly stated in the documentation)
 
-- POST  /api/v1/auth/signup - create new User
+- POST  https://epic-mail-ocf.herokuapp.com/api/v1/auth/signup - create new User
 
-- POST /api/v1/auth/login - Sign in user
+- POST https://epic-mail-ocf.herokuapp.com/api/v1/auth/login - Sign in user
 
-- POST /api/v1/messages - create or send email
+- POST https://epic-mail-ocf.herokuapp.com/api/v1/messages - create or send email
 
-- GET /api/v1/messages/sent - get all user's sent messages
+- GET https://epic-mail-ocf.herokuapp.com/api/v1/messages/sent - get all user's sent messages
 
-- GET /api/v1/messages - get all user's inbox messages
+- GET https://epic-mail-ocf.herokuapp.com/api/v1/messages - get all user's inbox messages
 
-- GET /api/v1/messages/:id - view a particular email from the inbox messages
+- GET https://epic-mail-ocf.herokuapp.com/api/v1/messages/:id - view a particular email from the inbox messages
 
-- GET /api/v1/messages/unread - get all user's unread messages
+- GET https://epic-mail-ocf.herokuapp.com/api/v1/messages/unread - get all user's unread messages
 
-- DELETE /api/v1/messages/:id - delete a message from the inbox
+- DELETE https://epic-mail-ocf.herokuapp.com/api/v1/messages/:id - delete a message from the inbox
 
 ## Project References
  - - -
