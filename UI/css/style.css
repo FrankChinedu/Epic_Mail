@@ -26,6 +26,14 @@ body {
   color: var(--danger);
 }
 
+.dark-col {
+    color: #2f2e2b;;
+}
+
+.light-blue {
+    color:#3261c8b5;
+}
+
 .warning-col {
   color: var(--warning);
 }
@@ -70,6 +78,16 @@ a:hover {
     padding: 1px;
     box-shadow: 0px 0px 374px grey;
     color: white;
+}
+
+.brand-image {
+    background-image: url('../img/email3.png');
+    width: 30px;
+    height: 30px;
+    background-position: center;
+    background-size: cover;
+    margin-left: 6px;
+    transform: rotate(-20deg);
 }
 
 .nav-header {   
@@ -175,6 +193,13 @@ a:hover {
     border-radius: 50px;
 }
 
+.width-fit-content {
+    width: fit-content
+}
+.inline-block {
+    display: inline-block
+}
+
 .join-us:hover{
     border: 1px solid black;
 }
@@ -197,12 +222,15 @@ cursor: text;
 }
 
 .btn-danger{
-    background-color: #dc3545;;
-    border-color: #dc3545;
+    background-color: #b5b9bb;
+    border-color: #b5b9bb;
+    color: black;
 }
+
 .btn-success{
-    background-color: #28a745;
-    border-color: #28a745;
+    background-color: #3261c8;;
+    border-color: #3261c8;
+    color: white;
 }
 
 .index-btn {
@@ -347,6 +375,9 @@ cursor: text;
 .mt-25{
     margin-top: 2.5%;
 }
+.mt-55 {
+    margin-top: 5.5%;
+}
 
 .mb-5{
     margin-bottom: .5%;
@@ -367,6 +398,11 @@ cursor: text;
 @media only screen and (max-width: 768px) {
     .brand-name {
         font-size: 20px;
+    }
+
+    .brand-image {
+        width: 18px;
+        height: 18px;
     }
 
     .index-sub-title {

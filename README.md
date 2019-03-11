@@ -74,6 +74,7 @@ messages/information over the internet.
  - gmail (I used gmail mock up UI for my UI)
  - whatsapp (I used whatsapp interface as inspiration for my responsive version on smaller screens )
 - - -
+
 #### Swagger 
  - https://itnext.io/wiring-up-an-api-server-with-express-and-swagger-9bffe0a0d6bd
 
@@ -85,7 +86,6 @@ messages/information over the internet.
 
 - ##### OBI CHINEDU FRANK 
 ---
-
 
 ### Licence
 This project is licensed under the MIT License.
