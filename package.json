@@ -1,0 +1,67 @@
+{
+  "name": "epic_mail",
+  "version": "1.0.0",
+  "description": "mail app for exchanging messages over the internet",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node server/app.js",
+    "test": "mocha --require @babel/register server/test/*.js --exit || true",
+    "build": "babel server --out-dir dist",
+    "serve": "node dist/app.js",
+    "heroku-postbuild": "npm install",
+    "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
+    "coveralls-coverage": "coveralls < lcov.info",
+    "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
+    "report-html": "nyc npm test && nyc report --reporter=html --reporter=lcov",
+    "coverage": "nyc npm test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
+  },
+  "engines": {
+    "node": "10.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankChinedu/Epic_Mail.git"
+  },
+  "keywords": [
+    "email",
+    "message"
+  ],
+  "author": "obi chinedu frank <frankieetchy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FrankChinedu/Epic_Mail/issues"
+  },
+  "homepage": "https://github.com/FrankChinedu/Epic_Mail#readme",
+  "dependencies": {
+    "bcrypt": "3.0.4",
+    "body-parser": "1.18.3",
+    "@babel/polyfill": "7.2.5",
+    "cors": "2.8.5",
+    "dotenv": "6.2.0",
+    "express": "4.16.4",
+    "joi": "14.3.1",
+    "jsonwebtoken": "8.5.0",
+    "morgan": "1.9.1",
+    "swagger-ui-express": "4.0.2",
+    "yamljs": "0.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.2.3",
+    "@babel/core": "7.3.4",
+    "@babel/node": "7.2.2",
+    "@babel/preset-env": "7.3.4",
+    "chai": "4.2.0",
+    "chai-http": "4.2.1",
+    "codeclimate-test-reporter": "0.5.1",
+    "coveralls": "3.0.2",
+    "eslint": "5.15.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-plugin-import": "2.16.0",
+    "istanbul": "1.1.0-alpha.1",
+    "istanbul-coveralls": "1.0.3",
+    "mocha": "6.0.2",
+    "mocha-lcov-reporter": "1.3.0",
+    "nodemon": "1.18.10",
+    "nyc": "13.3.0"
+  }
+}
