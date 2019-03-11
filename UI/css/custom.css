@@ -176,9 +176,9 @@
 }
 
 .compose-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: flex;    
+  align-items: flex-end;
+  margin-left: 13px;
 }
 
 .compose {
