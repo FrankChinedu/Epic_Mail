@@ -193,6 +193,13 @@ a:hover {
     border-radius: 50px;
 }
 
+.width-fit-content {
+    width: fit-content
+}
+.inline-block {
+    display: inline-block
+}
+
 .join-us:hover{
     border: 1px solid black;
 }
