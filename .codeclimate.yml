@@ -14,3 +14,4 @@ exclude_sparherns:
 - ".nyc_output"
 - "coverage"
 - "./test/*.js"
+- "UI"
