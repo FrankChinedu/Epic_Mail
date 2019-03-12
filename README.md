@@ -1,6 +1,6 @@
 # Epic_Mail
 
-[![Build Status](https://travis-ci.com/FrankChinedu/Epic_Mail.svg?branch=develop)](https://travis-ci.com/FrankChinedu/Epic_Mail) [![Maintainability](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/maintainability)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/maintainability)   [![Test Coverage](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/test_coverage)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/test_coverage) [![Coverage Status](https://coveralls.io/repos/github/FrankChinedu/Epic_Mail/badge.svg?branch=develop)](https://coveralls.io/github/FrankChinedu/Epic_Mail?branch=develop)
+[![Build Status](https://travis-ci.com/FrankChinedu/Epic_Mail.svg?branch=develop)](https://travis-ci.com/FrankChinedu/Epic_Mail) [![Maintainability](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/maintainability)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/maintainability)   [![Test Coverage](https://api.codeclimate.com/v1/badges/a8a3d82521d45a6701e7/test_coverage)](https://codeclimate.com/github/FrankChinedu/Epic_Mail/test_coverage)  [![Coverage Status](https://coveralls.io/repos/github/FrankChinedu/Epic_Mail/badge.svg?branch=develop)](https://coveralls.io/github/FrankChinedu/Epic_Mail?branch=develop)
 
 
 
