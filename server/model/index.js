@@ -1,0 +1,53 @@
+import { Pool, Client } from 'pg';
+
+// const connectionString = 'postgres://yfsjtqyr:Clt01Bu0-6EyJdNOJCJTqY3AxfTjvfQ1@isilo.db.elephantsql.com:5432/yfsjtqyr';
+// const connectionString = process.env.PROD_DB;
+const connectionString = process.env.DEV_DB;
+
+const pool = new Pool(
+  { connectionString }
+);
+
+pool.connect();
+
+const createUserTable = () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS
+      users(
+        id SERIAL NOT NULL UNIQUE,
+        email VARCHAR(128) UNIQUE NOT NULL,
+        password VARCHAR(128) NOT NULL,
+        avatar VARCHAR(128),
+        createdAt TIMESTAMP,
+        updatedAt TIMESTAMP
+      )`;
+  pool
+    .query(queryText)
+    .then(res => {
+      console.log(res);
+      pool.end();
+    })
+    .catch(err => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+const dropUserTable = () => {
+  const queryText = 'DROP TABLE IF EXISTS users returning *';
+  pool
+    .query(queryText)
+    .then(res => {
+      console.log(res);
+      pool.end();
+    })
+    .catch(err => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+const createAllTables = () => {
+  createUserTable();
+};
+
+export { createUserTable, dropUserTable, createAllTables };
