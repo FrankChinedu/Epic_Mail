@@ -12,12 +12,10 @@ const query = (text, params) => {
       })
       .catch((err) => {
         reject(err);
-      })
-  })
-}
+      });
+  });
+};
 
 export default {
   query
-}
-
-// lifted from https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-and-postgresql-db-masuu56t7 
+};

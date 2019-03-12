@@ -1,11 +1,9 @@
-import { Pool, Client } from 'pg';
+import { Pool } from 'pg';
 
-// const connectionString = 'postgres://yfsjtqyr:Clt01Bu0-6EyJdNOJCJTqY3AxfTjvfQ1@isilo.db.elephantsql.com:5432/yfsjtqyr';
-// const connectionString = process.env.PROD_DB;
 const connectionString = process.env.DEV_DB;
 
 const pool = new Pool(
-  { connectionString }
+  { connectionString, }
 );
 
 pool.connect();
