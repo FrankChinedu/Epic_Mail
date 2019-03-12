@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import routes from './routes/api';
+import { createUserTable } from './model/index';
 
 const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
 
@@ -60,6 +61,11 @@ app.use((req, res) => {
   });
 });
 
+const create = () => {
+  createUserTable();
+};
+
+create();
 
 app.listen(process.env.PORT, () => {
   console.log(`server start at port ${process.env.PORT} `);
