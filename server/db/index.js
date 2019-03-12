@@ -14,7 +14,7 @@ const query = (text, params) => {
         reject(err);
       });
   });
-};
+} 
 
 export default {
   query,

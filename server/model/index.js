@@ -2,9 +2,7 @@ import { Pool } from 'pg';
 
 const connectionString = process.env.DEV_DB;
 
-const pool = new Pool(
-  { connectionString }
-);
+const pool = new Pool({ connectionString });
 
 pool.connect();
 
