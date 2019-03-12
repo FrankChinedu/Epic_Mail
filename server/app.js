@@ -36,10 +36,6 @@ app.use(cors());
 const apiURL = '/api/v1';
 global.apiURL = apiURL;
 
-Object.keys(routes).forEach((key) => {
-  const value = routes[key];
-  app.use(`${apiURL}/`, value);
-});
 
 app.use('/', (req, res, next) => {
   if (req.originalUrl !== '/') {
@@ -50,6 +46,12 @@ app.use('/', (req, res, next) => {
     message: 'welcome to EPIC MAIL',
   });
 });
+
+Object.keys(routes).forEach((key) => {
+  const value = routes[key];
+  app.use(`${apiURL}/`, value);
+});
+
 
 app.use((req, res) => {
   res.status(404);
