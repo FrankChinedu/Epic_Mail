@@ -20,11 +20,11 @@ const createUserTable = () => {
       )`;
   pool
     .query(queryText)
-    .then(res => {
+    .then(() => {
       // console.log(res);
       pool.end();
     })
-    .catch(err => {
+    .catch(() => {
       // console.log(err);
       pool.end();
     });
@@ -34,11 +34,11 @@ const dropUserTable = () => {
   const queryText = 'DROP TABLE IF EXISTS users returning *';
   pool
     .query(queryText)
-    .then((res) => {
+    .then(() => {
       // console.log(res);
       pool.end();
     })
-    .catch((err) => {
+    .catch(() => {
       // console.log(err);
       pool.end();
     });
