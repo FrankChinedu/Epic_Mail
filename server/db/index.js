@@ -17,5 +17,5 @@ const query = (text, params) => {
 };
 
 export default {
-  query
+  query,
 };

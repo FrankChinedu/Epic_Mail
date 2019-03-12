@@ -3,7 +3,7 @@ import { Pool } from 'pg';
 const connectionString = process.env.DEV_DB;
 
 const pool = new Pool(
-  { connectionString, }
+  { connectionString }
 );
 
 pool.connect();
@@ -21,11 +21,11 @@ const createUserTable = () => {
   pool
     .query(queryText)
     .then(res => {
-      console.log(res);
+      // console.log(res);
       pool.end();
     })
     .catch(err => {
-      console.log(err);
+      // console.log(err);
       pool.end();
     });
 };
@@ -34,12 +34,12 @@ const dropUserTable = () => {
   const queryText = 'DROP TABLE IF EXISTS users returning *';
   pool
     .query(queryText)
-    .then(res => {
-      console.log(res);
+    .then((res) => {
+      // console.log(res);
       pool.end();
     })
-    .catch(err => {
-      console.log(err);
+    .catch((err) => {
+      // console.log(err);
       pool.end();
     });
 };
