@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import routes from './routes/api';
-import { createUserTable } from './model/index';
+import { createAllTables } from './model/index';
 
 const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
 
@@ -34,7 +34,7 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-const apiURL = '/api/v1';
+const apiURL = '/api/v2';
 global.apiURL = apiURL;
 
 
@@ -62,7 +62,7 @@ app.use((req, res) => {
 });
 
 const create = () => {
-  createUserTable();
+  createAllTables();
 };
 
 create();

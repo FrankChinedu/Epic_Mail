@@ -1,51 +1,70 @@
+import moment from 'moment';
 import { users } from '../dummyData/Database';
-import User from '../model/user';
+import query from '../db/index';
 import Helper from '../helpers/Helpers';
 
 export default class UserServices {
-  static createUser({
-    firstName, lastName, password, email,
+  static async createUser({
+    firstname, lastname, password, email,
   }) {
-    const user = new User();
-    user.id = users[users.length - 1].id + 1;
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.email = email;
-    user.password = password;
+    const hashpassword = Helper.hashPassword(password);
 
-    users.push(user);
+    const dbQuery = `INSERT INTO
+      users(firstname, lastname, email, password, createdAt, updatedAt)
+      VALUES($1, $2, $3, $4, $5, $6) returning *`;
+    const values = [firstname, lastname, email, hashpassword, moment(new Date()),
+      moment(new Date())];
 
-    return this.getJsonWebToken(user);
+    try {
+      const { rows } = await query(dbQuery, values);
+      const user = rows[0];
+
+      return this.getJsonWebToken(user);
+    } catch (error) {
+      if (error.routine === '_bt_check_unique') {
+        return {
+          status: 403,
+          error: 'User with that EMAIL already exist',
+        };
+      }
+      return {
+        status: 403,
+        error,
+      };
+    }
   }
 
+  static async login({ email, password }) {
+    const dbQuery = 'SELECT * FROM users WHERE email = $1';
 
-  static login({ email, password }) {
-    const user = users.find(data => data.email === email);
+    const { rows } = await query(dbQuery, [email]);
+
+    const user = rows[0];
 
     if (!user) {
       return {
         status: 403,
-        error: ['The login email information was incorrect'],
+        error: 'The credentials you provided is incorrect',
       };
     }
 
-    if (user.password !== password) {
+    const isUserPassword = await Helper.comparePassword(password, user.password);
+
+    if (!isUserPassword) {
       return {
         status: 403,
-        error: ['The login information was incorrect'],
+        error: 'The credentials you provided is incorrect',
       };
     }
     return this.getJsonWebToken(user);
   }
 
   static getJsonWebToken(user) {
-    let userJson = JSON.stringify(user);
-    userJson = JSON.parse(userJson);
     const res = {
       status: 201,
       data: {
         ...user,
-        token: Helper.jwtSignUser(userJson),
+        token: Helper.jwtSignUser(user),
       },
     };
 
