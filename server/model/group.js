@@ -12,7 +12,7 @@ const pool = new Pool({ connectionString });
 
 pool.connect();
 
-const createGroupTable = () => {
+const createGroupTable = async () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
       groups(
         id SERIAL NOT NULL UNIQUE,
@@ -22,7 +22,7 @@ const createGroupTable = () => {
         updatedAt TIMESTAMP,
         FOREIGN KEY (ownerId) REFERENCES users (id) ON DELETE CASCADE
       )`;
-  pool
+  await pool
     .query(queryText)
     .then(() => {
       pool.end();

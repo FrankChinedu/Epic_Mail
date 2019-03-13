@@ -22,7 +22,7 @@ const pool = new Pool({ connectionString });
 
 pool.connect();
 
-const createDraftTable = () => {
+const createDraftTable = async () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
       drafts(
         id SERIAL NOT NULL UNIQUE,
@@ -35,7 +35,7 @@ const createDraftTable = () => {
         FOREIGN KEY (senderId) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (messageId) REFERENCES emails (id) ON DELETE CASCADE
       )`;
-  pool
+  await pool
     .query(queryText)
     .then(() => {
       pool.end();

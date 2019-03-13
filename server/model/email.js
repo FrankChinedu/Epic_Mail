@@ -12,7 +12,7 @@ const pool = new Pool({ connectionString });
 
 pool.connect();
 
-const createEmailTable = () => {
+const createEmailTable = async () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
       emails(
         id SERIAL NOT NULL UNIQUE,
@@ -22,7 +22,7 @@ const createEmailTable = () => {
         status VARCHAR(128),
         createdAt TIMESTAMP
       )`;
-  pool
+  await pool
     .query(queryText)
     .then(() => {
       pool.end();

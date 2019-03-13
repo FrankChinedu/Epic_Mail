@@ -12,7 +12,7 @@ const pool = new Pool({ connectionString });
 
 pool.connect();
 
-const createInboxTable = () => {
+const createInboxTable = async () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
       inboxs(
         id SERIAL NOT NULL UNIQUE,
@@ -26,7 +26,7 @@ const createInboxTable = () => {
         FOREIGN KEY (senderId) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (messageId) REFERENCES emails (id) ON DELETE CASCADE
       )`;
-  pool
+  await pool
     .query(queryText)
     .then(() => {
       pool.end();

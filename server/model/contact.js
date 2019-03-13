@@ -12,7 +12,7 @@ const pool = new Pool({ connectionString });
 
 pool.connect();
 
-const createContactsTable = () => {
+const createContactsTable = async () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
       contacts(
         id SERIAL NOT NULL UNIQUE,
@@ -25,7 +25,7 @@ const createContactsTable = () => {
         updatedAt TIMESTAMP,
         FOREIGN KEY (contact_Owner_Id) REFERENCES users (id) ON DELETE CASCADE
       )`;
-  pool
+  await pool
     .query(queryText)
     .then(() => {
       pool.end();

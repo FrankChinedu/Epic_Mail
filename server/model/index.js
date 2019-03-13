@@ -7,15 +7,15 @@ import { dropDraftTable, createDraftTable } from './draft';
 import { dropGroupTable, createGroupTable } from './group';
 import { dropMemberTable, createMemberTable } from './groupMemebers';
 
-const createAllTables = () => {
-  createUserTable();
-  createEmailTable();
-  createContactsTable();
-  createInboxTable();
-  createSentTable();
-  createDraftTable();
-  createGroupTable();
-  createMemberTable();
+const createAllTables = async () => {
+  await createUserTable();
+  await createEmailTable();
+  await createContactsTable();
+  await createInboxTable();
+  await createSentTable();
+  await createDraftTable();
+  await createGroupTable();
+  await createMemberTable();
 };
 
 const dropAllTables = () => {
