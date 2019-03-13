@@ -20,12 +20,12 @@ const createUserTable = () => {
       )`;
   pool
     .query(queryText)
-    .then((res) => {
-      console.log(res);
+    .then(() => {
+      // console.log(res);
       pool.end();
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
+      // console.log(err);
       pool.end();
     });
 };
