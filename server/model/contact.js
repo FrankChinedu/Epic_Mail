@@ -1,10 +1,50 @@
-export default class Contacts {
-  constructor() {
-    this.id = null;
-    this.firstName = null;
-    this.lastName = null;
-    this.email = null;
-    this.contactOwner = null;
-    this.createdAt = new Date();
-  }
+import { Pool } from 'pg';
+
+let connectionString;
+
+if (process.env.NODE_ENV === 'test') {
+  connectionString = process.env.TEST_DB;
+} else {
+  connectionString = process.env.DEV_DB;
 }
+
+const pool = new Pool({ connectionString });
+
+pool.connect();
+
+const createContactsTable = () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS
+      contacts(
+        id SERIAL NOT NULL UNIQUE,
+        firstname VARCHAR(128) NOT NULL,
+        lastname VARCHAR(128),
+        email VARCHAR(128) NOT NULL,
+        contact_Owner_Id INTEGER,
+        avatar VARCHAR(128),
+        createdAt TIMESTAMP,
+        updatedAt TIMESTAMP,
+        FOREIGN KEY (contact_Owner_Id) REFERENCES users (id) ON DELETE CASCADE
+      )`;
+  pool
+    .query(queryText)
+    .then(() => {
+      pool.end();
+    })
+    .catch(() => {
+      pool.end();
+    });
+};
+
+const dropContactTable = () => {
+  const queryText = 'DROP TABLE IF EXISTS contacts';
+  pool
+    .query(queryText)
+    .then(() => {
+      pool.end();
+    })
+    .catch(() => {
+      pool.end();
+    });
+};
+
+export { dropContactTable, createContactsTable };

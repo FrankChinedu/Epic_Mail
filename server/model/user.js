@@ -27,25 +27,21 @@ const createUserTable = () => {
   pool
     .query(queryText)
     .then(() => {
-      // console.log(res);
       pool.end();
     })
     .catch(() => {
-      // console.log(err);
       pool.end();
     });
 };
 
 const dropUserTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS users returning *';
+  const queryText = 'DROP TABLE IF EXISTS users';
   pool
     .query(queryText)
     .then(() => {
-      // console.log(res);
       pool.end();
     })
     .catch(() => {
-      // console.log(err);
       pool.end();
     });
 };

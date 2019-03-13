@@ -12,16 +12,15 @@ const pool = new Pool({ connectionString });
 
 pool.connect();
 
-const createMemberTable = () => {
+const createEmailTable = () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
-      groupmembers(
+      emails(
         id SERIAL NOT NULL UNIQUE,
-        groupId INTEGER,
-        memberId INTEGER,
-        createdAt TIMESTAMP,
-        updatedAt TIMESTAMP,
-        FOREIGN KEY (groupId) REFERENCES groups (id) ON DELETE CASCADE,
-        FOREIGN KEY (memberId) REFERENCES contacts (id) ON DELETE CASCADE
+        subject VARCHAR(128),
+        message TEXT,
+        parentMessageId INTEGER,
+        status VARCHAR(128),
+        createdAt TIMESTAMP
       )`;
   pool
     .query(queryText)
@@ -33,8 +32,8 @@ const createMemberTable = () => {
     });
 };
 
-const dropMemberTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS groupmembers';
+const dropEmailTable = () => {
+  const queryText = 'DROP TABLE IF EXISTS emails';
   pool
     .query(queryText)
     .then(() => {
@@ -45,4 +44,4 @@ const dropMemberTable = () => {
     });
 };
 
-export { dropMemberTable, createMemberTable };
+export { dropEmailTable, createEmailTable };

@@ -1,7 +1,7 @@
 import {
   messages, drafts, users, inboxs, sents,
 } from '../dummyData/Database';
-import Message from '../model/message';
+import Message from '../model/email';
 import Inbox from '../model/inbox';
 import Sent from '../model/sent';
 import Draft from '../model/draft';
