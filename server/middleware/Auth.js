@@ -19,16 +19,19 @@ export default class Auth {
       switch (error.details[0].context.key) {
         case 'email':
           res.status(403).send({
+            status: 403,
             error: ['you must provide a valid email address'],
           });
           break;
         case 'firstname':
           res.status(403).send({
+            status: 403,
             error: ['firstname cannot be empty'],
           });
           break;
         case 'password':
           res.status(403).send({
+            status: 403,
             error: ['the password must match the following rules',
               'it must contain only the following characters: lower case, upper case and numbers',
               'it must be at least 8 charcters in length and not greater than 32',
@@ -37,6 +40,7 @@ export default class Auth {
           break;
         default:
           res.status(403).send({
+            status: 403,
             error: ['invalid registration information'],
           });
       }

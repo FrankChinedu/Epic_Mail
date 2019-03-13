@@ -41,28 +41,32 @@ export default class UserServices {
     }
   }
 
-  static login({ email, password }) {
-    const user = users.find(data => data.email === email);
+  static async login({ email, password }) {
+    const dbQuery = 'SELECT * FROM users WHERE email = $1';
+
+    const { rows } = await query(dbQuery, [email]);
+
+    const user = rows[0];
 
     if (!user) {
       return {
         status: 403,
-        error: ['The login email information was incorrect'],
+        error: 'The credentials you provided is incorrect',
       };
     }
 
-    if (user.password !== password) {
+    const isUserPassword = await Helper.comparePassword(password, user.password);
+
+    if (!isUserPassword) {
       return {
         status: 403,
-        error: ['The login information was incorrect'],
+        error: 'The credentials you provided is incorrect',
       };
     }
     return this.getJsonWebToken(user);
   }
 
   static getJsonWebToken(user) {
-    // let userJson = JSON.stringify(user);
-    // userJson = JSON.parse(userJson);
     const res = {
       status: 201,
       data: {
