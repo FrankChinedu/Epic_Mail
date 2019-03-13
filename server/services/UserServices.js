@@ -9,20 +9,11 @@ export default class UserServices {
   }) {
     const hashpassword = Helper.hashPassword(password);
 
-    console.log(process.env.NODE);
-
     const dbQuery = `INSERT INTO
       users(firstname, lastname, email, password, createdAt, updatedAt)
-      VALUES($1, $2, $3, $4, $5, $6)
-      returning *`;
-    const values = [
-      firstname,
-      lastname,
-      email,
-      hashpassword,
-      moment(new Date()),
-      moment(new Date()),
-    ];
+      VALUES($1, $2, $3, $4, $5, $6) returning *`;
+    const values = [firstname, lastname, email, hashpassword, moment(new Date()),
+      moment(new Date())];
 
     try {
       const { rows } = await query(dbQuery, values);
