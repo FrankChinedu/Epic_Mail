@@ -1,13 +1,12 @@
 import Helper from '../helpers/Helpers';
-import Helpers from '../helpers/Helpers';
 
 const Joi = require('joi');
 
 export default class Auth {
   static validate(req, res, next) {
     const schema = {
-      firstName: Joi.string().required(),
-      lastName: Joi.any(),
+      firstname: Joi.string().required(),
+      lastname: Joi.any(),
       email: Joi.string().email().required(),
       password: Joi.string().regex(
         new RegExp('^[a-zA-Z0-9]{8,32}$'),
@@ -23,9 +22,9 @@ export default class Auth {
             error: ['you must provide a valid email address'],
           });
           break;
-        case 'firstName':
+        case 'firstname':
           res.status(403).send({
-            error: ['firstName cannot be empty'],
+            error: ['firstname cannot be empty'],
           });
           break;
         case 'password':
@@ -49,7 +48,7 @@ export default class Auth {
   static emailExist(req, res, next) {
     const { email } = req.body;
 
-    const emailExist = Helper.emailExist(Helpers.AllEmails(), email);
+    const emailExist = Helper.emailExist(Helper.AllEmails(), email);
 
     if (emailExist) {
       res.status(403).send({

@@ -1,9 +1,9 @@
 import UserServices from '../services/UserServices';
 
 export default class UserController {
-  static createUser(req, res) {
+  static async createUser(req, res) {
     const data = req.body;
-    res.status(201).send(UserServices.createUser(data));
+    res.status(201).send(await UserServices.createUser(data));
   }
 
   static allUsers(req, res) {

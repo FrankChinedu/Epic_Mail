@@ -1,11 +1,47 @@
-export default class Users {
-  constructor() {
-    this.id = null;
-    this.firstName = null;
-    this.lastName = null;
-    this.email = null;
-    this.password = null;
-    this.createdAt = new Date();
-    this.updateAt = new Date();
-  }
-}
+import { Pool } from 'pg';
+
+const connectionString = process.env.DEV_DB;
+
+const pool = new Pool({ connectionString });
+
+pool.connect();
+
+const createUserTable = () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS
+      users(
+        id SERIAL NOT NULL UNIQUE,
+        firstname VARCHAR(128) NOT NULL,
+        lastname VARCHAR(128),
+        email VARCHAR(128) UNIQUE NOT NULL,
+        password VARCHAR(128) NOT NULL,
+        avatar VARCHAR(128),
+        createdAt TIMESTAMP,
+        updatedAt TIMESTAMP
+      )`;
+  pool
+    .query(queryText)
+    .then((res) => {
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+const dropUserTable = () => {
+  const queryText = 'DROP TABLE IF EXISTS users returning *';
+  pool
+    .query(queryText)
+    .then(() => {
+      // console.log(res);
+      pool.end();
+    })
+    .catch(() => {
+      // console.log(err);
+      pool.end();
+    });
+};
+
+export { dropUserTable, createUserTable };

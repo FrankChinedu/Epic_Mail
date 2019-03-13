@@ -3,6 +3,10 @@ import bcrypt from 'bcrypt';
 import { users } from '../dummyData/Database';
 
 export default class Helpers {
+  static hashPassword(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
+  }
+
   static emailExist(array, email) {
     let result = false;
     array.forEach((data) => {

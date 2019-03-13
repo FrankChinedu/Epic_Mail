@@ -14,6 +14,4 @@ const query = (text, params) => new Promise((resolve, reject) => {
     });
 });
 
-export default {
-  query,
-};
+export default query;
