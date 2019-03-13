@@ -9,7 +9,7 @@ export default class UserServices {
   }) {
     const hashpassword = Helper.hashPassword(password);
 
-    console.log(process.env.NODE)
+    console.log(process.env.NODE);
 
     const dbQuery = `INSERT INTO
       users(firstname, lastname, email, password, createdAt, updatedAt)
