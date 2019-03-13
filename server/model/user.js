@@ -1,6 +1,12 @@
 import { Pool } from 'pg';
 
-const connectionString = process.env.DEV_DB;
+let connectionString;
+
+if (process.env.NODE_ENV === 'test') {
+  connectionString = process.env.TEST_DB;
+} else {
+  connectionString = process.env.DEV_DB;
+}
 
 const pool = new Pool({ connectionString });
 

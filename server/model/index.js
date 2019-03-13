@@ -4,4 +4,10 @@ const createAllTables = () => {
   createUserTable();
 };
 
-export { createUserTable, dropUserTable, createAllTables };
+const dropAllTables = () => {
+  dropUserTable();
+};
+
+export {
+  createUserTable, dropUserTable, createAllTables, dropAllTables,
+};

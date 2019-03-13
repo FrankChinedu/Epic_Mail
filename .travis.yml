@@ -5,6 +5,14 @@ cache:
   directories:
   - node_modules
 
+services:
+  - postgresql
+
+before_script:
+- psql -c 'DROP DATABSE IF EXISTS epic_mail_test' -U postgres
+- psql -c 'CREATE DATABASE epic_mail;' -U postgres
+- psql -c 'CREATE USER frank WITH PASSWORD 'root';' -U postgres
+
 addons:
   code_climate:
     repo_token:

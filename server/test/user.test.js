@@ -3,6 +3,7 @@ import chaiHttp from 'chai-http';
 import server from '../app';
 
 const should = chai.should();
+process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);
 
@@ -34,7 +35,7 @@ describe('Auth Sign up', () => {
   });
 
   describe('/Post auth/signup', () => {
-    it('user should not be able to sign in if email parameter is missing ', (done) => {
+    it('user should not be able to sign up if email parameter is missing ', (done) => {
       const data = {
         firstname: 'frank',
         lastname: 'angelo',
