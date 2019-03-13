@@ -36,7 +36,7 @@ const createContactsTable = async () => {
 };
 
 const dropContactTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS contacts';
+  const queryText = 'DROP TABLE IF EXISTS contacts CASCADE';
   pool
     .query(queryText)
     .then(() => {

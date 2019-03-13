@@ -33,7 +33,7 @@ const createEmailTable = async () => {
 };
 
 const dropEmailTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS emails';
+  const queryText = 'DROP TABLE IF EXISTS emails CASCADE';
   pool
     .query(queryText)
     .then(() => {

@@ -46,7 +46,7 @@ const createDraftTable = async () => {
 };
 
 const dropDraftTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS drafts';
+  const queryText = 'DROP TABLE IF EXISTS drafts CASCADE';
   pool
     .query(queryText)
     .then(() => {

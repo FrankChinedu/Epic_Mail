@@ -2,7 +2,7 @@ import MessageServices from '../services/MessageServices';
 
 export default class MessageController {
   static createMessage(req, res) {
-    const userId = 1; // this would be provided from jwt
+    const userId = req.user.id; // this would be provided from jwt
     const data = { ...req.body, userId };
     const { status } = data;
     let response;

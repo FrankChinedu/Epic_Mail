@@ -37,7 +37,7 @@ const createInboxTable = async () => {
 };
 
 const dropInboxTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS inboxs';
+  const queryText = 'DROP TABLE IF EXISTS inboxs CASCADE';
   pool
     .query(queryText)
     .then(() => {

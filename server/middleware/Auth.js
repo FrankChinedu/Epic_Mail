@@ -1,4 +1,6 @@
+import jwt from 'jsonwebtoken';
 import Helper from '../helpers/Helpers';
+import query from '../db/index';
 
 const Joi = require('joi');
 
@@ -49,6 +51,36 @@ export default class Auth {
     }
   }
 
+  static async verifyToken(req, res, next) {
+    const token = req.headers['x-access-token'];
+    if (!token) {
+      return res.status(401).send({
+        status: 401,
+        error: ['Token is not provided'],
+      });
+    }
+    try {
+      const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+      console.log('decode', decoded);
+      const text = 'SELECT * FROM users WHERE id = $1';
+      const { rows } = await query(text, [decoded.id]);
+      if (!rows[0]) {
+        return res.status(401).send({
+          status: 401,
+          error: ['The token you provided is invalid'],
+        });
+      }
+      req.user = { id: decoded.id };
+      next();
+    } catch (error) {
+      return res.status(401).send({
+        status: 401,
+        error: [error],
+      });
+    }
+    return {};
+  }
+
   static emailExist(req, res, next) {
     const { email } = req.body;
 
@@ -56,7 +88,7 @@ export default class Auth {
 
     if (emailExist) {
       res.status(403).send({
-        error: ['User already exists'],
+        error: ['User already exists - -'],
       });
     } else {
       next();

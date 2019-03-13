@@ -37,7 +37,7 @@ const createSentTable = async () => {
 };
 
 const dropSentTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS sents';
+  const queryText = 'DROP TABLE IF EXISTS sents CASCADE';
   pool
     .query(queryText)
     .then(() => {

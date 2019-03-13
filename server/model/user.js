@@ -35,7 +35,7 @@ const createUserTable = async () => {
 };
 
 const dropUserTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS users';
+  const queryText = 'DROP TABLE IF EXISTS users CASCADE';
   pool
     .query(queryText)
     .then(() => {

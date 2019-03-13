@@ -33,7 +33,7 @@ const createGroupTable = async () => {
 };
 
 const dropGroupTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS groups';
+  const queryText = 'DROP TABLE IF EXISTS groups CASCADE';
   pool
     .query(queryText)
     .then(() => {

@@ -34,7 +34,7 @@ const createMemberTable = async () => {
 };
 
 const dropMemberTable = () => {
-  const queryText = 'DROP TABLE IF EXISTS groupmembers';
+  const queryText = 'DROP TABLE IF EXISTS groupmembers CASCADE';
   pool
     .query(queryText)
     .then(() => {
