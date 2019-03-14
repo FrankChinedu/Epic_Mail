@@ -1,7 +1,7 @@
 import userRoute from './user';
 import messageRoute from './message';
 
-module.exports = {
+export {
   userRoute,
   messageRoute,
 };

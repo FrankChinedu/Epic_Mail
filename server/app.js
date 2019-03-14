@@ -1,3 +1,4 @@
+/* eslint-disable import/no-dynamic-require */
 import 'dotenv/config';
 import '@babel/polyfill';
 import express from 'express';
@@ -8,8 +9,6 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
 import fs from 'fs';
-import v1 from './v1/routes/api';
-import v2 from './v2/routes/api';
 import { createAllTables } from './v2/model/index';
 
 const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
@@ -37,10 +36,6 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-const apiURL = '/api/v1';
-global.apiURL = apiURL;
-
-
 app.use('/', (req, res, next) => {
   if (req.originalUrl !== '/') {
     next();
@@ -51,16 +46,12 @@ app.use('/', (req, res, next) => {
   });
 });
 
-let routes = {};
-
-app.use(async (req, res, next) => {
-  let version = req.url.match(/\/api\/(v[0-9]+).*/);
+app.use((req, res, next) => {
+  let version = req.url.match(/\/api\/(v[0-9]+).*/) || [];
   version = version[1] || null;
 
   if (version) {
-    const routePath = path.join(__dirname, `${version}/routes/api.js`);
-    console.log('-----', routePath);
-    console.log('-----', fs.existsSync(routePath));
+    const routePath = path.join(__dirname, `${version}/app.js`);
 
     if (!fs.existsSync(routePath)) {
       return res.status(404).send({
@@ -68,26 +59,10 @@ app.use(async (req, res, next) => {
         error: ['route not found'],
       });
     }
-    // routes = require[routePath];
-    routes = await v1;
+    require(routePath).default(app);
   }
-
-  // console.log('version', version[1]);
   next();
-});
-console.log('===', routes);
-
-Object.keys(routes).forEach((key) => {
-  const value = routes[key];
-  app.use(`${apiURL}/`, value);
-});
-
-
-app.use((req, res) => {
-  res.status(404);
-  res.send({
-    error: 'not found',
-  });
+  return {};
 });
 
 const create = () => {
