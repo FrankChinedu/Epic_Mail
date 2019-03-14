@@ -54,6 +54,7 @@ export default class messageServices {
 
   static getUnReadEmails(userId) {
     const response = this.getUsersMessages(userId);
+    console.log('-----', response);
     const res = response.filter(data => data.read === false);
 
     return {

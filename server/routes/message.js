@@ -1,6 +1,5 @@
 import express from 'express';
 import MessageController from '../controller/MessageController';
-import database from '../dummyData/Database';
 
 const messageRoute = express.Router();
 
@@ -10,16 +9,10 @@ messageRoute.get('/messages/sent', MessageController.getSentEmails);
 
 messageRoute.get('/messages', MessageController.getRecievedEmails);
 
-messageRoute.get('/messages/:id', MessageController.viewAnInboxMessage);
-
 messageRoute.get('/messages/unread', MessageController.getUnReadEmails);
 
-messageRoute.delete('/messages/:id', MessageController.deleteAnInboxMessage);
+messageRoute.get('/messages/:id', MessageController.viewAnInboxMessage);
 
-// messageRoute.get('/getAllData', (req, res) => {
-//   res.status(200).send({
-//     database,
-//   });
-// });
+messageRoute.delete('/messages/:id', MessageController.deleteAnInboxMessage);
 
 module.exports = messageRoute;
