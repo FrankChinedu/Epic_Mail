@@ -39,7 +39,7 @@ const createEmailTable = async () => {
 const dropEmailTable = () => {
 /* istanbul ignore next */
   const queryText = 'DROP TABLE IF EXISTS emails CASCADE';
-/* istanbul ignore next */
+  /* istanbul ignore next */
   pool
     .query(queryText)
   /* istanbul ignore next */

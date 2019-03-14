@@ -61,7 +61,6 @@ export default class Auth {
     }
     try {
       const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-      console.log('decode', decoded);
       const text = 'SELECT * FROM users WHERE id = $1';
       const { rows } = await query(text, [decoded.id]);
       if (!rows[0]) {
