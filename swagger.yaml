@@ -2,13 +2,12 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: EPIC_MAIL
-  description: 'app for seding email to users'
+  description: 'App for emailing'
   contact: {}
 host: epic-mail-ocf.herokuapp.com
 basePath: /api/v1
 schemes:
 - http
-- https
 consumes:
 - application/json
 produces:
@@ -174,6 +173,7 @@ paths:
         200:
           description: ''
           headers: {}
+  /messages/2:
     get:
       description: fetch a specific user email
       summary: get a  message
