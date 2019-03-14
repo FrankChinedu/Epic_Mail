@@ -90,7 +90,6 @@ class Draft {
         id,
       };
     } catch (error) {
-      console.log('0900--', error);
       return {
         success: false,
         error: [error],
