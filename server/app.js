@@ -65,11 +65,11 @@ app.use((req, res, next) => {
   return {};
 });
 
-// const create = () => {
-//   createAllTables();
-// };
+const create = () => {
+  createAllTables();
+};
 
-// create();
+create();
 
 app.listen(process.env.PORT, () => {
   console.log(`server start at port ${process.env.PORT} `);
