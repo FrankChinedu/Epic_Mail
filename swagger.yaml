@@ -1,14 +1,13 @@
 swagger: '2.0'
 info:
   version: '1.0'
-  title: EPIC_MEAL
-  description: 'Epic mail is a web app that helps people exchange messages/information over the internet.'
+  title: EPIC_MAIL
+  description: 'app for seding email to users'
   contact: {}
 host: epic-mail-ocf.herokuapp.com
 basePath: /api/v1
 schemes:
 - http
-- https
 consumes:
 - application/json
 produces:
@@ -17,7 +16,7 @@ paths:
   /auth/signup:
     post:
       description: user sign up route
-      summary: epic-mail-ocf.herokuapp.com/api/v1/auth/signup
+      summary: /auth/signup
       tags:
       - Users
       operationId: AuthSignupPost
@@ -59,7 +58,7 @@ paths:
   /auth/login:
     post:
       description: user can login with proper params
-      summary: epic-mail-ocf.herokuapp.com/api/v1/auth/login
+      summary: /auth/login
       tags:
       - Users
       operationId: AuthLoginPost
@@ -91,7 +90,7 @@ paths:
   /messages:
     post:
       description: api for creating or sending a message
-      summary: epic-mail-ocf.herokuapp.com/api/v1/messages
+      summary: create  messages
       tags:
       - messages
       operationId: MessagesPost
@@ -132,7 +131,7 @@ paths:
           headers: {}
     get:
       description: get all users recieved messages i.e inbox messages
-      summary: epic-mail-ocf.herokuapp.com/api/v1/messages
+      summary: get All messages
       tags:
       - messages
       operationId: MessagesGet
@@ -147,7 +146,7 @@ paths:
   /messages/unread:
     get:
       description: 'get the users unread messages '
-      summary: epic-mail-ocf.herokuapp.com/api/v1/messages/unread
+      summary: unread messges
       tags:
       - messages
       operationId: MessagesUnreadGet
@@ -162,7 +161,7 @@ paths:
   /messages/1:
     delete:
       description: route to delete a specific user email
-      summary: epic-mail-ocf.herokuapp.com/api/v1/messages/1
+      summary: Delete a message
       tags:
       - messages
       operationId: Messages1Delete
@@ -176,7 +175,7 @@ paths:
           headers: {}
     get:
       description: fetch a specific user email
-      summary: epic-mail-ocf.herokuapp.com/api/v1/messages/1
+      summary: get a  message
       tags:
       - messages
       operationId: Messages1Get
@@ -191,7 +190,7 @@ paths:
   /messages/sent:
     get:
       description: 'user can view all sent messages '
-      summary: epic-mail-ocf.herokuapp.com/api/v1/messages/sent
+      summary: sent messages
       tags:
       - messages
       operationId: MessagesSentGet
@@ -205,6 +204,6 @@ paths:
           headers: {}
 tags:
 - name: Users
-  description: 'api route for all users'
+  description: ''
 - name: messages
   description: api route for all messages
