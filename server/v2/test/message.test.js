@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 
 const { apiURL } = global;
 
-describe.skip('Message ', () => {
+describe('Message ', () => {
   describe('/Post /messages', () => {
     it('user should be able to create or send email', (done) => {
       const data = {
