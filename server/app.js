@@ -7,9 +7,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
-import path from 'path';
-import fs from 'fs';
-import { createAllTables } from './v2/model/index';
+import routes from './routes/api';
+import { createAllTables } from './model/index';
 
 const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
 
@@ -36,6 +35,9 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
+const apiURL = '/api/v1';
+global.apiURL = apiURL;
+
 app.use('/', (req, res, next) => {
   if (req.originalUrl !== '/') {
     next();
@@ -46,23 +48,16 @@ app.use('/', (req, res, next) => {
   });
 });
 
-app.use((req, res, next) => {
-  let version = req.url.match(/\/api\/(v[0-9]+).*/) || [];
-  version = version[1] || null;
+Object.keys(routes).forEach((key) => {
+  const value = routes[key];
+  app.use(`${apiURL}/`, value);
+});
 
-  if (version) {
-    const routePath = path.join(__dirname, `${version}/app.js`);
-
-    if (!fs.existsSync(routePath)) {
-      return res.status(404).send({
-        status: 404,
-        error: ['route not found'],
-      });
-    }
-    require(routePath).default(app);
-  }
-  next();
-  return {};
+app.use((req, res) => {
+  res.status(404);
+  res.send({
+    error: 'not found',
+  });
 });
 
 const create = () => {

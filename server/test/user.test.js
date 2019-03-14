@@ -1,8 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import server from '../../app';
+import server from '../app';
 
 const should = chai.should();
+process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);
 
@@ -12,8 +13,8 @@ describe('Auth Sign up', () => {
   describe('/Post auth/signup', () => {
     it('user should be able to sign up', (done) => {
       const data = {
-        firstName: 'frank',
-        lastName: 'angelo',
+        firstname: 'frank',
+        lastname: 'angelo',
         email: 'frank@me.com',
         password: '12345678',
       };
@@ -34,10 +35,10 @@ describe('Auth Sign up', () => {
   });
 
   describe('/Post auth/signup', () => {
-    it('user should not be able to sign in if email parameter is missing ', (done) => {
+    it('user should not be able to sign up if email parameter is missing ', (done) => {
       const data = {
-        firstName: 'frank',
-        lastName: 'angelo',
+        firstname: 'frank',
+        lastname: 'angelo',
         email: '',
         password: '12345678',
       };
@@ -56,8 +57,8 @@ describe('Auth Sign up', () => {
   describe('/Post auth/signup', () => {
     it('user should not be able to sign in if password parameter is missing ', (done) => {
       const data = {
-        firstName: 'frank',
-        lastName: 'angelo',
+        firstname: 'frank',
+        lastname: 'angelo',
         email: 'frank@me.com',
         password: '',
       };
@@ -77,8 +78,8 @@ describe('Auth Sign up', () => {
   describe('/Post auth/signup', () => {
     it('user should not be able to sign in if first name parameter is missing', (done) => {
       const data = {
-        firstName: '',
-        lastName: 'angelo',
+        firstname: '',
+        lastname: 'angelo',
         email: 'frank@me.com',
         password: '12345678',
       };
