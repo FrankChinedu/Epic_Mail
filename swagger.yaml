@@ -4,7 +4,7 @@ info:
   title: EPIC_MEAL
   description: 'Epic mail is a web app that helps people exchange messages/information over the internet.'
   contact: {}
-host: https://epic-mail-ocf.herokuapp.com
+host: epic-mail-ocf.herokuapp.com
 basePath: /api/v1
 schemes:
 - http
