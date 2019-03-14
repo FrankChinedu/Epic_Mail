@@ -1,5 +1,6 @@
 import { Pool } from 'pg';
-
+import moment from 'moment';
+import query from '../db/index';
 
 let connectionString;
 /* istanbul ignore next */
@@ -60,4 +61,43 @@ const dropDraftTable = () => {
     });
 };
 
-export { dropDraftTable, createDraftTable };
+class Draft {
+  static async insertIntoDraftTable({ userId, messageId, receiverId }) {
+    const findQuery = `INSERT INTO
+    drafts(senderid, receiverid, messageid, createdat, updatedat) 
+    VALUES ($1, $2, $3, $4, $5) RETURNING *
+    `;
+
+    const values = [
+      userId,
+      receiverId,
+      messageId,
+      moment(new Date()),
+      moment(new Date()),
+    ];
+
+    try {
+      const { rows } = await query(findQuery, values);
+      if (!rows[0]) {
+        return {
+          success: false,
+          error: ['an error occured'],
+        };
+      }
+      const { id } = rows[0];
+      return {
+        success: true,
+        id,
+      };
+    } catch (error) {
+      console.log('0900--', error);
+      return {
+        success: false,
+        error: [error],
+      };
+    }
+  }
+}
+
+
+export { dropDraftTable, createDraftTable, Draft };

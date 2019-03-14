@@ -1,25 +1,25 @@
 import MessageServices from '../services/MessageServices';
 
 export default class MessageController {
-  static createMessage(req, res) {
+  static async createMessage(req, res) {
     const userId = req.user.id; // this would be provided from jwt
     const data = { ...req.body, userId };
     const { status } = data;
     let response;
 
     if (status === 'sent') {
-      response = MessageController.sendMessage(data);
+      response = await MessageController.sendMessage(data);
     } else {
-      response = MessageController.saveAsDraft(data);
+      response = await MessageController.saveAsDraft(data);
     }
     res.status(201).send(response);
   }
 
-  static saveAsDraft(data) {
+  static async saveAsDraft(data) {
     return MessageServices.saveDraft(data);
   }
 
-  static sendMessage(data) {
+  static async sendMessage(data) {
     return MessageServices.sendMessage(data);
   }
 

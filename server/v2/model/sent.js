@@ -1,4 +1,6 @@
 import { Pool } from 'pg';
+import moment from 'moment';
+import query from '../db/index';
 
 let connectionString;
 /* istanbul ignore next */
@@ -60,4 +62,42 @@ const dropSentTable = () => {
     });
 };
 
-export { dropSentTable, createSentTable };
+class Sent {
+  static async insertIntoSentTable({ userId, messageId, receiverId }) {
+    const findQuery = `INSERT INTO
+    sents(senderid, receiverid, messageid, read, createdat, updatedat) 
+    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
+    `;
+
+    const values = [
+      userId,
+      receiverId,
+      messageId,
+      false,
+      moment(new Date()),
+      moment(new Date()),
+    ];
+
+    try {
+      const { rows } = await query(findQuery, values);
+      if (!rows[0]) {
+        return {
+          success: false,
+          error: ['an error occured'],
+        };
+      }
+      const { id } = rows[0];
+      return {
+        success: true,
+        id,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: [error],
+      };
+    }
+  }
+}
+
+export { dropSentTable, createSentTable, Sent };
