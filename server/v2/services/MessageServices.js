@@ -1,22 +1,41 @@
+import moment from 'moment';
 import {
-  messages, drafts, users, inboxs, sents,
+  messages, drafts, inboxs, sents,
 } from '../dummyData/Database';
-import Message from '../model/email';
+import query from '../db/index';
 import Inbox from '../model/inbox';
 import Sent from '../model/sent';
 import Draft from '../model/draft';
 
 export default class messageServices {
-  static createMessage({ subject, message, status }) {
-    const msg = new Message();
-    msg.id = messages[messages.length - 1].id + 1;
-    msg.subject = subject;
-    msg.message = message;
-    msg.status = status;
+  static async createMessage({
+    subject, message, status, contactEmail, userId,
+  }) {
+    const dbQuery = `INSERT INTO
+      emails(subject, message, created_date, modified_date)
+      VALUES($1, $2, $3, $4)
+      returning *`;
+    const values = [
+      subject,
+      message,
+      status,
+      moment(new Date()),
+      moment(new Date()),
+    ];
 
-    messages.push(msg);
-
-    return msg;
+    try {
+      const { rows } = await query(dbQuery, values);
+      return {
+        status: 201,
+        message: 'message created',
+        data: rows[0],
+      };
+    } catch (error) {
+      return {
+        status: 400,
+        error: [error],
+      };
+    }
   }
 
   static filteredMessage(msgs) {
@@ -144,12 +163,28 @@ export default class messageServices {
     };
   }
 
-  static getMessageReceiverId(email) {
-    const user = users.find(data => data.email === email);
-    if (user) {
-      return user.id;
+  static async getMessageReceiverId(email) {
+    const findQuery = 'SELECT id FROM users WHERE id=$1 returning id';
+
+    try {
+      const { rows } = await query(findQuery, [email]);
+      if (!rows[0]) {
+        return {
+          status: 400,
+          error: ['user not found try another email'],
+        };
+      }
+      const { id } = rows[0];
+      return {
+        status: 200,
+        id,
+      };
+    } catch (error) {
+      return {
+        status: 400,
+        error: [error],
+      };
     }
-    return null;
   }
 
   static sendMessage(data) {

@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { users } from '../dummyData/Database';
 import query from '../db/index';
 import Helper from '../helpers/Helpers';
 
@@ -69,9 +68,5 @@ export default class UserServices {
     };
 
     return res;
-  }
-
-  static getAllUsers() {
-    return users;
   }
 }
