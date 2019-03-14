@@ -1,5 +1,5 @@
 import { createUserTable, dropUserTable } from './user';
-import { dropEmailTable, createEmailTable } from './email';
+import { Email } from './email';
 import { dropContactTable, createContactsTable } from './contact';
 import { dropInboxTable, createInboxTable } from './inbox';
 import { dropSentTable, createSentTable } from './sent';
@@ -12,7 +12,7 @@ const createAllTables = async () => {
 /* istanbul ignore next */
   await createUserTable();
   /* istanbul ignore next */
-  await createEmailTable();
+  await Email.createEmailTable();
   /* istanbul ignore next */
   await createContactsTable();
   /* istanbul ignore next */
@@ -32,7 +32,7 @@ const dropAllTables = () => {
 /* istanbul ignore next */
   dropUserTable();
   /* istanbul ignore next */
-  dropEmailTable();
+  Email.dropEmailTable();
   /* istanbul ignore next */
   dropContactTable();
   /* istanbul ignore next */

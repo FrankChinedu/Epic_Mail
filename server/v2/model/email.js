@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { Pool } from 'pg';
 import moment from 'moment';
 import query from '../db/index';
@@ -14,47 +15,6 @@ if (process.env.NODE_ENV === 'test') {
 const pool = new Pool({ connectionString });
 
 pool.connect();
-/* istanbul ignore next */
-const createEmailTable = async () => {
-/* istanbul ignore next */
-  const queryText = `CREATE TABLE IF NOT EXISTS
-      emails(
-        id SERIAL NOT NULL UNIQUE,
-        subject VARCHAR(128),
-        message TEXT,
-        parentMessageId INTEGER,
-        status VARCHAR(128),
-        createdAt TIMESTAMP
-      )`;
-  await pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-      pool.end();
-    })
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
-/* istanbul ignore next */
-const dropEmailTable = () => {
-/* istanbul ignore next */
-  const queryText = 'DROP TABLE IF EXISTS emails CASCADE';
-  /* istanbul ignore next */
-  pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-    /* istanbul ignore next */
-      pool.end();
-    })
-  /* istanbul ignore next */
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
 
 class Email {
   static async createMessage({
@@ -85,6 +45,49 @@ class Email {
     }
   }
 
+  /* istanbul ignore next */
+  static async createEmailTable() {
+    /* istanbul ignore next */
+    const queryText = `CREATE TABLE IF NOT EXISTS
+      emails(
+        id SERIAL NOT NULL UNIQUE,
+        subject VARCHAR(128),
+        message TEXT,
+        parentMessageId INTEGER,
+        status VARCHAR(128),
+        createdAt TIMESTAMP
+      )`;
+    await pool
+      .query(queryText)
+      /* istanbul ignore next */
+      .then(() => {
+        pool.end();
+      })
+      .catch(() => {
+        /* istanbul ignore next */
+        pool.end();
+      });
+  }
+
+  /* istanbul ignore next */
+  static dropEmailTable() {
+    /* istanbul ignore next */
+    const queryText = 'DROP TABLE IF EXISTS emails CASCADE';
+    /* istanbul ignore next */
+    pool
+      .query(queryText)
+      /* istanbul ignore next */
+      .then(() => {
+        /* istanbul ignore next */
+        pool.end();
+      })
+      /* istanbul ignore next */
+      .catch(() => {
+        /* istanbul ignore next */
+        pool.end();
+      });
+  }
+
   static async getMessageReceiverId(email) {
     const findQuery = 'SELECT * FROM users WHERE email=$1 ';
 
@@ -110,4 +113,4 @@ class Email {
   }
 }
 
-export { dropEmailTable, createEmailTable, Email };
+export { Email };
