@@ -98,5 +98,4 @@ class Draft {
   }
 }
 
-
 export { dropDraftTable, createDraftTable, Draft };
