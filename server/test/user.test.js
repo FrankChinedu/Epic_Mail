@@ -1,9 +1,11 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../app';
+// import { createAllTables, dropAllTables } from './model/index';
 
 const should = chai.should();
 process.env.NODE_ENV = 'test';
+console.log('test env', process.env.NODE_ENV);
 
 chai.use(chaiHttp);
 
