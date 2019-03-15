@@ -21,6 +21,7 @@ describe('Auth Sign up', () => {
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
+          console.log(res.body);
           res.should.have.status(201);
           should.exist(res.body);
           res.body.should.be.a('object');
@@ -77,7 +78,7 @@ describe('Auth Sign up', () => {
   describe('/Post auth/signup', () => {
     it('user should not be able to sign in if first name parameter is missing', (done) => {
       const data = {
-        firstName: '',
+        firstName: 'eeee',
         lastName: 'angelo',
         email: 'frank@me.com',
         password: '12345678',

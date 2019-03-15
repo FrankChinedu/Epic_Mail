@@ -1,4 +1,3 @@
-import Helper from '../helpers/Helpers';
 import Helpers from '../helpers/Helpers';
 
 const Joi = require('joi');
@@ -9,9 +8,7 @@ export default class Auth {
       firstName: Joi.string().required(),
       lastName: Joi.any(),
       email: Joi.string().email().required(),
-      password: Joi.string().regex(
-        new RegExp('^[a-zA-Z0-9]{8,32}$'),
-      ),
+      password: Joi.string().regex(/^[a-zA-Z0-9]{8,32}$/),
     };
 
     const { error } = Joi.validate(req.body, schema);
@@ -31,7 +28,7 @@ export default class Auth {
         case 'password':
           res.status(403).send({
             error: ['the password must match the following rules',
-              'it must contain only the following characters: lower case, upper case and numbers',
+              'it must contain only numbers or letters or both',
               'it must be at least 8 charcters in length and not greater than 32',
             ],
           });
@@ -49,7 +46,7 @@ export default class Auth {
   static emailExist(req, res, next) {
     const { email } = req.body;
 
-    const emailExist = Helper.emailExist(Helpers.AllEmails(), email);
+    const emailExist = Helpers.emailExist(Helpers.AllEmails(), email);
 
     if (emailExist) {
       res.status(403).send({
