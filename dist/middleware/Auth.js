@@ -31,7 +31,7 @@ function () {
         firstName: Joi.string().required(),
         lastName: Joi.any(),
         email: Joi.string().email().required(),
-        password: Joi.string().regex(new RegExp('^[a-zA-Z0-9]{8,32}$'))
+        password: Joi.string().regex(/^[a-zA-Z0-9]{8,32}$/)
       };
 
       var _Joi$validate = Joi.validate(req.body, schema),
@@ -53,7 +53,7 @@ function () {
 
           case 'password':
             res.status(403).send({
-              error: ['the password must match the following rules', 'it must contain only the following characters: lower case, upper case and numbers', 'it must be at least 8 charcters in length and not greater than 32']
+              error: ['the password must match the following rules', 'it must contain only numbers or letters or both', 'it must be at least 8 charcters in length and not greater than 32']
             });
             break;
 

@@ -25,6 +25,7 @@ describe('Auth Sign up', function () {
       };
 
       _chai.default.request(_app.default).post("".concat(apiURL, "/auth/signup")).send(data).end(function (err, res) {
+        console.log(res.body);
         res.should.have.status(201);
         should.exist(res.body);
         res.body.should.be.a('object');
@@ -78,7 +79,7 @@ describe('Auth Sign up', function () {
   describe('/Post auth/signup', function () {
     it('user should not be able to sign in if first name parameter is missing', function (done) {
       var data = {
-        firstName: '',
+        firstName: 'eeee',
         lastName: 'angelo',
         email: 'frank@me.com',
         password: '12345678'
