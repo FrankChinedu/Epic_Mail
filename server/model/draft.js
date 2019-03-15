@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { Pool } from 'pg';
 import moment from 'moment';
 import query from '../db/index';
@@ -14,52 +15,7 @@ if (process.env.NODE_ENV === 'test') {
 const pool = new Pool({ connectionString });
 
 pool.connect();
-/* istanbul ignore next */
-const createDraftTable = async () => {
-/* istanbul ignore next */
-  const queryText = `CREATE TABLE IF NOT EXISTS
-      drafts(
-        id SERIAL NOT NULL UNIQUE,
-        receiverId INTEGER,
-        senderId INTEGER,
-        messageId INTEGER,
-        createdAt TIMESTAMP,
-        updatedAt TIMESTAMP,
-        FOREIGN KEY (receiverId) REFERENCES users (id) ON DELETE CASCADE,
-        FOREIGN KEY (senderId) REFERENCES users (id) ON DELETE CASCADE,
-        FOREIGN KEY (messageId) REFERENCES emails (id) ON DELETE CASCADE
-      )`;
-  await pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-    /* istanbul ignore next */
-      pool.end();
-    })
-  /* istanbul ignore next */
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
-/* istanbul ignore next */
-const dropDraftTable = () => {
-/* istanbul ignore next */
-  const queryText = 'DROP TABLE IF EXISTS drafts CASCADE';
-  /* istanbul ignore next */
-  pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-    /* istanbul ignore next */
-      pool.end();
-    })
-  /* istanbul ignore next */
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
+
 
 class Draft {
   static async insertIntoDraftTable({ userId, messageId, receiverId }) {
@@ -96,6 +52,54 @@ class Draft {
       };
     }
   }
+
+  /* istanbul ignore next */
+  static async createDraftTable() {
+    /* istanbul ignore next */
+    const queryText = `CREATE TABLE IF NOT EXISTS
+      drafts(
+        id SERIAL NOT NULL UNIQUE,
+        receiverId INTEGER,
+        senderId INTEGER,
+        messageId INTEGER,
+        createdAt TIMESTAMP,
+        updatedAt TIMESTAMP,
+        FOREIGN KEY (receiverId) REFERENCES users (id) ON DELETE CASCADE,
+        FOREIGN KEY (senderId) REFERENCES users (id) ON DELETE CASCADE,
+        FOREIGN KEY (messageId) REFERENCES emails (id) ON DELETE CASCADE
+      )`;
+    await pool
+      .query(queryText)
+      /* istanbul ignore next */
+      .then(() => {
+        /* istanbul ignore next */
+        pool.end();
+      })
+      /* istanbul ignore next */
+      .catch(() => {
+        /* istanbul ignore next */
+        pool.end();
+      });
+  }
+
+  /* istanbul ignore next */
+  static async dropDraftTable() {
+    /* istanbul ignore next */
+    const queryText = 'DROP TABLE IF EXISTS drafts CASCADE';
+    /* istanbul ignore next */
+    await pool
+      .query(queryText)
+      /* istanbul ignore next */
+      .then(() => {
+        /* istanbul ignore next */
+        pool.end();
+      })
+      /* istanbul ignore next */
+      .catch(() => {
+        /* istanbul ignore next */
+        pool.end();
+      });
+  }
 }
 
-export { dropDraftTable, createDraftTable, Draft };
+export { Draft };

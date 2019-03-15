@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { Pool } from 'pg';
 
 let connectionString;
@@ -11,10 +12,12 @@ if (process.env.NODE_ENV === 'test') {
 const pool = new Pool({ connectionString });
 
 pool.connect();
-/* istanbul ignore next */
-const createUserTable = async () => {
-/* istanbul ignore next */
-  const queryText = `CREATE TABLE IF NOT EXISTS
+
+class User {
+  /* istanbul ignore next */
+  static async createUserTable() {
+    /* istanbul ignore next */
+    const queryText = `CREATE TABLE IF NOT EXISTS
       users(
         id SERIAL NOT NULL UNIQUE,
         firstname VARCHAR(128) NOT NULL,
@@ -25,36 +28,39 @@ const createUserTable = async () => {
         createdAt TIMESTAMP,
         updatedAt TIMESTAMP
       )`;
-  await pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-    /* istanbul ignore next */
-      pool.end();
-    })
-  /* istanbul ignore next */
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
-/* istanbul ignore next */
-const dropUserTable = () => {
-/* istanbul ignore next */
-  const queryText = 'DROP TABLE IF EXISTS users CASCADE';
-  /* istanbul ignore next */
-  pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-    /* istanbul ignore next */
-      pool.end();
-    })
-  /* istanbul ignore next */
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
+    await pool
+      .query(queryText)
+      /* istanbul ignore next */
+      .then(() => {
+        /* istanbul ignore next */
+        pool.end();
+      })
+      /* istanbul ignore next */
+      .catch(() => {
+        /* istanbul ignore next */
+        pool.end();
+      });
+  }
 
-export { dropUserTable, createUserTable };
+  /* istanbul ignore next */
+  static async dropUserTable() {
+    /* istanbul ignore next */
+    const queryText = 'DROP TABLE IF EXISTS users CASCADE';
+    /* istanbul ignore next */
+    await pool
+      .query(queryText)
+      /* istanbul ignore next */
+      .then(() => {
+        /* istanbul ignore next */
+        pool.end();
+      })
+      /* istanbul ignore next */
+      .catch(() => {
+        /* istanbul ignore next */
+        pool.end();
+      });
+  }
+}
+
+
+export { User };

@@ -70,11 +70,11 @@ class Email {
   }
 
   /* istanbul ignore next */
-  static dropEmailTable() {
+  static async dropEmailTable() {
     /* istanbul ignore next */
     const queryText = 'DROP TABLE IF EXISTS emails CASCADE';
     /* istanbul ignore next */
-    pool
+    await pool
       .query(queryText)
       /* istanbul ignore next */
       .then(() => {

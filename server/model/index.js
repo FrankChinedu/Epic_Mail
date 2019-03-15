@@ -1,50 +1,50 @@
-import { createUserTable, dropUserTable } from './user';
+import { User } from './user';
 import { Email } from './email';
-import { dropContactTable, createContactsTable } from './contact';
-import { dropInboxTable, createInboxTable } from './inbox';
-import { dropSentTable, createSentTable } from './sent';
-import { dropDraftTable, createDraftTable } from './draft';
-import { dropGroupTable, createGroupTable } from './group';
-import { dropMemberTable, createMemberTable } from './groupMemebers';
+import { Contact } from './contact';
+import { Inbox } from './inbox';
+import { Sent } from './sent';
+import { Draft } from './draft';
+import { Group } from './group';
+import { GroupMember } from './groupMemebers';
 
 /* istanbul ignore next */
 const createAllTables = async () => {
 /* istanbul ignore next */
-  await createUserTable();
+  await User.createUserTable();
   /* istanbul ignore next */
   await Email.createEmailTable();
   /* istanbul ignore next */
-  await createContactsTable();
+  await Contact.createContactsTable();
   /* istanbul ignore next */
-  await createInboxTable();
+  await Inbox.createInboxTable();
   /* istanbul ignore next */
-  await createSentTable();
+  await Sent.createSentTable();
   /* istanbul ignore next */
-  await createDraftTable();
+  await Draft.createDraftTable();
   /* istanbul ignore next */
-  await createGroupTable();
+  await Group.createGroupTable();
   /* istanbul ignore next */
-  await createMemberTable();
+  await GroupMember.createMemberTable();
 };
 
 /* istanbul ignore next */
-const dropAllTables = () => {
+const dropAllTables = async () => {
 /* istanbul ignore next */
-  dropUserTable();
+  await User.dropUserTable();
   /* istanbul ignore next */
-  Email.dropEmailTable();
+  await Email.dropEmailTable();
   /* istanbul ignore next */
-  dropContactTable();
+  await Contact.dropContactTable();
   /* istanbul ignore next */
-  dropInboxTable();
+  await Inbox.dropInboxTable();
   /* istanbul ignore next */
-  dropSentTable();
+  await Sent.dropSentTable();
   /* istanbul ignore next */
-  dropDraftTable();
+  await Draft.dropDraftTable();
   /* istanbul ignore next */
-  dropGroupTable();
+  await Group.dropGroupTable();
   /* istanbul ignore next */
-  dropMemberTable();
+  await GroupMember.dropMemberTable();
 };
 
 export {

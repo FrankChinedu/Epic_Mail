@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { Pool } from 'pg';
 
 let connectionString;
@@ -12,10 +13,12 @@ if (process.env.NODE_ENV === 'test') {
 const pool = new Pool({ connectionString });
 
 pool.connect();
-/* istanbul ignore next */
-const createContactsTable = async () => {
-/* istanbul ignore next */
-  const queryText = `CREATE TABLE IF NOT EXISTS
+
+class Contact {
+  /* istanbul ignore next */
+  static async createContactsTable () {
+    /* istanbul ignore next */
+    const queryText = `CREATE TABLE IF NOT EXISTS
       contacts(
         id SERIAL NOT NULL UNIQUE,
         firstname VARCHAR(128) NOT NULL,
@@ -27,36 +30,38 @@ const createContactsTable = async () => {
         updatedAt TIMESTAMP,
         FOREIGN KEY (contact_Owner_Id) REFERENCES users (id) ON DELETE CASCADE
       )`;
-  await pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-    /* istanbul ignore next */
-      pool.end();
-    })
-  /* istanbul ignore next */
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
-/* istanbul ignore next */
-const dropContactTable = () => {
-/* istanbul ignore next */
-  const queryText = 'DROP TABLE IF EXISTS contacts CASCADE';
-  /* istanbul ignore next */
-  pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-    /* istanbul ignore next */
-      pool.end();
-    })
-  /* istanbul ignore next */
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
+    await pool
+      .query(queryText)
+      /* istanbul ignore next */
+      .then(() => {
+        /* istanbul ignore next */
+        pool.end();
+      })
+      /* istanbul ignore next */
+      .catch(() => {
+        /* istanbul ignore next */
+        pool.end();
+      });
+  }
 
-export { dropContactTable, createContactsTable };
+  /* istanbul ignore next */
+  static async dropContactTable() {
+    /* istanbul ignore next */
+    const queryText = 'DROP TABLE IF EXISTS contacts CASCADE';
+    /* istanbul ignore next */
+    await pool
+      .query(queryText)
+      /* istanbul ignore next */
+      .then(() => {
+        /* istanbul ignore next */
+        pool.end();
+      })
+      /* istanbul ignore next */
+      .catch(() => {
+        /* istanbul ignore next */
+        pool.end();
+      });
+  }
+}
+
+export { Contact };

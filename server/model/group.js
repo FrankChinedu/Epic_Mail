@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { Pool } from 'pg';
 
 let connectionString;
@@ -12,48 +13,52 @@ if (process.env.NODE_ENV === 'test') {
 const pool = new Pool({ connectionString });
 
 pool.connect();
-/* istanbul ignore next */
-const createGroupTable = async () => {
-/* istanbul ignore next */
-  const queryText = `CREATE TABLE IF NOT EXISTS
-      groups(
-        id SERIAL NOT NULL UNIQUE,
-        name VARCHAR(128) NOT NULL,
-        ownerId INTEGER,
-        createdAt TIMESTAMP,
-        updatedAt TIMESTAMP,
-        FOREIGN KEY (ownerId) REFERENCES users (id) ON DELETE CASCADE
-      )`;
-  await pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-    /* istanbul ignore next */
-      pool.end();
-    })
-  /* istanbul ignore next */
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
-/* istanbul ignore next */
-const dropGroupTable = () => {
-/* istanbul ignore next */
-  const queryText = 'DROP TABLE IF EXISTS groups CASCADE';
-  /* istanbul ignore next */
-  pool
-    .query(queryText)
-  /* istanbul ignore next */
-    .then(() => {
-    /* istanbul ignore next */
-      pool.end();
-    })
-  /* istanbul ignore next */
-    .catch(() => {
-    /* istanbul ignore next */
-      pool.end();
-    });
-};
 
-export { dropGroupTable, createGroupTable };
+class Group {
+  /* istanbul ignore next */
+  static async createGroupTable() {
+  /* istanbul ignore next */
+    const queryText = `CREATE TABLE IF NOT EXISTS
+        groups(
+          id SERIAL NOT NULL UNIQUE,
+          name VARCHAR(128) NOT NULL,
+          ownerId INTEGER,
+          createdAt TIMESTAMP,
+          updatedAt TIMESTAMP,
+          FOREIGN KEY (ownerId) REFERENCES users (id) ON DELETE CASCADE
+        )`;
+    await pool
+      .query(queryText)
+    /* istanbul ignore next */
+      .then(() => {
+      /* istanbul ignore next */
+        pool.end();
+      })
+    /* istanbul ignore next */
+      .catch(() => {
+      /* istanbul ignore next */
+        pool.end();
+      });
+  }
+
+  /* istanbul ignore next */
+  static async dropGroupTable() {
+  /* istanbul ignore next */
+    const queryText = 'DROP TABLE IF EXISTS groups CASCADE';
+    /* istanbul ignore next */
+    await pool
+      .query(queryText)
+    /* istanbul ignore next */
+      .then(() => {
+      /* istanbul ignore next */
+        pool.end();
+      })
+    /* istanbul ignore next */
+      .catch(() => {
+      /* istanbul ignore next */
+        pool.end();
+      });
+  }
+}
+
+export { Group };
