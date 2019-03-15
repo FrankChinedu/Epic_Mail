@@ -20,7 +20,7 @@ export default class messageServices {
     let msg = await Email.createMessage(data);
     if (!msg.success) {
       return {
-        status: 403,
+        status: 401,
         error: msg.error,
       };
     }
@@ -33,7 +33,7 @@ export default class messageServices {
 
     if (!fromDraft.success) {
       return {
-        status: 403,
+        status: 401,
         error: fromDraft.error,
       };
     }
@@ -60,7 +60,7 @@ export default class messageServices {
     const res = await Email.getMessageReceiverId(contactEmail);
     if (!res.success) {
       return {
-        status: 403,
+        status: 401,
         error: res.error,
       };
     }
@@ -69,7 +69,7 @@ export default class messageServices {
     let msg = await Email.createMessage(data);
     if (!msg.success) {
       return {
-        status: 403,
+        status: 401,
         error: msg.error,
       };
     }
@@ -82,7 +82,7 @@ export default class messageServices {
 
     if (!result.success) {
       return {
-        status: 4032,
+        status: 4012,
         error: result.error,
       };
     }
@@ -90,7 +90,7 @@ export default class messageServices {
     const fromSent = await Sent.insertIntoSentTable(inserts);
     if (!fromSent.success) {
       return {
-        status: 403,
+        status: 401,
         error: fromSent.error,
       };
     }

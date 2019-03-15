@@ -9,40 +9,35 @@ export default class Auth {
     const schema = {
       firstname: Joi.string().required().min(2).regex(/^[a-zA-Z]+/),
       lastname: Joi.any(),
-      email: Joi.string().email().required(),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{8,32}$/),
-
+      email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+      password: Joi.string().min(8),
     };
 
     const { error } = Joi.validate(req.body, schema);
-    console.log('==', error.details);
 
     if (error) {
       switch (error.details[0].context.key) {
         case 'email':
-          res.status(409).send({
-            status: 409,
+          res.status(401).send({
+            status: 401,
             error: ['you must provide a valid email address'],
           });
           break;
         case 'firstname':
-          res.status(409).send({
-            status: 409,
+          res.status(401).send({
+            status: 401,
             error: ['firstname cannot be empty or less than two characters and must not start with a number'],
           });
           break;
         case 'password':
-          res.status(409).send({
-            status: 409,
-            error: ['the password must match the following rules',
-              'it must contain only numbers or letters or both',
-              'it must be at least 8 charcters in length and not greater than 32',
-            ],
+          res.status(401).send({
+            status: 401,
+            error: ['password was must be at least 8'],
           });
           break;
         default:
-          res.status(409).send({
-            status: 409,
+          res.status(401).send({
+            status: 401,
             error: ['invalid registration information'],
           });
       }

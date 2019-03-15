@@ -22,12 +22,12 @@ export default class UserServices {
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
         return {
-          status: 403,
-          error: 'User with that EMAIL already exist',
+          status: 401,
+          error: 'account already exists',
         };
       }
       return {
-        status: 403,
+        status: 401,
         error,
       };
     }
@@ -42,7 +42,7 @@ export default class UserServices {
 
     if (!user) {
       return {
-        status: 409,
+        status: 401,
         error: 'The credentials you provided is incorrect',
       };
     }
@@ -51,7 +51,7 @@ export default class UserServices {
 
     if (!isUserPassword) {
       return {
-        status: 409,
+        status: 401,
         error: 'The credentials you provided is incorrect',
       };
     }
@@ -64,7 +64,7 @@ export default class UserServices {
     const res = {
       status: 201,
       data: {
-        ...user,
+        // ...user,
         token: Helper.jwtSignUser(user),
       },
     };
