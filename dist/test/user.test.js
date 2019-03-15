@@ -37,6 +37,77 @@ describe('Auth Sign up', function () {
       done();
     });
   });
+  describe('/Post auth/signup', function () {
+    it('user should not be able to sign in if email parameter is missing ', function (done) {
+      var data = {
+        firstName: 'frank',
+        lastName: 'angelo',
+        email: '',
+        password: '12345678'
+      };
+
+      _chai.default.request(_app.default).post("".concat(apiURL, "/auth/signup")).send(data).end(function (err, res) {
+        res.should.have.status(403);
+        should.exist(res.body);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+      });
+
+      done();
+    });
+  });
+  describe('/Post auth/signup', function () {
+    it('user should not be able to sign in if password parameter is missing ', function (done) {
+      var data = {
+        firstName: 'frank',
+        lastName: 'angelo',
+        email: 'frank@me.com',
+        password: ''
+      };
+
+      _chai.default.request(_app.default).post("".concat(apiURL, "/auth/signup")).send(data).end(function (err, res) {
+        res.should.have.status(403);
+        should.exist(res.body);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+      });
+
+      done();
+    });
+  });
+  describe('/Post auth/signup', function () {
+    it('user should not be able to sign in if first name parameter is missing', function (done) {
+      var data = {
+        firstName: '',
+        lastName: 'angelo',
+        email: 'frank@me.com',
+        password: '12345678'
+      };
+
+      _chai.default.request(_app.default).post("".concat(apiURL, "/auth/signup")).send(data).end(function (err, res) {
+        res.should.have.status(403);
+        should.exist(res.body);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+      });
+
+      done();
+    });
+  });
+  describe('/Post auth/signup', function () {
+    it('user should not be able to sign in if no parameter is missing', function (done) {
+      var data = {};
+
+      _chai.default.request(_app.default).post("".concat(apiURL, "/auth/signup")).send(data).end(function (err, res) {
+        res.should.have.status(403);
+        should.exist(res.body);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+      });
+
+      done();
+    });
+  });
   describe('/Post auth/login', function () {
     it('user should be able to login', function (done) {
       var data = {

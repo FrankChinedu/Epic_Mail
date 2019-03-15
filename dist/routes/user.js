@@ -11,8 +11,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var userRoute = _express.default.Router();
 
 userRoute.post('/auth/signup', _Auth.default.validate, _Auth.default.emailExist, _UserController.default.createUser);
-userRoute.post('/auth/login', _UserController.default.login); // userRoute.get('/allUsers', UserController.allUsers);
-// userRoute.get('/user', (req, res) => {
+userRoute.post('/auth/login', _UserController.default.login);
+userRoute.get('/allUsers', _UserController.default.allUsers); // userRoute.get('/user', (req, res) => {
 //   res.status(200).send({
 //     message: 'users ----',
 //   });

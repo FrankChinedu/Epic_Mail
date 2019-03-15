@@ -43,10 +43,6 @@ app.use(_bodyParser.default.json());
 app.use((0, _cors.default)());
 var apiURL = '/api/v1';
 global.apiURL = apiURL;
-Object.keys(_api.default).forEach(function (key) {
-  var value = _api.default[key];
-  app.use("".concat(apiURL, "/"), value);
-});
 app.use('/', function (req, res, next) {
   if (req.originalUrl !== '/') {
     next();
@@ -56,6 +52,10 @@ app.use('/', function (req, res, next) {
   res.send({
     message: 'welcome to EPIC MAIL'
   });
+});
+Object.keys(_api.default).forEach(function (key) {
+  var value = _api.default[key];
+  app.use("".concat(apiURL, "/"), value);
 });
 app.use(function (req, res) {
   res.status(404);
