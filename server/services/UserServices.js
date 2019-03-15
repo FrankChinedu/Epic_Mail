@@ -42,7 +42,7 @@ export default class UserServices {
 
     if (!user) {
       return {
-        status: 403,
+        status: 409,
         error: 'The credentials you provided is incorrect',
       };
     }
@@ -51,11 +51,13 @@ export default class UserServices {
 
     if (!isUserPassword) {
       return {
-        status: 403,
+        status: 409,
         error: 'The credentials you provided is incorrect',
       };
     }
-    return this.getJsonWebToken(user);
+    const res = this.getJsonWebToken(user);
+    res.status = 200;
+    return res;
   }
 
   static getJsonWebToken(user) {

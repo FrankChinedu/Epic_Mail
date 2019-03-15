@@ -7,6 +7,4 @@ const userRoute = express.Router();
 userRoute.post('/auth/signup', Auth.validate, UserController.createUser);
 userRoute.post('/auth/login', UserController.login);
 
-userRoute.get('/allUsers', UserController.allUsers);
-
 module.exports = userRoute;

@@ -46,7 +46,7 @@ describe('Auth Sign up', () => {
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(403);
+          res.should.have.status(409);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
@@ -66,7 +66,7 @@ describe('Auth Sign up', () => {
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(403);
+          res.should.have.status(409);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
@@ -87,7 +87,7 @@ describe('Auth Sign up', () => {
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(403);
+          res.should.have.status(409);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
@@ -104,7 +104,7 @@ describe('Auth Sign up', () => {
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(403);
+          res.should.have.status(409);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
@@ -123,13 +123,13 @@ describe('Auth Sign up', () => {
         .post(`${apiURL}/auth/login`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(201);
+          res.should.have.status(200);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('status');
           res.body.should.have.property('data');
           res.body.data.should.have.property('token');
-          res.body.status.should.equal(201);
+          res.body.status.should.equal(200);
         });
       done();
     });
@@ -143,7 +143,7 @@ describe('Auth Sign up', () => {
         .post(`${apiURL}/auth/login`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(403);
+          res.should.have.status(409);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('status');
