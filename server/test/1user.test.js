@@ -33,6 +33,30 @@ describe(' Sign up', () => {
     });
   });
 
+  describe('sign up', () => {
+    it('should create an account for a new user', (done) => {
+      const data = {
+        firstname: 'john',
+        lastname: 'doe',
+        email: 'john@doe.com',
+        password: '12345678',
+      };
+      chai.request(server)
+        .post(`${apiURL}/auth/signup`)
+        .send(data)
+        .end((err, res) => {
+          res.should.have.status(201);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.data.should.have.property('token');
+          res.body.status.should.equal(201);
+        });
+      done();
+    });
+  });
+
   describe('/Post auth/signup', () => {
     it('should not be able to sign up a new user if email parameter is missing ', (done) => {
       const data = {

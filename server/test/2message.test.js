@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../app';
-import { createAllTables, dropAllTables } from '../model/index';
 
 const should = chai.should();
 
@@ -10,13 +9,6 @@ chai.use(chaiHttp);
 const { apiURL } = global;
 
 describe.skip('Message ', () => {
-  before(() => {
-    createAllTables();
-  });
-
-  after(() => {
-    dropAllTables();
-  });
   describe('/Post /messages', () => {
     it('user should be able to create or send email', (done) => {
       const data = {
