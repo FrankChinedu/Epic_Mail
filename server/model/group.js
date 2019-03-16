@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { Pool } from 'pg';
+import moment from 'moment';
+import query from '../db/index';
 
 let connectionString;
 /* istanbul ignore next */
@@ -22,6 +24,7 @@ class Group {
         groups(
           id SERIAL NOT NULL UNIQUE PRIMARY KEY,
           name VARCHAR(128) NOT NULL,
+          role VARCHAR(128),
           ownerId INTEGER,
           createdAt TIMESTAMP,
           updatedAt TIMESTAMP,
@@ -58,6 +61,27 @@ class Group {
       /* istanbul ignore next */
         pool.end();
       });
+  }
+
+  static async sendGroupMessage({ name, userId }) {
+    const dbQuery = `INSERT INTO
+      groups(name, ownerid, role, createdat, updatedat)
+      VALUES($1, $2, $3, $4, $5)
+      returning *`;
+    const values = [name, userId, 'admin', moment(new Date()), moment(new Date())];
+
+    try {
+      const { rows } = await query(dbQuery, values);
+      return {
+        success: true,
+        data: { ...rows[0] },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: [error],
+      };
+    }
   }
 }
 
