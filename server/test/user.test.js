@@ -1,23 +1,20 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../app';
-// import { createAllTables, dropAllTables } from './model/index';
 
 const should = chai.should();
-process.env.NODE_ENV = 'test';
-console.log('test env', process.env.NODE_ENV);
 
 chai.use(chaiHttp);
 
 const { apiURL } = global;
 
-describe('Auth Sign up', () => {
-  describe('/Post auth/signup', () => {
-    it('user should be able to sign up', (done) => {
+describe(' Sign up', () => {
+  describe('sign up', () => {
+    it('should create an account for a new user up', (done) => {
       const data = {
         firstname: 'frank',
         lastname: 'angelo',
-        email: 'frank@me.com',
+        email: 'angelo@me.com',
         password: '12345678',
       };
       chai.request(server)
@@ -37,7 +34,7 @@ describe('Auth Sign up', () => {
   });
 
   describe('/Post auth/signup', () => {
-    it('user should not be able to sign up if email parameter is missing ', (done) => {
+    it('should not be able to sign up a new user if email parameter is missing ', (done) => {
       const data = {
         firstname: 'frank',
         lastname: 'angelo',
@@ -48,7 +45,7 @@ describe('Auth Sign up', () => {
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(409);
+          res.should.have.status(401);
           // should.exist(res.body);
           // res.body.should.have.property('status');
           // res.body.should.have.property('data');
@@ -58,19 +55,20 @@ describe('Auth Sign up', () => {
       done();
     });
   });
+
   describe('/Post auth/signup', () => {
-    it('user should not be able to sign in if password parameter is missing ', (done) => {
+    it('should not be able to sign up a new user if password parameter is missing ', (done) => {
       const data = {
         firstname: 'frank',
         lastname: 'angelo',
-        email: 'frank@me.com',
+        email: 'angelo@me.com',
         password: '',
       };
       chai.request(server)
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(409);
+          res.should.have.status(401);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
@@ -80,18 +78,18 @@ describe('Auth Sign up', () => {
   });
 
   describe('/Post auth/signup', () => {
-    it('user should not be able to sign in if first name parameter is missing', (done) => {
+    it('should not be able to sign up a new user if first name parameter is missing', (done) => {
       const data = {
         firstname: '',
         lastname: 'angelo',
-        email: 'frank@me.com',
+        email: 'angelo@me.com',
         password: '12345678',
       };
       chai.request(server)
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(409);
+          res.should.have.status(401);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
@@ -101,14 +99,14 @@ describe('Auth Sign up', () => {
   });
 
   describe('/Post auth/signup', () => {
-    it('user should not be able to sign in if no parameter is missing', (done) => {
+    it('should not be able to sign up a new user if no parameter is missing', (done) => {
       const data = {
       };
       chai.request(server)
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(409);
+          res.should.have.status(401);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
@@ -118,9 +116,9 @@ describe('Auth Sign up', () => {
   });
 
   describe('/Post auth/login', () => {
-    it('user should be able to login', (done) => {
+    it('should log a user in', (done) => {
       const data = {
-        email: 'frank@me.com',
+        email: 'angelo@me.com',
         password: '12345678',
       };
       chai.request(server)
@@ -138,7 +136,7 @@ describe('Auth Sign up', () => {
       done();
     });
 
-    it('user should not be able to login if wrong parameters are passed', (done) => {
+    it('should not be able to log a user in if wrong parameters are passed', (done) => {
       const data = {
         email: 'franki@me.com',
         password: '123456789',
@@ -147,7 +145,7 @@ describe('Auth Sign up', () => {
         .post(`${apiURL}/auth/login`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(409);
+          res.should.have.status(401);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('status');

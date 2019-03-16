@@ -60,16 +60,22 @@ app.use((req, res) => {
   });
 });
 
-// console.log('env', process.env.NODE_ENV);
+console.log('env', process.env.NODE_ENV);
 
-const create = () => {
-  createAllTables();
+const create = (go) => {
+  if (go) {
+    console.log('go');
+    // dropAllTables();
+    createAllTables();
+  }
 };
 
-create();
+create(false);
 
-app.listen(process.env.PORT, () => {
-  console.log(`server start at port ${process.env.PORT} `);
-});
+if (!module.parent) {
+  app.listen(process.env.PORT, () => {
+    console.log(`server start at port ${process.env.PORT} `);
+  });
+}
 
 module.exports = app;

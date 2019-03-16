@@ -10,8 +10,8 @@ export default class UserController {
     const data = req.body;
     const response = await UserServices.login(data);
 
-    if (response.status === 403) {
-      res.status(403).send(response);
+    if (response.status === 401) {
+      res.status(401).send(response);
       return;
     }
     res.status(200).send(response);

@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { Pool } from 'pg';
+import 'dotenv/config';
 
 let connectionString;
 /* istanbul ignore next */

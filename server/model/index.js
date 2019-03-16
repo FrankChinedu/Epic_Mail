@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { User } from './user';
 import { Email } from './email';
 import { Contact } from './contact';
@@ -25,6 +26,8 @@ const createAllTables = async () => {
   await Group.createGroupTable();
   /* istanbul ignore next */
   await GroupMember.createMemberTable();
+
+  process.exit(0);
 };
 
 /* istanbul ignore next */
@@ -45,8 +48,12 @@ const dropAllTables = async () => {
   await Group.dropGroupTable();
   /* istanbul ignore next */
   await GroupMember.dropMemberTable();
+
+  process.exit(0);
 };
 
 export {
   createAllTables, dropAllTables,
 };
+
+require('make-runnable');
