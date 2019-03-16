@@ -70,7 +70,5 @@ describe('Groups ', () => {
           done();
         });
     });
-
-
   });
 });
