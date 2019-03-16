@@ -46,7 +46,7 @@ export default class Auth {
     }
   }
 
-  static magicValidate(req, res, next) {
+  static magicValidator(req, res, next) {
     const { body } = req;
     const toValidate = {};
     let obj = {};
