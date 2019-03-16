@@ -1,5 +1,5 @@
 import {
-  messages, inboxs, sents,
+  messages, inboxs,
 } from '../dummyData/Database';
 import { Sent } from '../model/sent';
 import { Inbox } from '../model/inbox';
