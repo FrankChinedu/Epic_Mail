@@ -1,25 +1,20 @@
 import express from 'express';
 import MessageController from '../controller/MessageController';
-import database from '../dummyData/Database';
+import Auth from '../middleware/Auth';
 
 const messageRoute = express.Router();
 
-messageRoute.post('/messages', MessageController.createMessage);
+messageRoute.post('/messages', Auth.verifyToken, MessageController.createMessage);
 
-messageRoute.get('/messages/sent', MessageController.getSentEmails);
+messageRoute.get('/messages', Auth.verifyToken, MessageController.getRecievedEmails);
 
-messageRoute.get('/messages', MessageController.getRecievedEmails);
+messageRoute.get('/messages/sent', Auth.verifyToken, MessageController.getSentEmails);
 
-messageRoute.get('/messages/:id', MessageController.viewAnInboxMessage);
+messageRoute.get('/messages/unread', Auth.verifyToken, MessageController.getUnReadEmails);
 
-messageRoute.get('/messages/unread', MessageController.getUnReadEmails);
+messageRoute.get('/messages/:id', Auth.verifyToken, MessageController.viewAnInboxMessage);
 
-messageRoute.delete('/messages/:id', MessageController.deleteAnInboxMessage);
+messageRoute.delete('/messages/:id', Auth.verifyToken, MessageController.deleteAnInboxMessage);
 
-// messageRoute.get('/getAllData', (req, res) => {
-//   res.status(200).send({
-//     database,
-//   });
-// });
 
 module.exports = messageRoute;

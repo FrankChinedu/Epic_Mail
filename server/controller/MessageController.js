@@ -1,56 +1,62 @@
 import MessageServices from '../services/MessageServices';
 
 export default class MessageController {
-  static createMessage(req, res) {
-    const userId = 1; // this would be provided from jwt
+  static async createMessage(req, res) {
+    const userId = req.user.id;
     const data = { ...req.body, userId };
     const { status } = data;
     let response;
 
     if (status === 'sent') {
-      response = MessageController.sendMessage(data);
+      response = await MessageController.sendMessage(data);
     } else {
-      response = MessageController.saveAsDraft(data);
+      response = await MessageController.saveAsDraft(data);
     }
     res.status(201).send(response);
   }
 
-  static saveAsDraft(data) {
+  static async saveAsDraft(data) {
     return MessageServices.saveDraft(data);
   }
 
-  static sendMessage(data) {
+  static async sendMessage(data) {
     return MessageServices.sendMessage(data);
   }
 
-  static getRecievedEmails(req, res) {
-    const userId = 1; // this would be provided from jwt
-    res.status(200).send(MessageServices.getRecievedEmails(userId));
+  static async getRecievedEmails(req, res) {
+    const userId = req.user.id;
+    const response = await MessageServices.getRecievedEmails(userId);
+    res.status(200).send(response);
   }
 
-  static getUnReadEmails(req, res) {
-    const userId = 1;
-    res.status(200).send(MessageServices.getUnReadEmails(userId));
+  static async getSentEmails(req, res) {
+    const userId = req.user.id;
+    const response = await MessageServices.getSentEmails(userId);
+    res.status(200).send(response);
   }
 
-  static deleteAnInboxMessage(req, res) {
-    const userId = 1;
+  static async getUnReadEmails(req, res) {
+    const userId = req.user.id;
+    const response = await MessageServices.getUnReadEmails(userId);
+    res.status(200).send(response);
+  }
+
+  static async viewAnInboxMessage(req, res) {
+    const userId = req.user.id;
     const { id } = req.params;
+    const messageId = id;
 
-    const data = { userId, id };
-    res.status(202).send(MessageServices.deleteAnInboxMessage(data));
+    const data = { userId, messageId };
+    const response = await MessageServices.viewAnInboxMessage(data);
+    res.status(200).send(response);
   }
 
-  static viewAnInboxMessage(req, res) {
-    const userId = 1;
+  static async deleteAnInboxMessage(req, res) {
+    const userId = req.user.id;
     const { id } = req.params;
-
     const data = { userId, id };
-    res.status(200).send(MessageServices.viewAnInboxMessage(data));
-  }
 
-  static getSentEmails(req, res) {
-    const userId = 1;
-    res.status(200).send(MessageServices.getSentEmails(userId));
+    const response = await MessageServices.deleteAnInboxMessage(data);
+    res.status(202).send(response);
   }
 }

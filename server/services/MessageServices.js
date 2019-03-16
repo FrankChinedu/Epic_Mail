@@ -1,183 +1,213 @@
-import {
-  messages, drafts, users, inboxs, sents,
-} from '../dummyData/Database';
-import Message from '../model/message';
-import Inbox from '../model/inbox';
-import Sent from '../model/sent';
-import Draft from '../model/draft';
+import { Sent } from '../model/sent';
+import { Inbox } from '../model/inbox';
+import { Email } from '../model/email';
+import { Draft } from '../model/draft';
 
 export default class messageServices {
-  static createMessage({ subject, message, status }) {
-    const msg = new Message();
-    msg.id = messages[messages.length - 1].id + 1;
-    msg.subject = subject;
-    msg.message = message;
-    msg.status = status;
+  static async saveDraft(data) {
+    const { userId, recieversEmail } = data;
 
-    messages.push(msg);
+    const res = await Email.getMessageReceiverId(recieversEmail);
+    let receiverId = null;
 
-    return msg;
-  }
-
-  static filteredMessage(msgs) {
-    const response = [];
-
-    msgs.forEach((inbox) => {
-      const mail = messages.find(data => data.id === inbox.messageId);
-      const { subject, message, parentMessageId } = mail;
-      const {
-        id, createdOn, read, status, senderId, receiverId,
-      } = inbox;
-
-      response.push({
-        id, createdOn, subject, message, senderId, receiverId, parentMessageId, status, read,
-      });
-    });
-
-    return response;
-  }
-
-  static getUsersMessages(userId) {
-    const msgs = inboxs.filter(data => data.receiverId === userId);
-    const response = this.filteredMessage(msgs);
-    return response;
-  }
-
-  static getSentEmails(userId) {
-    const msgs = sents.filter(data => data.senderId === userId);
-    const response = this.filteredMessage(msgs);
-    return {
-      status: 200,
-      data: response,
-    };
-  }
-
-  static getUnReadEmails(userId) {
-    const response = this.getUsersMessages(userId);
-    const res = response.filter(data => data.read === false);
-
-    return {
-      status: 200,
-      data: res,
-    };
-  }
-
-  static deleteAnInboxMessage({ userId, id }) {
-    let response = 'unsuccessful';
-    const inboxId = inboxs.findIndex(data => (data.senderId === parseInt(userId, 10)
-     && data.messageId === parseInt(id, 10)));
-
-    if (inboxId !== -1) {
-      inboxs.splice(inboxId, 1);
-      response = 'deleted successfully';
-    } else {
-      response = 'not found';
-    }
-    return {
-      status: 202,
-      data: [{ message: response }],
-    };
-  }
-
-  static viewAnInboxMessage({ userId, id }) {
-    const inbox = inboxs.find(data => (data.receiverId === parseInt(userId, 10)
-      && data.id === parseInt(id, 10)));
-
-    let response = [];
-
-    if (inbox) {
-      const msg = messages.find(data => data.id === parseInt(inbox.messageId, 10));
-
-      const { subject, message, parentMessageId } = msg;
-      const {
-        createdOn, read, status, senderId, receiverId,
-      } = inbox;
-
-      response.push({
-        id: inbox.id,
-        createdOn,
-        read,
-        status,
-        senderId,
-        receiverId,
-        subject,
-        message,
-        parentMessageId,
-      });
-    } else {
-      response = [{ message: 'not found' }];
+    if (res.success) {
+      receiverId = res.id;
     }
 
-    return {
-      status: 200,
-      data: response,
+    let msg = await Email.createMessage(data);
+    if (!msg.success) {
+      return {
+        status: 401,
+        error: msg.error,
+      };
+    }
+    msg = msg.data;
+    const messageId = msg.id;
+
+    const inserts = { userId, messageId, receiverId };
+
+    const fromDraft = await Draft.insertIntoDraftTable(inserts);
+
+    if (!fromDraft.success) {
+      return {
+        status: 401,
+        error: fromDraft.error,
+      };
+    }
+
+    const info = {
+      id: messageId,
+      createdOn: msg.createdat,
+      subject: msg.subject,
+      message: msg.message,
+      parentMessageId: msg.parentMessageId,
+      status: msg.status,
     };
-  }
-
-  static getRecievedEmails(userId) {
-    const response = this.getUsersMessages(userId);
-
-    return {
-      status: 200,
-      data: response,
-    };
-  }
-
-  static saveDraft(data) {
-    const { userId, contactEmail } = data;
-
-    const receiverId = this.getMessageReceiverId(contactEmail);
-    const message = this.createMessage(data);
-
-    const draft = new Draft();
-    draft.id = drafts[drafts.length - 1].id + 1;
-    draft.senderId = userId;
-    draft.receiverId = receiverId;
-    draft.messageId = message.id;
-
-    drafts.push(draft);
 
     return {
       status: 201,
       message: 'draft saved successfully',
-      data: [message],
+      data: [info],
     };
   }
 
-  static getMessageReceiverId(email) {
-    const user = users.find(data => data.email === email);
-    if (user) {
-      return user.id;
+  static async sendMessage(data) {
+    const { userId, recieversEmail } = data;
+
+    const res = await Email.getMessageReceiverId(recieversEmail);
+    if (!res.success) {
+      return {
+        status: 401,
+        error: res.error,
+      };
     }
-    return null;
-  }
+    const receiverId = res.id;
 
-  static sendMessage(data) {
-    const { userId, contactEmail } = data;
+    let msg = await Email.createMessage(data);
+    if (!msg.success) {
+      return {
+        status: 401,
+        error: msg.error,
+      };
+    }
+    msg = msg.data;
+    const messageId = msg.id;
 
-    const receiverId = this.getMessageReceiverId(contactEmail);
-    const message = this.createMessage(data);
+    const inserts = { userId, messageId, receiverId };
 
-    const inbox = new Inbox();
-    inbox.id = drafts[drafts.length - 1].id + 1;
-    inbox.receiverId = receiverId;
-    inbox.senderId = userId;
-    inbox.messageId = message.id;
+    const result = await Inbox.insertIntoInboxTable(inserts);
 
-    inboxs.push(inbox);
+    if (!result.success) {
+      return {
+        status: 4012,
+        error: result.error,
+      };
+    }
 
-    const sent = new Sent();
-    sent.id = sents[sents.length - 1].id + 1;
-    sent.messageId = message.id;
-    sent.senderId = userId;
-    sent.receiverId = receiverId;
+    const fromSent = await Sent.insertIntoSentTable(inserts);
+    if (!fromSent.success) {
+      return {
+        status: 401,
+        error: fromSent.error,
+      };
+    }
 
-    sents.push(sent);
+    const info = {
+      id: messageId,
+      createdOn: msg.createdat,
+      subject: msg.subject,
+      message: msg.message,
+      parentMessageId: msg.parentMessageId,
+      status: msg.status,
+    };
 
     return {
       status: 201,
       message: 'message sent successfully',
-      data: [message],
+      data: [info],
+    };
+  }
+
+  static async getRecievedEmails(userId) {
+    const response = await Email.getInboxMessages(userId);
+    if (response.success) {
+      return {
+        status: 200,
+        data: response.data,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
+  static async getSentEmails(userId) {
+    const response = await Email.getSentEmails(userId);
+    if (response.success) {
+      return {
+        status: 200,
+        data: response.data,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
+  static async getUnReadEmails(userId) {
+    const response = await Email.getInboxMessages(userId);
+
+    const message = [
+      {
+        message: 'No unread messages',
+      },
+    ];
+
+    if (response.success) {
+      if (!response.empty) {
+        let res = response.data[0];
+        res = res.filter(data => data.read === true);
+        if (!res.length) {
+          res = message;
+        }
+        return {
+          status: 200,
+          data: res,
+        };
+      }
+      return {
+        status: 200,
+        data: message,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
+
+  static async viewAnInboxMessage({ userId, messageId }) {
+    const response = await Email.getInboxMessages(userId);
+    const message = [
+      {
+        message: 'No result messages',
+      },
+    ];
+
+    if (response.success) {
+      if (!response.empty) {
+        let res = response.data[0];
+        res = res.find(data => data.id === parseInt(messageId, 0));
+        return {
+          status: 200,
+          data: [res],
+        };
+      }
+      return {
+        status: 200,
+        data: message,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
+  static async deleteAnInboxMessage(data) {
+    const response = await Email.deleteInboxMessage(data);
+    if (response.success) {
+      return {
+        status: 202,
+        data: response.data,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
     };
   }
 }

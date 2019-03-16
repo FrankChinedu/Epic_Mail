@@ -1,3 +1,4 @@
+/* eslint-disable import/no-dynamic-require */
 import 'dotenv/config';
 import '@babel/polyfill';
 import express from 'express';
@@ -7,7 +8,7 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import routes from './routes/api';
-import { createAllTables } from './model/index';
+// import { createAllTables, dropAllTables } from './model/index';
 
 const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
 
@@ -34,9 +35,8 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-const apiURL = '/api/v2';
+const apiURL = '/api/v1';
 global.apiURL = apiURL;
-
 
 app.use('/', (req, res, next) => {
   if (req.originalUrl !== '/') {
@@ -53,7 +53,6 @@ Object.keys(routes).forEach((key) => {
   app.use(`${apiURL}/`, value);
 });
 
-
 app.use((req, res) => {
   res.status(404);
   res.send({
@@ -61,14 +60,20 @@ app.use((req, res) => {
   });
 });
 
-const create = () => {
-  createAllTables();
-};
+// const create = async (go) => {
+//   if (go) {
+//     // console.log('go');
+//     // dropAllTables();
+//     createAllTables();
+//   }
+// };
 
-create();
+// create(false);
 
-app.listen(process.env.PORT, () => {
-  console.log(`server start at port ${process.env.PORT} `);
-});
+if (!module.parent) {
+  app.listen(process.env.PORT, () => {
+    console.log(`server start at port ${process.env.PORT} `);
+  });
+}
 
 module.exports = app;
