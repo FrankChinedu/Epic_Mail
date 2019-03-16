@@ -111,6 +111,35 @@ class Email {
       };
     }
   }
+
+  static async getUsersMessages(userId) {
+    const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
+    emails.status as status, inboxs.receiverid as receiverId, inboxs.senderid as senderId, inboxs.read as read, inboxs.createdat as createdOn
+    FROM inboxs
+    INNER JOIN emails ON inboxs.messageid = emails.id  WHERE inboxs.receiverid = $1;
+     `;
+    try {
+      const { rows } = await query(dbQuery, [userId]);
+      if (!rows[0]) {
+        return {
+          success: true,
+          data: [{
+            message: 'You don\'t have any Inbox yet',
+          }],
+        };
+      }
+      const data = rows;
+      return {
+        success: true,
+        data: [data],
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: [error],
+      };
+    }
+  }
 }
 
 export { Email };
