@@ -46,6 +46,27 @@ export default class Auth {
     }
   }
 
+  static magicValidate(req, res, next) {
+    const { body } = req;
+    const toValidate = {};
+    let obj = {};
+    Object.keys(body).forEach((key) => {
+      obj = Object.assign(toValidate, { [key]: Joi.string().required() });
+    });
+
+    const schema = obj;
+    const { error } = Joi.validate(body, schema);
+
+    if (error) {
+      res.status(401).send({
+        status: 401,
+        error: error.details[0].message,
+      });
+    } else {
+      next();
+    }
+  }
+
   static async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {

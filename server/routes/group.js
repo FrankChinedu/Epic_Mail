@@ -4,7 +4,7 @@ import Auth from '../middleware/Auth';
 
 const groupRoute = express.Router();
 
-groupRoute.post('/groups', Auth.verifyToken, GroupController.createGroup);
+groupRoute.post('/groups', Auth.verifyToken, Auth.magicValidate, GroupController.createGroup);
 
 
 module.exports = groupRoute;
