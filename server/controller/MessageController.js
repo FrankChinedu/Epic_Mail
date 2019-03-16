@@ -41,6 +41,16 @@ export default class MessageController {
     res.status(200).send(response);
   }
 
+  static async viewAnInboxMessage(req, res) {
+    const userId = req.user.id;
+    const { id } = req.params;
+    const messageId = id;
+
+    const data = { userId, messageId };
+    const response = await MessageServices.viewAnInboxMessage(data);
+    res.status(200).send(response);
+  }
+
   static deleteAnInboxMessage(req, res) {
     const userId = 1;
     const { id } = req.params;
@@ -49,11 +59,4 @@ export default class MessageController {
     res.status(202).send(MessageServices.deleteAnInboxMessage(data));
   }
 
-  static viewAnInboxMessage(req, res) {
-    const userId = 1;
-    const { id } = req.params;
-
-    const data = { userId, id };
-    res.status(200).send(MessageServices.viewAnInboxMessage(data));
-  }
 }

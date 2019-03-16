@@ -6,13 +6,13 @@ const messageRoute = express.Router();
 
 messageRoute.post('/messages', Auth.verifyToken, MessageController.createMessage);
 
-messageRoute.get('/messages/sent', Auth.verifyToken, MessageController.getSentEmails);
-
 messageRoute.get('/messages', Auth.verifyToken, MessageController.getRecievedEmails);
+
+messageRoute.get('/messages/sent', Auth.verifyToken, MessageController.getSentEmails);
 
 messageRoute.get('/messages/unread', Auth.verifyToken, MessageController.getUnReadEmails);
 
-messageRoute.get('/messages/:id', MessageController.viewAnInboxMessage);
+messageRoute.get('/messages/:id', Auth.verifyToken, MessageController.viewAnInboxMessage);
 
 messageRoute.delete('/messages/:id', MessageController.deleteAnInboxMessage);
 

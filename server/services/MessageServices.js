@@ -142,10 +142,10 @@ export default class messageServices {
 
   static async getUnReadEmails(userId) {
     const response = await Email.getInboxMessages(userId);
-    let res = response.data[0];
 
-    res = res.filter(data => data.read === true);
     if (response.success) {
+      let res = response.data[0];
+      res = res.filter(data => data.read === true);
       if (!res.length) {
         res = [
           {
@@ -156,6 +156,24 @@ export default class messageServices {
       return {
         status: 200,
         data: res,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
+
+  static async viewAnInboxMessage({ userId, messageId }) {
+    const response = await Email.getInboxMessages(userId);
+
+    if (response.success) {
+      let res = response.data[0];
+      res = res.find(data => data.id === parseInt(messageId, 0));
+      return {
+        status: 200,
+        data: [res],
       };
     }
     return {
@@ -196,41 +214,6 @@ export default class messageServices {
     return {
       status: 202,
       data: [{ message: response }],
-    };
-  }
-
-  static viewAnInboxMessage({ userId, id }) {
-    const inbox = inboxs.find(data => (data.receiverId === parseInt(userId, 10)
-      && data.id === parseInt(id, 10)));
-
-    let response = [];
-
-    if (inbox) {
-      const msg = messages.find(data => data.id === parseInt(inbox.messageId, 10));
-
-      const { subject, message, parentMessageId } = msg;
-      const {
-        createdOn, read, status, senderId, receiverId,
-      } = inbox;
-
-      response.push({
-        id: inbox.id,
-        createdOn,
-        read,
-        status,
-        senderId,
-        receiverId,
-        subject,
-        message,
-        parentMessageId,
-      });
-    } else {
-      response = [{ message: 'not found' }];
-    }
-
-    return {
-      status: 200,
-      data: response,
     };
   }
 }
