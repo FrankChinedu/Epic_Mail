@@ -29,9 +29,16 @@ export default class MessageController {
     res.status(200).send(response);
   }
 
-  static getUnReadEmails(req, res) {
-    const userId = 1;
-    res.status(200).send(MessageServices.getUnReadEmails(userId));
+  static async getSentEmails(req, res) {
+    const userId = req.user.id;
+    const response = await MessageServices.getSentEmails(userId);
+    res.status(200).send(response);
+  }
+
+  static async getUnReadEmails(req, res) {
+    const userId = req.user.id;
+    const response = await MessageServices.getUnReadEmails(userId);
+    res.status(200).send(response);
   }
 
   static deleteAnInboxMessage(req, res) {
@@ -48,10 +55,5 @@ export default class MessageController {
 
     const data = { userId, id };
     res.status(200).send(MessageServices.viewAnInboxMessage(data));
-  }
-
-  static getSentEmails(req, res) {
-    const userId = 1;
-    res.status(200).send(MessageServices.getSentEmails(userId));
   }
 }

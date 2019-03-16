@@ -112,19 +112,24 @@ class Email {
     }
   }
 
-  static async getUsersMessages(userId) {
+  static qry(field) {
     const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
     emails.status as status, inboxs.receiverid as receiverId, inboxs.senderid as senderId, inboxs.read as read, inboxs.createdat as createdOn
     FROM inboxs
-    INNER JOIN emails ON inboxs.messageid = emails.id  WHERE inboxs.receiverid = $1;
+    INNER JOIN emails ON inboxs.messageid = emails.id  WHERE inboxs.${field} = $1;
      `;
+    return dbQuery;
+  }
+
+  static async queryToRun(userId, field) {
+    const dbQuery = this.qry(field);
     try {
       const { rows } = await query(dbQuery, [userId]);
       if (!rows[0]) {
         return {
           success: true,
           data: [{
-            message: 'You don\'t have any Inbox yet',
+            message: 'You don\'t have any messages yet',
           }],
         };
       }
@@ -139,6 +144,14 @@ class Email {
         error: [error],
       };
     }
+  }
+
+  static async getInboxMessages(userId) {
+    return this.queryToRun(userId, 'receiverid');
+  }
+
+  static async getSentEmails(userId) {
+    return this.queryToRun(userId, 'senderid');
   }
 }
 

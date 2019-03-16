@@ -113,11 +113,49 @@ export default class messageServices {
   }
 
   static async getRecievedEmails(userId) {
-    const response = await Email.getUsersMessages(userId);
+    const response = await Email.getInboxMessages(userId);
     if (response.success) {
       return {
         status: 200,
         data: response.data,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
+  static async getSentEmails(userId) {
+    const response = await Email.getSentEmails(userId);
+    if (response.success) {
+      return {
+        status: 200,
+        data: response.data,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
+  static async getUnReadEmails(userId) {
+    const response = await Email.getInboxMessages(userId);
+    let res = response.data[0];
+
+    res = res.filter(data => data.read === true);
+    if (response.success) {
+      if (!res.length) {
+        res = [
+          {
+            message: 'No unread messages',
+          },
+        ];
+      }
+      return {
+        status: 200,
+        data: res,
       };
     }
     return {
@@ -142,25 +180,6 @@ export default class messageServices {
     });
 
     return response;
-  }
-
-  static getSentEmails(userId) {
-    const msgs = sents.filter(data => data.senderId === userId);
-    const response = this.filteredMessage(msgs);
-    return {
-      status: 200,
-      data: response,
-    };
-  }
-
-  static getUnReadEmails(userId) {
-    const response = this.getUsersMessages(userId);
-    const res = response.filter(data => data.read === false);
-
-    return {
-      status: 200,
-      data: res,
-    };
   }
 
   static deleteAnInboxMessage({ userId, id }) {
