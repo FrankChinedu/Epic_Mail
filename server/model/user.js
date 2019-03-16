@@ -68,10 +68,10 @@ class User {
   static getJsonWebToken(user) {
     const res = {
       status: 201,
-      data: {
+      data: [{
         // ...user,
         token: Helper.jwtSignUser(user),
-      },
+      }],
     };
     return res;
   }

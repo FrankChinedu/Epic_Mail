@@ -8,7 +8,24 @@ chai.use(chaiHttp);
 
 const { apiURL } = global;
 
-describe.skip('Message ', () => {
+describe('Message ', () => {
+  let token;
+  before((done) => {
+    const data = {
+      email: 'angelo@me.com',
+      password: '12345678',
+    };
+    chai.request(server)
+      .post(`${apiURL}/auth/login`)
+      .send(data)
+      .end((err, res) => {
+        if (err) throw err;
+        token = { 'x-access-token': res.data[0].token };
+        done();
+      });
+  });
+
+
   describe('/Post /messages', () => {
     it('user should be able to create or send email', (done) => {
       const data = {
