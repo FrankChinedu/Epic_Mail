@@ -80,6 +80,8 @@ messages/information over the internet.
 
 #### Server
  - thanks to Rexben for letting me use his project as reference https://github.com/Rexben001/Politico
+ - A big help from this article for working on my db 
+   - https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-postgresql-db-and-jwt-3-mke10c5c5
 
 ---
 ## Author

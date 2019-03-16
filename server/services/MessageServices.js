@@ -116,7 +116,7 @@ export default class messageServices {
     const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
     emails.status as status, inboxs.receiverid as receiverId, inboxs.senderid as senderId, inboxs.read as read, inboxs.createdat as createdOn
     FROM inboxs
-    INNER JOIN emails ON inboxs.messageid = emails.id  WHERE inboxs.senderid = $1;
+    INNER JOIN emails ON inboxs.messageid = emails.id  WHERE inboxs.receiverid = $1;
      `;
     try {
       const { rows } = await query(dbQuery, [userId]);
@@ -128,7 +128,7 @@ export default class messageServices {
           }],
         };
       }
-      const data = rows[0];
+      const data = rows;
       return {
         success: true,
         data: [data],
