@@ -8,9 +8,9 @@ import { Draft } from '../model/draft';
 
 export default class messageServices {
   static async saveDraft(data) {
-    const { userId, contactEmail } = data;
+    const { userId, recieversEmail } = data;
 
-    const res = await Email.getMessageReceiverId(contactEmail);
+    const res = await Email.getMessageReceiverId(recieversEmail);
     let receiverId = null;
 
     if (res.success) {
@@ -55,9 +55,9 @@ export default class messageServices {
   }
 
   static async sendMessage(data) {
-    const { userId, contactEmail } = data;
+    const { userId, recieversEmail } = data;
 
-    const res = await Email.getMessageReceiverId(contactEmail);
+    const res = await Email.getMessageReceiverId(recieversEmail);
     if (!res.success) {
       return {
         status: 401,

@@ -60,17 +60,15 @@ app.use((req, res) => {
   });
 });
 
-console.log('env', process.env.NODE_ENV);
-
 const create = (go) => {
   if (go) {
-    console.log('go');
+    // console.log('go');
     // dropAllTables();
     createAllTables();
   }
 };
 
-create(false);
+create(true);
 
 if (!module.parent) {
   app.listen(process.env.PORT, () => {

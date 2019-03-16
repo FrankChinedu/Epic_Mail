@@ -27,7 +27,9 @@ const createAllTables = async () => {
   /* istanbul ignore next */
   await GroupMember.createMemberTable();
 
-  process.exit(0);
+  if (process.env.NODE_ENV === 'test') {
+    process.exit(0);
+  }
 };
 
 /* istanbul ignore next */
@@ -49,7 +51,9 @@ const dropAllTables = async () => {
   /* istanbul ignore next */
   await GroupMember.dropMemberTable();
 
-  process.exit(0);
+  if (process.env.NODE_ENV === 'test') {
+    process.exit(0);
+  }
 };
 
 export {

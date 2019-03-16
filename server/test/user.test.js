@@ -10,7 +10,7 @@ const { apiURL } = global;
 
 describe(' Sign up', () => {
   describe('sign up', () => {
-    it('should create an account for a new user up', (done) => {
+    it('should create an account for a new user', (done) => {
       const data = {
         firstname: 'frank',
         lastname: 'angelo',
