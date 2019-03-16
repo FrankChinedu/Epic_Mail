@@ -128,14 +128,16 @@ class Email {
       if (!rows[0]) {
         return {
           success: true,
+          empty: true,
           data: [{
-            message: 'You don\'t have any messages yet',
+            message: 'No result',
           }],
         };
       }
       const data = rows;
       return {
         success: true,
+        empty: false,
         data: [data],
       };
     } catch (error) {
@@ -163,7 +165,7 @@ class Email {
         return {
           success: true,
           data: [{
-            message: 'inbox not found',
+            message: 'no result',
           }],
         };
       }

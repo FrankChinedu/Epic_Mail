@@ -139,19 +139,27 @@ export default class messageServices {
   static async getUnReadEmails(userId) {
     const response = await Email.getInboxMessages(userId);
 
+    const message = [
+      {
+        message: 'No unread messages',
+      },
+    ];
+
     if (response.success) {
-      let res = response.data[0];
-      res = res.filter(data => data.read === true);
-      if (!res.length) {
-        res = [
-          {
-            message: 'No unread messages',
-          },
-        ];
+      if (!response.empty) {
+        let res = response.data[0];
+        res = res.filter(data => data.read === true);
+        if (!res.length) {
+          res = message;
+        }
+        return {
+          status: 200,
+          data: res,
+        };
       }
       return {
         status: 200,
-        data: res,
+        data: message,
       };
     }
     return {
@@ -163,13 +171,24 @@ export default class messageServices {
 
   static async viewAnInboxMessage({ userId, messageId }) {
     const response = await Email.getInboxMessages(userId);
+    const message = [
+      {
+        message: 'No result messages',
+      },
+    ];
 
     if (response.success) {
-      let res = response.data[0];
-      res = res.find(data => data.id === parseInt(messageId, 0));
+      if (!response.empty) {
+        let res = response.data[0];
+        res = res.find(data => data.id === parseInt(messageId, 0));
+        return {
+          status: 200,
+          data: [res],
+        };
+      }
       return {
         status: 200,
-        data: [res],
+        data: message,
       };
     }
     return {

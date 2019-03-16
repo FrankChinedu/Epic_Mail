@@ -63,7 +63,7 @@ app.use((req, res) => {
 const create = async (go) => {
   if (go) {
     // console.log('go');
-    dropAllTables();
+    // dropAllTables();
     createAllTables();
   }
 };

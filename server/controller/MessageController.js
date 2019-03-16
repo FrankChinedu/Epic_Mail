@@ -24,7 +24,6 @@ export default class MessageController {
   }
 
   static async getRecievedEmails(req, res) {
-    console.log('req', req);
     const userId = req.user.id;
     const response = await MessageServices.getRecievedEmails(userId);
     res.status(200).send(response);
