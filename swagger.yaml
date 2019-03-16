@@ -1,14 +1,14 @@
 swagger: '2.0'
 info:
   version: '1.0'
-  title: EPIC_MEAL
-  description: 'Epic mail is a web app that helps people exchange messages/information over the internet.'
+  title: EPIC MAIL
+  description: >
+    an app for sending email to people
   contact: {}
 host: 127.0.0.1:4000
 basePath: /api/v1
 schemes:
 - http
-- https
 consumes:
 - application/json
 produces:
@@ -16,14 +16,14 @@ produces:
 paths:
   /auth/signup:
     post:
-      description: user sign up route
-      summary: 127.0.0.1:4000/api/v1/auth/signup
+      description: route to sign in user
+      summary: create an account
       tags:
-      - Users
+      - users
       operationId: AuthSignupPost
       deprecated: false
       produces:
-      - application/json
+      - application/json; charset=utf-8
       consumes:
       - application/x-www-form-urlencoded
       parameters:
@@ -32,12 +32,12 @@ paths:
         required: true
         type: string
         description: ''
-      - name: firstName
+      - name: firstname
         in: formData
         required: true
         type: string
         description: ''
-      - name: lastName
+      - name: lastname
         in: formData
         required: true
         type: string
@@ -53,19 +53,47 @@ paths:
         type: string
         description: ''
       responses:
-        200:
+        201:
           description: ''
-          headers: {}
+          schema:
+            $ref: '#/definitions/createanaccount'
+          examples:
+            application/json; charset=utf-8:
+              status: 201
+              data:
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RuYW1lIjoiZnJhbmsiLCJsYXN0bmFtZSI6ImFuZ2VsbyIsImVtYWlsIjoiZnJhbmtAbWUuY29tIiwicGFzc3dvcmQiOiIkMmIkMDgkZUNjenlldHZ5dUZKb3M2clAxVDVhT1A3SzFhYy55SVZKVFRRRElsLm5JVlNSbERGdkdaOC4iLCJhdmF0YXIiOm51bGwsImNyZWF0ZWRhdCI6IjIwMTktMDMtMTZUMDg6MDc6MzUuMTQ4WiIsInVwZGF0ZWRhdCI6IjIwMTktMDMtMTZUMDg6MDc6MzUuMTUwWiIsImlhdCI6MTU1MjcyNzI1NSwiZXhwIjoxNTUzMzMyMDU1fQ.9SY4jfSHjsgMNbuPRbeJAtWo3LzANQDVQdugBslqRMY
+          headers:
+            X-Powered-By:
+              type: string
+              default: Express
+            Access-Control-Allow-Origin:
+              type: string
+              default: '*'
+            Access-Control-Allow-Headers:
+              type: string
+              default: X-Requested-With
+            Content-Length:
+              type: string
+              default: 477
+            ETag:
+              type: string
+              default: W/"1dd-lC5Ug0145iFw2SCLjTLH1TyDnrs"
+            Date:
+              type: string
+              default: Sat, 16 Mar 2019 09:07:35 GMT
+            Connection:
+              type: string
+              default: keep-alive
   /auth/login:
     post:
-      description: user can login with proper params
-      summary: 127.0.0.1:4000/api/v1/auth/login
+      description: 'route to login user '
+      summary: login user
       tags:
-      - Users
+      - users
       operationId: AuthLoginPost
       deprecated: false
       produces:
-      - application/json
+      - application/json; charset=utf-8
       consumes:
       - application/x-www-form-urlencoded
       parameters:
@@ -87,11 +115,39 @@ paths:
       responses:
         200:
           description: ''
-          headers: {}
+          schema:
+            $ref: '#/definitions/loginuser'
+          examples:
+            application/json; charset=utf-8:
+              status: 200
+              data:
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RuYW1lIjoiZnJhbmsiLCJsYXN0bmFtZSI6ImFuZ2VsbyIsImVtYWlsIjoiZnJhbmtAbWUuY29tIiwicGFzc3dvcmQiOiIkMmIkMDgkZUNjenlldHZ5dUZKb3M2clAxVDVhT1A3SzFhYy55SVZKVFRRRElsLm5JVlNSbERGdkdaOC4iLCJhdmF0YXIiOm51bGwsImNyZWF0ZWRhdCI6IjIwMTktMDMtMTZUMDg6MDc6MzUuMTQ4WiIsInVwZGF0ZWRhdCI6IjIwMTktMDMtMTZUMDg6MDc6MzUuMTUwWiIsImlhdCI6MTU1MjcyNzU1MCwiZXhwIjoxNTUzMzMyMzUwfQ.OMdPnUf3sDIlUY849kTb3Fx8liKyPkrfitolHgZgwh8
+          headers:
+            X-Powered-By:
+              type: string
+              default: Express
+            Access-Control-Allow-Origin:
+              type: string
+              default: '*'
+            Access-Control-Allow-Headers:
+              type: string
+              default: X-Requested-With
+            Content-Length:
+              type: string
+              default: 477
+            ETag:
+              type: string
+              default: W/"1dd-XtYujnMMO4Wq7bl3okT4ZMb7I5M"
+            Date:
+              type: string
+              default: Sat, 16 Mar 2019 09:12:30 GMT
+            Connection:
+              type: string
+              default: keep-alive
   /messages:
     post:
-      description: api for creating or sending a message
-      summary: 127.0.0.1:4000/api/v1/messages
+      description: create and send email to another user
+      summary: create and send message
       tags:
       - messages
       operationId: MessagesPost
@@ -102,6 +158,11 @@ paths:
       - application/x-www-form-urlencoded
       parameters:
       - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: x-access-token
         in: header
         required: true
         type: string
@@ -121,7 +182,7 @@ paths:
         required: true
         type: string
         description: ''
-      - name: contactEmail
+      - name: recieversEmail
         in: formData
         required: true
         type: string
@@ -131,80 +192,509 @@ paths:
           description: ''
           headers: {}
     get:
-      description: get all users recieved messages i.e inbox messages
-      summary: 127.0.0.1:4000/api/v1/messages
+      description: get all users messages as inbox messages
+      summary: get inbox messages
       tags:
       - messages
       operationId: MessagesGet
       deprecated: false
       produces:
-      - application/json
-      parameters: []
+      - application/json; charset=utf-8
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
       responses:
         200:
           description: ''
-          headers: {}
-  /messages/unread:
-    get:
-      description: 'get the users unread messages '
-      summary: 127.0.0.1:4000/api/v1/messages/unread
-      tags:
-      - messages
-      operationId: MessagesUnreadGet
-      deprecated: false
-      produces:
-      - application/json
-      parameters: []
-      responses:
-        200:
-          description: ''
-          headers: {}
-  /messages/1:
-    delete:
-      description: route to delete a specific user email
-      summary: 127.0.0.1:4000/api/v1/messages/1
-      tags:
-      - messages
-      operationId: Messages1Delete
-      deprecated: false
-      produces:
-      - application/json
-      parameters: []
-      responses:
-        200:
-          description: ''
-          headers: {}
-    get:
-      description: fetch a specific user email
-      summary: 127.0.0.1:4000/api/v1/messages/1
-      tags:
-      - messages
-      operationId: Messages1Get
-      deprecated: false
-      produces:
-      - application/json
-      parameters: []
-      responses:
-        200:
-          description: ''
-          headers: {}
+          schema:
+            $ref: '#/definitions/getinboxmessages'
+          headers:
+            X-Powered-By:
+              type: string
+              default: Express
+            Access-Control-Allow-Origin:
+              type: string
+              default: '*'
+            Access-Control-Allow-Headers:
+              type: string
+              default: X-Requested-With
+            Content-Length:
+              type: string
+              default: 465
+            ETag:
+              type: string
+              default: W/"1d1-n3K3IJx0AQ/+U70EdMnV/tG51NQ"
+            Date:
+              type: string
+              default: Sat, 16 Mar 2019 10:12:29 GMT
+            Connection:
+              type: string
+              default: keep-alive
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tokenunavailable'
+          examples:
+            application/json:
+              status: 401
+              error:
+              - Token is not provided
   /messages/sent:
     get:
-      description: 'user can view all sent messages '
-      summary: 127.0.0.1:4000/api/v1/messages/sent
+      description: 'get all users sent messages '
+      summary: get sent messages
       tags:
       - messages
       operationId: MessagesSentGet
       deprecated: false
       produces:
-      - application/json
-      parameters: []
+      - application/json; charset=utf-8
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
       responses:
         200:
           description: ''
-          headers: {}
+          schema:
+            $ref: '#/definitions/getsentmessages'
+          headers:
+            X-Powered-By:
+              type: string
+              default: Express
+            Access-Control-Allow-Origin:
+              type: string
+              default: '*'
+            Access-Control-Allow-Headers:
+              type: string
+              default: X-Requested-With
+            Content-Length:
+              type: string
+              default: 429
+            ETag:
+              type: string
+              default: W/"1ad-SuuPfXfIYwFIekasYDTMd4gNsaM"
+            Date:
+              type: string
+              default: Sat, 16 Mar 2019 10:28:33 GMT
+            Connection:
+              type: string
+              default: keep-alive
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tokenunavailable'
+          examples:
+            application/json:
+              status: 401
+              error:
+              - Token is not provided
+  /messages/unread:
+    get:
+      description: 'gets all users unread messages '
+      summary: get users unread messages
+      tags:
+      - messages
+      operationId: MessagesUnreadGet
+      deprecated: false
+      produces:
+      - application/json; charset=utf-8
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/getusersunreadmessages'
+          examples:
+            application/json; charset=utf-8:
+              status: 200
+              data:
+              - id: 3
+                subject: 'congrates '
+                message: ' dear, frank heard about you joining andela. more greatness man. God bless'
+                parentmessageid: 
+                status: sent
+                receiverid: 1
+                senderid: 2
+                read: true
+                createdon: 2019-03-16T08:27:08.9810000Z
+          headers:
+            X-Powered-By:
+              type: string
+              default: Express
+            Access-Control-Allow-Origin:
+              type: string
+              default: '*'
+            Access-Control-Allow-Headers:
+              type: string
+              default: X-Requested-With
+            Content-Length:
+              type: string
+              default: 260
+            ETag:
+              type: string
+              default: W/"104-QM1w21kOM/62JAqvkRUUub799RI"
+            Date:
+              type: string
+              default: Sat, 16 Mar 2019 11:02:24 GMT
+            Connection:
+              type: string
+              default: keep-alive
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tokenunavailable'
+          examples:
+            application/json:
+              status: 401
+              error:
+              - Token is not provided
+  /messages/3:
+    get:
+      description: get a particular users email from the inbox
+      summary: get a particular  email message
+      tags:
+      - messages
+      operationId: Messages3Get
+      deprecated: false
+      produces:
+      - application/json; charset=utf-8
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/getaparticularInboxmessage'
+          examples:
+            application/json; charset=utf-8:
+              status: 200
+              data:
+              - id: 3
+                subject: 'congrates '
+                message: ' dear, frank heard about you joining andela. more greatness man. God bless'
+                parentmessageid: 
+                status: sent
+                receiverid: 1
+                senderid: 2
+                read: true
+                createdon: 2019-03-16T08:27:08.9810000Z
+          headers:
+            X-Powered-By:
+              type: string
+              default: Express
+            Access-Control-Allow-Origin:
+              type: string
+              default: '*'
+            Access-Control-Allow-Headers:
+              type: string
+              default: X-Requested-With
+            Content-Length:
+              type: string
+              default: 260
+            ETag:
+              type: string
+              default: W/"104-QM1w21kOM/62JAqvkRUUub799RI"
+            Date:
+              type: string
+              default: Sat, 16 Mar 2019 11:27:45 GMT
+            Connection:
+              type: string
+              default: keep-alive
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tokenunavailable'
+          examples:
+            application/json:
+              status: 401
+              error:
+              - Token is not provided
+    delete:
+      description: 'user can delete message '
+      summary: delete  message
+      tags:
+      - messages
+      operationId: Messages3Delete
+      deprecated: false
+      produces:
+      - application/json; charset=utf-8
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        202:
+          description: ''
+          schema:
+            $ref: '#/definitions/deletemessage'
+          examples:
+            application/json; charset=utf-8:
+              status: 202
+              data:
+              - message: deleted successfully
+          headers:
+            X-Powered-By:
+              type: string
+              default: Express
+            Access-Control-Allow-Origin:
+              type: string
+              default: '*'
+            Access-Control-Allow-Headers:
+              type: string
+              default: X-Requested-With
+            Content-Length:
+              type: string
+              default: 58
+            ETag:
+              type: string
+              default: W/"3a-YU6BJFz6mKfslKs4PP/+b8msSdg"
+            Date:
+              type: string
+              default: Sat, 16 Mar 2019 13:12:30 GMT
+            Connection:
+              type: string
+              default: keep-alive
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/tokenunavailable'
+          examples:
+            application/json:
+              status: 401
+              error:
+              - Token is not provided
+definitions:
+  createanaccount:
+    title: createanaccount
+    example:
+      status: 201
+      data:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RuYW1lIjoiZnJhbmsiLCJsYXN0bmFtZSI6ImFuZ2VsbyIsImVtYWlsIjoiZnJhbmtAbWUuY29tIiwicGFzc3dvcmQiOiIkMmIkMDgkZUNjenlldHZ5dUZKb3M2clAxVDVhT1A3SzFhYy55SVZKVFRRRElsLm5JVlNSbERGdkdaOC4iLCJhdmF0YXIiOm51bGwsImNyZWF0ZWRhdCI6IjIwMTktMDMtMTZUMDg6MDc6MzUuMTQ4WiIsInVwZGF0ZWRhdCI6IjIwMTktMDMtMTZUMDg6MDc6MzUuMTUwWiIsImlhdCI6MTU1MjcyNzI1NSwiZXhwIjoxNTUzMzMyMDU1fQ.9SY4jfSHjsgMNbuPRbeJAtWo3LzANQDVQdugBslqRMY
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      data:
+        $ref: '#/definitions/Data'
+    required:
+    - status
+    - data
+  Data:
+    title: Data
+    type: object
+    properties:
+      token:
+        type: string
+    required:
+    - token
+  loginuser:
+    title: loginuser
+    example:
+      status: 200
+      data:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RuYW1lIjoiZnJhbmsiLCJsYXN0bmFtZSI6ImFuZ2VsbyIsImVtYWlsIjoiZnJhbmtAbWUuY29tIiwicGFzc3dvcmQiOiIkMmIkMDgkZUNjenlldHZ5dUZKb3M2clAxVDVhT1A3SzFhYy55SVZKVFRRRElsLm5JVlNSbERGdkdaOC4iLCJhdmF0YXIiOm51bGwsImNyZWF0ZWRhdCI6IjIwMTktMDMtMTZUMDg6MDc6MzUuMTQ4WiIsInVwZGF0ZWRhdCI6IjIwMTktMDMtMTZUMDg6MDc6MzUuMTUwWiIsImlhdCI6MTU1MjcyNzU1MCwiZXhwIjoxNTUzMzMyMzUwfQ.OMdPnUf3sDIlUY849kTb3Fx8liKyPkrfitolHgZgwh8
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      data:
+        $ref: '#/definitions/Data'
+    required:
+    - status
+    - data
+  getinboxmessages:
+    title: getinboxmessages
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Data3'
+    required:
+    - status
+    - data
+  Data3:
+    title: Data3
+    type: object
+    properties:
+      id:
+        example: 3
+        type: integer
+        format: int32
+      subject:
+        example: 'congrates '
+        type: string
+      message:
+        example: ' dear, frank heard about you joining andela. more greatness man. God bless'
+        type: string
+      parentmessageid:
+        type: string
+      status:
+        example: sent
+        type: string
+      receiverid:
+        example: 1
+        type: integer
+        format: int32
+      senderid:
+        example: 2
+        type: integer
+        format: int32
+      read:
+        example: false
+        type: boolean
+      createdon:
+        example: 3/16/2019 8:27:08 AM
+        type: string
+    required:
+    - id
+    - subject
+    - message
+    - status
+    - receiverid
+    - senderid
+    - read
+    - createdon
+  getsentmessages:
+    title: getsentmessages
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Data3'
+    required:
+    - status
+    - data
+  tokenunavailable:
+    title: tokenunavailable
+    example:
+      status: 401
+      error:
+      - Token is not provided
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      error:
+        type: array
+        items:
+          type: string
+    required:
+    - status
+    - error
+  getusersunreadmessages:
+    title: getusersunreadmessages
+    example:
+      status: 200
+      data:
+      - id: 3
+        subject: 'congrates '
+        message: ' dear, frank heard about you joining andela. more greatness man. God bless'
+        parentmessageid: 
+        status: sent
+        receiverid: 1
+        senderid: 2
+        read: true
+        createdon: 2019-03-16T08:27:08.9810000Z
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Data3'
+    required:
+    - status
+    - data
+  getaparticularInboxmessage:
+    title: getaparticularInboxmessage
+    example:
+      status: 200
+      data:
+      - id: 3
+        subject: 'congrates '
+        message: ' dear, frank heard about you joining andela. more greatness man. God bless'
+        parentmessageid: 
+        status: sent
+        receiverid: 1
+        senderid: 2
+        read: true
+        createdon: 2019-03-16T08:27:08.9810000Z
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Data3'
+    required:
+    - status
+    - data
+  deletemessage:
+    title: deletemessage
+    example:
+      status: 202
+      data:
+      - message: deleted successfully
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Data7'
+    required:
+    - status
+    - data
+  Data7:
+    title: Data7
+    type: object
+    properties:
+      message:
+        example: deleted successfully
+        type: string
+    required:
+    - message
 tags:
-- name: Users
-  description: 'api route for all users'
+- name: users
+  description: user routes which includes sign in and sign out
 - name: messages
-  description: api route for all messages
+  description: route that contains messages endpoints

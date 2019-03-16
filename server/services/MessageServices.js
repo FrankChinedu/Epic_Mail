@@ -1,11 +1,7 @@
-import {
-  messages, inboxs,
-} from '../dummyData/Database';
 import { Sent } from '../model/sent';
 import { Inbox } from '../model/inbox';
 import { Email } from '../model/email';
 import { Draft } from '../model/draft';
-// import query from '../db/index';
 
 export default class messageServices {
   static async saveDraft(data) {
@@ -182,38 +178,17 @@ export default class messageServices {
     };
   }
 
-  static filteredMessage(msgs) {
-    const response = [];
-
-    msgs.forEach((inbox) => {
-      const mail = messages.find(data => data.id === inbox.messageId);
-      const { subject, message, parentMessageId } = mail;
-      const {
-        id, createdOn, read, status, senderId, receiverId,
-      } = inbox;
-
-      response.push({
-        id, createdOn, subject, message, senderId, receiverId, parentMessageId, status, read,
-      });
-    });
-
-    return response;
-  }
-
-  static deleteAnInboxMessage({ userId, id }) {
-    let response = 'unsuccessful';
-    const inboxId = inboxs.findIndex(data => (data.senderId === parseInt(userId, 10)
-      && data.messageId === parseInt(id, 10)));
-
-    if (inboxId !== -1) {
-      inboxs.splice(inboxId, 1);
-      response = 'deleted successfully';
-    } else {
-      response = 'not found';
+  static async deleteAnInboxMessage(data) {
+    const response = await Email.deleteInboxMessage(data);
+    if (response.success) {
+      return {
+        status: 202,
+        data: response.data,
+      };
     }
     return {
-      status: 202,
-      data: [{ message: response }],
+      status: 500,
+      error: response.error,
     };
   }
 }

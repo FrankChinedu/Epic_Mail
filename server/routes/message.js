@@ -14,7 +14,7 @@ messageRoute.get('/messages/unread', Auth.verifyToken, MessageController.getUnRe
 
 messageRoute.get('/messages/:id', Auth.verifyToken, MessageController.viewAnInboxMessage);
 
-messageRoute.delete('/messages/:id', MessageController.deleteAnInboxMessage);
+messageRoute.delete('/messages/:id', Auth.verifyToken, MessageController.deleteAnInboxMessage);
 
 
 module.exports = messageRoute;

@@ -112,17 +112,17 @@ class Email {
     }
   }
 
-  static qry(field) {
+  static qry(field, table) {
     const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
-    emails.status as status, inboxs.receiverid as receiverId, inboxs.senderid as senderId, inboxs.read as read, inboxs.createdat as createdOn
-    FROM inboxs
-    INNER JOIN emails ON inboxs.messageid = emails.id  WHERE inboxs.${field} = $1;
+    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn
+    FROM ${table}
+    INNER JOIN emails ON ${table}.messageid = emails.id  WHERE ${table}.${field} = $1;
      `;
     return dbQuery;
   }
 
-  static async queryToRun(userId, field) {
-    const dbQuery = this.qry(field);
+  static async queryToRun(userId, field, table) {
+    const dbQuery = this.qry(field, table);
     try {
       const { rows } = await query(dbQuery, [userId]);
       if (!rows[0]) {
@@ -147,11 +147,38 @@ class Email {
   }
 
   static async getInboxMessages(userId) {
-    return this.queryToRun(userId, 'receiverid');
+    return this.queryToRun(userId, 'receiverid', 'inboxs');
   }
 
   static async getSentEmails(userId) {
-    return this.queryToRun(userId, 'senderid');
+    return this.queryToRun(userId, 'senderid', 'sents');
+  }
+
+  static async deleteInboxMessage({ userId, id }) {
+    const dbQuery = 'DELETE FROM inboxs WHERE id=$1 AND receiverid=$2 returning *';
+
+    try {
+      const { rows } = await query(dbQuery, [id, userId]);
+      if (!rows[0]) {
+        return {
+          success: true,
+          data: [{
+            message: 'inbox not found',
+          }],
+        };
+      }
+      return {
+        success: true,
+        data: [{
+          message: 'deleted successfully',
+        }],
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: [error],
+      };
+    }
   }
 }
 

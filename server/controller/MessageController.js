@@ -51,12 +51,12 @@ export default class MessageController {
     res.status(200).send(response);
   }
 
-  static deleteAnInboxMessage(req, res) {
-    const userId = 1;
+  static async deleteAnInboxMessage(req, res) {
+    const userId = req.user.id;
     const { id } = req.params;
-
     const data = { userId, id };
-    res.status(202).send(MessageServices.deleteAnInboxMessage(data));
-  }
 
+    const response = await MessageServices.deleteAnInboxMessage(data);
+    res.status(202).send(response);
+  }
 }
