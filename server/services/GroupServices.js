@@ -10,4 +10,12 @@ export default class UserServices {
       data: [res.data],
     };
   }
+
+  static async getAllGroup(userId) {
+    const response = await Group.getAllGroup(userId);
+    return {
+      status: 200,
+      data: response.data,
+    };
+  }
 }
