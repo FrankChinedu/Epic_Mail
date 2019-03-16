@@ -8,7 +8,7 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import routes from './routes/api';
-// import { createAllTables, dropAllTables } from './model/index';
+import { createAllTables, dropAllTables } from './model/index';
 
 const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
 
@@ -68,7 +68,7 @@ app.use((req, res) => {
 //   }
 // };
 
-// create(false);
+// create(true);
 
 if (!module.parent) {
   app.listen(process.env.PORT, () => {
