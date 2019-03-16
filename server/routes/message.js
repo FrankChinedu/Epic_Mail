@@ -8,7 +8,7 @@ messageRoute.post('/messages', Auth.verifyToken, MessageController.createMessage
 
 messageRoute.get('/messages/sent', MessageController.getSentEmails);
 
-messageRoute.get('/messages', MessageController.getRecievedEmails);
+messageRoute.get('/messages', Auth.verifyToken, MessageController.getRecievedEmails);
 
 messageRoute.get('/messages/:id', MessageController.viewAnInboxMessage);
 

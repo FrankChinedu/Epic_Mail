@@ -2,7 +2,7 @@ import MessageServices from '../services/MessageServices';
 
 export default class MessageController {
   static async createMessage(req, res) {
-    const userId = req.user.id; // this would be provided from jwt
+    const userId = req.user.id;
     const data = { ...req.body, userId };
     const { status } = data;
     let response;
@@ -23,9 +23,10 @@ export default class MessageController {
     return MessageServices.sendMessage(data);
   }
 
-  static getRecievedEmails(req, res) {
-    const userId = 1; // this would be provided from jwt
-    res.status(200).send(MessageServices.getRecievedEmails(userId));
+  static async getRecievedEmails(req, res) {
+    const userId = req.user.id;
+    const response = await MessageServices.getRecievedEmails(userId);
+    res.status(200).send(response);
   }
 
   static getUnReadEmails(req, res) {

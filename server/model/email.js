@@ -50,7 +50,7 @@ class Email {
     /* istanbul ignore next */
     const queryText = `CREATE TABLE IF NOT EXISTS
       emails(
-        id SERIAL NOT NULL UNIQUE,
+        id SERIAL NOT NULL UNIQUE PRIMARY KEY,
         subject VARCHAR(128),
         message TEXT,
         parentMessageId INTEGER,

@@ -20,7 +20,7 @@ class Group {
   /* istanbul ignore next */
     const queryText = `CREATE TABLE IF NOT EXISTS
         groups(
-          id SERIAL NOT NULL UNIQUE,
+          id SERIAL NOT NULL UNIQUE PRIMARY KEY,
           name VARCHAR(128) NOT NULL,
           ownerId INTEGER,
           createdAt TIMESTAMP,

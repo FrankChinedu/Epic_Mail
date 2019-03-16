@@ -5,6 +5,7 @@ import { Sent } from '../model/sent';
 import { Inbox } from '../model/inbox';
 import { Email } from '../model/email';
 import { Draft } from '../model/draft';
+import query from '../db/index';
 
 export default class messageServices {
   static async saveDraft(data) {
@@ -111,6 +112,50 @@ export default class messageServices {
     };
   }
 
+  static async getUsersMessages(userId) {
+    const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
+    emails.status as status, inboxs.receiverid as receiverId, inboxs.senderid as senderId, inboxs.read as read, inboxs.createdat as createdOn
+    FROM inboxs
+    INNER JOIN emails ON inboxs.messageid = emails.id  WHERE inboxs.senderid = $1;
+     `;
+    try {
+      const { rows } = await query(dbQuery, [userId]);
+      if (!rows[0]) {
+        return {
+          success: true,
+          data: [{
+            message: 'You don\'t have any Inbox yet',
+          }],
+        };
+      }
+      const data = rows[0];
+      return {
+        success: true,
+        data: [data],
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: [error],
+      };
+    }
+  }
+
+
+  static async getRecievedEmails(userId) {
+    const response = await this.getUsersMessages(userId);
+    if (response.success) {
+      return {
+        status: 200,
+        data: response.data,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
   static filteredMessage(msgs) {
     const response = [];
 
@@ -126,12 +171,6 @@ export default class messageServices {
       });
     });
 
-    return response;
-  }
-
-  static getUsersMessages(userId) {
-    const msgs = inboxs.filter(data => data.receiverId === userId);
-    const response = this.filteredMessage(msgs);
     return response;
   }
 
@@ -199,15 +238,6 @@ export default class messageServices {
     } else {
       response = [{ message: 'not found' }];
     }
-
-    return {
-      status: 200,
-      data: response,
-    };
-  }
-
-  static getRecievedEmails(userId) {
-    const response = this.getUsersMessages(userId);
 
     return {
       status: 200,

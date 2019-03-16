@@ -58,7 +58,7 @@ class Inbox {
     /* istanbul ignore next */
     const queryText = `CREATE TABLE IF NOT EXISTS
       inboxs(
-        id SERIAL NOT NULL UNIQUE,
+        id SERIAL NOT NULL UNIQUE PRIMARY KEY,
         receiverId INTEGER,
         senderId INTEGER,
         messageId INTEGER,

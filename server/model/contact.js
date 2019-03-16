@@ -16,11 +16,11 @@ pool.connect();
 
 class Contact {
   /* istanbul ignore next */
-  static async createContactsTable () {
+  static async createContactsTable() {
     /* istanbul ignore next */
     const queryText = `CREATE TABLE IF NOT EXISTS
       contacts(
-        id SERIAL NOT NULL UNIQUE,
+        id SERIAL NOT NULL UNIQUE PRIMARY KEY,
         firstname VARCHAR(128) NOT NULL,
         lastname VARCHAR(128),
         email VARCHAR(128) NOT NULL,

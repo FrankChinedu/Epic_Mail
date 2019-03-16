@@ -20,7 +20,7 @@ class User {
     /* istanbul ignore next */
     const queryText = `CREATE TABLE IF NOT EXISTS
       users(
-        id SERIAL NOT NULL UNIQUE,
+        id SERIAL NOT NULL UNIQUE PRIMARY KEY,
         firstname VARCHAR(128) NOT NULL,
         lastname VARCHAR(128),
         email VARCHAR(128) UNIQUE NOT NULL,
