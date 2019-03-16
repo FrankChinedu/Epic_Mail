@@ -68,7 +68,6 @@ describe('Message ', () => {
         .end((err, res) => {
           res.should.have.status(200);
           should.exist(res.body);
-          console.log('res', res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('status');
           res.body.should.have.property('data');
