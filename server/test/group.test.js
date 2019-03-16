@@ -35,7 +35,7 @@ describe('Groups ', () => {
   });
 
   describe('create group', () => {
-    it('user should create a group', (done) => {
+    it('should create a group', (done) => {
       const data = {
         name: 'group test',
       };
@@ -54,5 +54,23 @@ describe('Groups ', () => {
           done();
         });
     });
+
+    it('should get all users groups', (done) => {
+      chai.request(server)
+        .get(`${apiURL}/messages`)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          res.should.have.status(200);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.status.should.equal(200);
+          done();
+        });
+    });
+
+
   });
 });

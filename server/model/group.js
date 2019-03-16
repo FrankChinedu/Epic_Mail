@@ -83,6 +83,31 @@ class Group {
       };
     }
   }
+
+  static async getAllGroup(userId) {
+    const dbQuery = 'SELECT id, name, role FROM groups WHERE ownerid=$1';
+    const values = [userId];
+
+    try {
+      const { rows } = await query(dbQuery, values);
+      if (!rows[0]) {
+        return {
+          success: true,
+          data: [{
+          }],
+        };
+      }
+      return {
+        success: true,
+        data: rows,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: [error],
+      };
+    }
+  }
 }
 
 export { Group };
