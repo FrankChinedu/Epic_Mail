@@ -8,6 +8,11 @@ cache:
 services:
   - postgresql
 
+before_script:
+- psql -c 'DROP DATABASE IF EXISTS epic_mail' -U postgres
+- psql -c 'CREATE DATABASE epic_mail;' -U postgres
+- psql -c "CREATE USER frank WITH PASSWORD 'root';" -U postgres
+
 addons:
   code_climate:
     repo_token:
