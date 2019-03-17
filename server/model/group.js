@@ -108,6 +108,42 @@ class Group {
       };
     }
   }
+
+  static async editGroup({ userId, id, name }) {
+    const find = 'SELECT * FROM groups WHERE id=$1 AND ownerid = $2';
+
+    try {
+      const { rows } = await query(find, [id, userId]);
+      if (!rows[0]) {
+        return {
+          success: false,
+          data: [{
+            message: 'not found',
+          }],
+        };
+      }
+      const update = 'UPDATE groups SET name=$1, updatedat=$2 WHERE ownerid=$3 AND id=$4 returning *';
+      const values = [
+        name || rows[0].name,
+        moment(new Date()),
+        userId, id,
+      ];
+      const response = await query(update, values);
+      return {
+        success: true,
+        data: [{
+          id: response.rows[0].id,
+          name: response.rows[0].name,
+          role: response.rows[0].role,
+        }],
+      };
+    } catch (err) {
+      return {
+        success: false,
+        error: [err],
+      };
+    }
+  }
 }
 
 export { Group };

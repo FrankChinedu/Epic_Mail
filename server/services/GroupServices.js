@@ -18,4 +18,18 @@ export default class UserServices {
       data: response.data,
     };
   }
+
+  static async editGroup(data) {
+    const response = await Group.editGroup(data);
+    if (response.success) {
+      return {
+        status: 200,
+        data: response.data,
+      };
+    }
+    return {
+      status: 404,
+      data: response.data,
+    };
+  }
 }

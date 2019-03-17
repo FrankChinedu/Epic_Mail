@@ -13,4 +13,17 @@ export default class UserController {
     const response = await GroupServices.getAllGroup(userId);
     res.status(200).send(response);
   }
+
+  static async editGroup(req, res) {
+    const userId = req.user.id;
+    const { id } = req.params;
+    const { name } = req.body;
+    const data = { userId, id, name };
+    const response = await GroupServices.editGroup(data);
+    if (response.status === 200) {
+      res.status(200).send(response);
+    } else {
+      res.status(404).send(response);
+    }
+  }
 }

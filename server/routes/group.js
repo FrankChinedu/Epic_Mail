@@ -6,6 +6,7 @@ const groupRoute = express.Router();
 
 groupRoute.post('/groups', Auth.verifyToken, Auth.magicValidator, GroupController.createGroup);
 groupRoute.get('/groups', Auth.verifyToken, GroupController.getAllGroup);
+groupRoute.patch('/groups/:id/name', Auth.verifyToken, Auth.magicValidator, GroupController.editGroup);
 
 
 module.exports = groupRoute;
