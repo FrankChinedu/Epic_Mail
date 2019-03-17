@@ -144,6 +144,33 @@ class Group {
       };
     }
   }
+
+  static async deleteGroup({ userId, id }) {
+    const dbQuery = 'DELETE FROM groups WHERE id=$1 AND ownerid=$2 returning *';
+
+    try {
+      const { rows } = await query(dbQuery, [id, userId]);
+      if (!rows[0]) {
+        return {
+          success: true,
+          data: [{
+            message: 'no result',
+          }],
+        };
+      }
+      return {
+        success: true,
+        data: [{
+          message: 'deleted successfully',
+        }],
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: [error],
+      };
+    }
+  }
 }
 
 export { Group };

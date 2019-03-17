@@ -26,4 +26,13 @@ export default class UserController {
       res.status(404).send(response);
     }
   }
+
+  static async deleteGroup(req, res) {
+    const userId = req.user.id;
+    const { id } = req.params;
+    const data = { userId, id };
+
+    const response = await GroupServices.deleteGroup(data);
+    res.status(202).send(response);
+  }
 }
