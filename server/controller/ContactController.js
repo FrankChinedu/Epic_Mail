@@ -10,7 +10,7 @@ export default class ContactController {
     if (response.status === 201) {
       res.status(201).send(response);
     } else {
-      res.status(404).send(response);
+      res.status(400).send(response);
     }
   }
 
