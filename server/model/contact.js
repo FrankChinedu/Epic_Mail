@@ -127,6 +127,23 @@ class Contact {
       data: [resp.rows[0]],
     };
   }
+
+  static async getAllUserContacts(userId) {
+    const dbQuery = ' SELECT * FROM contacts WHERE contact_owner_id=$1';
+
+    const { rows } = await query(dbQuery, [userId]);
+
+    if (!rows[0]) {
+      return {
+        success: false,
+        data: [],
+      };
+    }
+    return {
+      success: true,
+      data: rows,
+    };
+  }
 }
 
 export { Contact };

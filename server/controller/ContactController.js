@@ -7,4 +7,10 @@ export default class ContactController {
     const data = { email, userId };
     res.status(201).send(await ContactServices.addContact(data));
   }
+
+  static async getAllUserContacts(req, res) {
+    const userId = req.user.id;
+    const response = await ContactServices.getAllUserContacts(userId);
+    res.status(200).send(response);
+  }
 }
