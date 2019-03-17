@@ -23,6 +23,7 @@ class GroupMember {
           id SERIAL NOT NULL UNIQUE PRIMARY KEY,
           groupId INTEGER,
           memberId INTEGER,
+          userRole VARCHAR(128),
           createdAt TIMESTAMP,
           updatedAt TIMESTAMP,
           FOREIGN KEY (groupId) REFERENCES groups (id) ON DELETE CASCADE,

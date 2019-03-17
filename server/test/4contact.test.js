@@ -122,7 +122,5 @@ describe('Contacts ', () => {
           done();
         });
     });
-
-
   });
 });

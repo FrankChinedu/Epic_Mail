@@ -171,6 +171,134 @@ class Group {
       };
     }
   }
+
+  static getAllUserContactsFromPassedEmails(emails, userContacts ) {
+    const fromEmail = [];
+
+    emails.forEach((email) => {
+      userContacts.forEach((data) => {
+        if (data.email === email) {
+          fromEmail.push(data);
+        }
+      });
+    });
+    return fromEmail;
+  }
+
+  static getMembersNotInGroup(membersInThisGroup, verifiedUsers) {
+    const members = [];
+
+    const membersIdArray = [];
+    membersInThisGroup.forEach((elm) => {
+      membersIdArray.push(elm.memberid);
+    });
+
+    verifiedUsers.forEach((info) => {
+      const isInGroup = membersIdArray.some(id => id === info.id);
+      if (!isInGroup) {
+        members.push(info);
+      }
+    });
+    return members;
+  }
+
+  static async addMembersToGroup({ userId, id, emails }) {
+    const userContacts = await this.userContacts(userId);
+    const verifiedUsers = this.getAllUserContactsFromPassedEmails(emails, userContacts);
+
+    if (verifiedUsers.length) {
+      const membersInThisGroup = await this.membersInThisGroup(id);
+
+      if (!membersInThisGroup) {
+        await this.addNewMembers(verifiedUsers, id);
+        return {
+          success: true,
+          data: [
+            {
+              message: 'New contacts added',
+            },
+          ],
+        };
+      }
+      const getMembersNotInGroup = this.getMembersNotInGroup(membersInThisGroup, verifiedUsers);
+
+      if (getMembersNotInGroup.length) {
+        await this.addNewMembers(getMembersNotInGroup, id);
+        return {
+          success: true,
+          data: [
+            {
+              message: 'New contacts added',
+            },
+          ],
+        };
+      }
+      return {
+        success: true,
+        data: [
+          {
+            message: 'User(s) already exists',
+          },
+        ],
+      };
+    }
+    return {
+      success: false,
+      data: [
+        {
+          message: 'kindly confirm your emails',
+        },
+      ],
+    };
+  }
+
+  static async addNewMembers(data, groupId) {
+    const ids = [];
+    data.forEach((x) => {
+      ids.push(x.id);
+    });
+    ids.forEach(async (id) => {
+      const dbQuery = `INSERT INTO groupmembers(groupid, memberid, createdat, updatedat)
+      VALUES($1, $2, $3, $4) returning *`; // add userRole = member
+      try {
+        await query(dbQuery, [groupId, id, moment(new Date()), moment(new Date())]);
+      } catch (err) {
+        throw err;
+      }
+    });
+    // return true;
+  }
+
+  static async membersInThisGroup(groupId) {
+    const dbQuery = 'SELECT * FROM groupmembers WHERE groupid=$1 ';
+
+    try {
+      const { rows } = await query(dbQuery, [groupId]);
+
+      if (rows[0]) {
+        return rows;
+      }
+      return null;
+    } catch (err) {
+      return {
+        err,
+      };
+    }
+  }
+
+  static async userContacts(userId) {
+    const dbQuery = 'SELECT * FROM contacts WHERE contact_owner_id=$1';
+    const emails = [];
+    const { rows } = await query(dbQuery, [userId]);
+
+    if (rows[0]) {
+      rows.forEach((row) => {
+        emails.push({ email: row.email, id: row.id });
+      });
+      return emails;
+    }
+    return null;
+  }
 }
 
 export { Group };

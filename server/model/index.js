@@ -6,7 +6,7 @@ import { Inbox } from './inbox';
 import { Sent } from './sent';
 import { Draft } from './draft';
 import { Group } from './group';
-import { GroupMember } from './groupMemebers';
+import { GroupMember } from './groupMembers';
 
 /* istanbul ignore next */
 const createAllTables = async () => {
