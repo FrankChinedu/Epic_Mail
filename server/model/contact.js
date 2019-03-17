@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { Pool } from 'pg';
+import moment from 'moment';
+import query from '../db/index';
 
 let connectionString;
 /* istanbul ignore next */
@@ -61,6 +63,69 @@ class Contact {
         /* istanbul ignore next */
         pool.end();
       });
+  }
+
+  static async addContact({ userId, email }) {
+    const dbQuery = 'SELECT * FROM users WHERE email=$1';
+    const { rows } = await query(dbQuery, [email]);
+
+    if (!rows[0]) {
+      return {
+        success: false,
+        data: [
+          {
+            message: 'Contact does not exist',
+          },
+        ],
+      };
+    }
+    const { id } = rows[0];
+
+    if (parseInt(id, 0) === parseInt(userId, 0)) {
+      return {
+        success: false,
+        data: [
+          {
+            message: 'You cannot add your self as a contact',
+          },
+        ],
+      };
+    }
+
+    const contact = `SELECT * FROM contacts WHERE contact_owner_id=$1
+    AND email=$2`;
+
+    const userExist = await query(contact, [userId, email]);
+    if (userExist.rows[0]) {
+      return {
+        success: false,
+        data: [
+          {
+            message: 'This user is already a contact',
+          },
+        ],
+      };
+    }
+
+    const add = `INSERT INTO
+      contacts(firstname, lastname, email, contact_owner_id, 
+        avatar, createdat, updateda)
+      VALUES($1, $2, $3, $4 $5, $6, $7)
+      returning *`;
+    const val = [
+      rows[0].firstname,
+      rows[0].lastname,
+      rows[0].email,
+      userId,
+      rows[0].avatar,
+      moment(new Date()),
+      moment(new Date()),
+    ];
+    const resp = await query(add, val);
+    return {
+      success: true,
+      data: [resp.rows[0]],
+    };
   }
 }
 
