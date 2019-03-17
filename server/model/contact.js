@@ -109,8 +109,8 @@ class Contact {
 
     const add = `INSERT INTO
       contacts(firstname, lastname, email, contact_owner_id, 
-        avatar, createdat, updateda)
-      VALUES($1, $2, $3, $4 $5, $6, $7)
+        avatar, createdat, updatedat)
+      VALUES($1, $2, $3, $4, $5, $6, $7)
       returning *`;
     const val = [
       rows[0].firstname,

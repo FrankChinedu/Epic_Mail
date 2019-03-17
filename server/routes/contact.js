@@ -4,8 +4,7 @@ import Auth from '../middleware/Auth';
 
 const contactRoute = express.Router();
 
-contactRoute.post('/conatcts', Auth.verifyToken, Auth.magicValidator, ContactController.addContact);
-contactRoute.get('/contacts', Auth.verifyToken, ContactController.getAllUsersContacts);
+contactRoute.post('/contacts', Auth.verifyToken, Auth.magicValidator, ContactController.addContact);
+// contactRoute.get('/contacts', Auth.verifyToken, ContactController.getAllUsersContacts);
 
-
-module.exports = contactRoute;
+export default contactRoute;
