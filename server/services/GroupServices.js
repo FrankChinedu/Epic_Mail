@@ -32,4 +32,18 @@ export default class UserServices {
       data: response.data,
     };
   }
+
+  static async deleteGroup(data) {
+    const response = await Group.deleteGroup(data);
+    if (response.success) {
+      return {
+        status: 202,
+        data: response.data,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
 }

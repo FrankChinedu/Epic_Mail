@@ -102,5 +102,22 @@ describe('Groups ', () => {
           done();
         });
     });
+
+
+    it('should delete a users group that they own', (done) => {
+      chai.request(server)
+        .delete(`${apiURL}/groups/1`)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          res.should.have.status(202);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.status.should.equal(202);
+          done();
+        });
+    });
   });
 });
