@@ -144,6 +144,34 @@ class Contact {
       data: rows,
     };
   }
+
+  static async deleteContact({ userId, id }) {
+    const dbQuery = 'DELETE FROM contacts WHERE id=$1 AND contact_owner_id=$2 returning *';
+
+    try {
+      const { rows } = await query(dbQuery, [id, userId]);
+      if (!rows[0]) {
+        return {
+          success: false,
+          data: [{
+            message: 'no result',
+          }],
+        };
+      }
+      /* find user in group member table and delete the user */
+      return {
+        success: true,
+        data: [{
+          message: 'deleted successfully',
+        }],
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: [error],
+      };
+    }
+  }
 }
 
 export { Contact };
