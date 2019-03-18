@@ -285,7 +285,7 @@ class Group {
     // eslint-disable-next-line consistent-return
     await asyncForEach(ids, async (id) => {
       const dbQuery = `INSERT INTO groupmembers(groupid, memberid, userrole, createdat, updatedat)
-      VALUES($1, $2, $3, $4, $5) returning *`; // add userRole = member
+      VALUES($1, $2, $3, $4, $5) returning *`;
       try {
         const { rows } = await query(dbQuery,
           [groupId, id, 'member', moment(new Date()), moment(new Date())]);
