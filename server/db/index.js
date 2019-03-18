@@ -21,4 +21,6 @@ const query = (text, params) => new Promise((resolve, reject) => {
     });
 });
 
-export default query;
+pool.connect();
+
+export { query, pool };
