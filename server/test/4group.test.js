@@ -119,5 +119,36 @@ describe('Groups ', () => {
           done();
         });
     });
+
+
+    it('should a users yours to a particular group', (done) => {
+      const data = {
+        emails: ['john@doe.com'],
+      };
+      chai.request(server)
+        .post(`${apiURL}/groups/1/users`)
+        .send(data)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          if (res.body.status === 200) {
+            res.should.have.status(200);
+            should.exist(res.body);
+            res.body.should.be.a('object');
+            res.body.should.have.property('status');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('array');
+            res.body.status.should.equal(200);
+          } else {
+            res.should.have.status(400);
+            should.exist(res.body);
+            res.body.should.be.a('object');
+            res.body.should.have.property('status');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('array');
+            res.body.status.should.equal(400);
+          }
+          done();
+        });
+    });
   });
 });

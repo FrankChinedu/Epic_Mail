@@ -204,52 +204,62 @@ class Group {
 
   static async addMembersToGroup({ userId, id, emails }) {
     const userContacts = await this.userContacts(userId);
-    const verifiedUsers = this.getAllUserContactsFromPassedEmails(emails, userContacts);
+    if (userContacts) {
+      const verifiedUsers = this.getAllUserContactsFromPassedEmails(emails, userContacts);
 
-    if (verifiedUsers.length) {
-      const membersInThisGroup = await this.membersInThisGroup(id);
+      if (verifiedUsers.length) {
+        const membersInThisGroup = await this.membersInThisGroup(id);
 
-      if (!membersInThisGroup) {
-        const res = await this.addNewMembers(verifiedUsers, id);
-        if (res.success) {
+        if (!membersInThisGroup) {
+          const res = await this.addNewMembers(verifiedUsers, id);
+          if (res.success) {
+            return {
+              success: res.success,
+              data: res.data,
+            };
+          }
           return {
-            success: res.success,
-            data: res.data,
+            success: false,
+            data: [
+              {
+                message: 'something went wrong',
+              },
+            ],
+          };
+        }
+        const getMembersNotInGroup = this.getMembersNotInGroup(membersInThisGroup, verifiedUsers);
+
+        if (getMembersNotInGroup.length) {
+          const res = await this.addNewMembers(getMembersNotInGroup, id);
+          if (res.success) {
+            return {
+              success: res.success,
+              data: res.data,
+            };
+          }
+          return {
+            success: false,
+            data: [
+              {
+                message: 'something went wrong',
+              },
+            ],
           };
         }
         return {
-          success: false,
+          success: true,
           data: [
             {
-              message: 'something went wrong',
-            },
-          ],
-        };
-      }
-      const getMembersNotInGroup = this.getMembersNotInGroup(membersInThisGroup, verifiedUsers);
-
-      if (getMembersNotInGroup.length) {
-        const res = await this.addNewMembers(getMembersNotInGroup, id);
-        if (res.success) {
-          return {
-            success: res.success,
-            data: res.data,
-          };
-        }
-        return {
-          success: false,
-          data: [
-            {
-              message: 'something went wrong',
+              message: 'User(s) already exists',
             },
           ],
         };
       }
       return {
-        success: true,
+        success: false,
         data: [
           {
-            message: 'User(s) already exists',
+            message: 'kindly confirm your emails',
           },
         ],
       };
@@ -258,7 +268,7 @@ class Group {
       success: false,
       data: [
         {
-          message: 'kindly confirm your emails',
+          message: 'Kindly try adding some contacts into your contact list',
         },
       ],
     };
