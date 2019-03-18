@@ -46,4 +46,18 @@ export default class UserServices {
       error: response.error,
     };
   }
+
+  static async addMembersToGroup(data) {
+    const res = await Group.addMembersToGroup(data);
+    if (res.success) {
+      return {
+        status: 200,
+        data: res.data,
+      };
+    }
+    return {
+      status: 400,
+      data: res.data,
+    };
+  }
 }

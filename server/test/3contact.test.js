@@ -10,7 +10,7 @@ let accessToken;
 
 const { apiURL } = global;
 
-describe('Groups ', () => {
+describe('Contacts ', () => {
   describe('/Post auth/login', () => {
     it('should log a user in', (done) => {
       const data = {
@@ -34,13 +34,13 @@ describe('Groups ', () => {
     });
   });
 
-  describe('Groups ', () => {
-    it('should create a group', (done) => {
+  describe('Contacts  ', () => {
+    it('should add a user to be a contact', (done) => {
       const data = {
-        name: 'group test',
+        email: 'john@doe.com',
       };
       chai.request(server)
-        .post(`${apiURL}/groups`)
+        .post(`${apiURL}/contacts`)
         .send(data)
         .set('x-access-token', accessToken)
         .end((err, res) => {
@@ -55,9 +55,29 @@ describe('Groups ', () => {
         });
     });
 
-    it('should get all users groups', (done) => {
+    it('should not add user if user is already a contact ', (done) => {
+      const data = {
+        email: 'john@doe.com',
+      };
       chai.request(server)
-        .get(`${apiURL}/groups`)
+        .post(`${apiURL}/contacts`)
+        .send(data)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          res.should.have.status(400);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.status.should.equal(400);
+          done();
+        });
+    });
+
+    it('should get all users contacts', (done) => {
+      chai.request(server)
+        .get(`${apiURL}/contacts`)
         .set('x-access-token', accessToken)
         .end((err, res) => {
           res.should.have.status(200);
@@ -71,42 +91,9 @@ describe('Groups ', () => {
         });
     });
 
-    it('should update a groups name', (done) => {
+    it('should delete a user\'s contact ', (done) => {
       chai.request(server)
-        .patch(`${apiURL}/groups/1/name`)
-        .set('x-access-token', accessToken)
-        .end((err, res) => {
-          res.should.have.status(200);
-          should.exist(res.body);
-          res.body.should.be.a('object');
-          res.body.should.have.property('status');
-          res.body.should.have.property('data');
-          res.body.data.should.be.a('array');
-          res.body.status.should.equal(200);
-          done();
-        });
-    });
-
-    it('should return 404 if not found group', (done) => {
-      chai.request(server)
-        .patch(`${apiURL}/groups/2/name`)
-        .set('x-access-token', accessToken)
-        .end((err, res) => {
-          res.should.have.status(404);
-          should.exist(res.body);
-          res.body.should.be.a('object');
-          res.body.should.have.property('status');
-          res.body.should.have.property('data');
-          res.body.data.should.be.a('array');
-          res.body.status.should.equal(404);
-          done();
-        });
-    });
-
-
-    it('should delete a users group that they own', (done) => {
-      chai.request(server)
-        .delete(`${apiURL}/groups/1`)
+        .delete(`${apiURL}/contacts/1`)
         .set('x-access-token', accessToken)
         .end((err, res) => {
           res.should.have.status(202);
@@ -116,6 +103,22 @@ describe('Groups ', () => {
           res.body.should.have.property('data');
           res.body.data.should.be.a('array');
           res.body.status.should.equal(202);
+          done();
+        });
+    });
+
+    it('should return 404 if user is already deleted or does not exist ', (done) => {
+      chai.request(server)
+        .delete(`${apiURL}/contacts/1`)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          res.should.have.status(404);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.status.should.equal(404);
           done();
         });
     });

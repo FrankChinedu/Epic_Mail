@@ -171,6 +171,179 @@ class Group {
       };
     }
   }
+
+  static getAllUserContactsFromPassedEmails(emails, userContacts) {
+    const fromEmail = [];
+
+    emails.forEach((email) => {
+      userContacts.forEach((data) => {
+        if (data.email === email) {
+          fromEmail.push(data);
+        }
+      });
+    });
+    return fromEmail;
+  }
+
+  static getMembersNotInGroup(membersInThisGroup, verifiedUsers) {
+    const members = [];
+
+    const membersIdArray = [];
+    membersInThisGroup.forEach((elm) => {
+      membersIdArray.push(elm.memberid);
+    });
+
+    verifiedUsers.forEach((info) => {
+      const isInGroup = membersIdArray.some(id => id === info.id);
+      if (!isInGroup) {
+        members.push(info);
+      }
+    });
+    return members;
+  }
+
+  static async addMembersToGroup({ userId, id, emails }) {
+    const userContacts = await this.userContacts(userId);
+    if (userContacts) {
+      const verifiedUsers = this.getAllUserContactsFromPassedEmails(emails, userContacts);
+
+      if (verifiedUsers.length) {
+        const membersInThisGroup = await this.membersInThisGroup(id);
+
+        if (!membersInThisGroup) {
+          const res = await this.addNewMembers(verifiedUsers, id);
+          if (res.success) {
+            return {
+              success: res.success,
+              data: res.data,
+            };
+          }
+          return {
+            success: false,
+            data: [
+              {
+                message: 'something went wrong',
+              },
+            ],
+          };
+        }
+        const getMembersNotInGroup = this.getMembersNotInGroup(membersInThisGroup, verifiedUsers);
+
+        if (getMembersNotInGroup.length) {
+          const res = await this.addNewMembers(getMembersNotInGroup, id);
+          if (res.success) {
+            return {
+              success: res.success,
+              data: res.data,
+            };
+          }
+          return {
+            success: false,
+            data: [
+              {
+                message: 'something went wrong',
+              },
+            ],
+          };
+        }
+        return {
+          success: true,
+          data: [
+            {
+              message: 'User(s) already exists',
+            },
+          ],
+        };
+      }
+      return {
+        success: false,
+        data: [
+          {
+            message: 'kindly confirm your emails',
+          },
+        ],
+      };
+    }
+    return {
+      success: false,
+      data: [
+        {
+          message: 'Kindly try adding some contacts into your contact list',
+        },
+      ],
+    };
+  }
+
+  static async addNewMembers(data, groupId) {
+    // copied from https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
+    async function asyncForEach(array, callback) {
+      // eslint-disable-next-line no-plusplus
+      for (let index = 0; index < array.length; index++) {
+        // eslint-disable-next-line no-await-in-loop
+        await callback(array[index], index, array);
+      }
+    }
+    const res = {
+      success: false,
+      data: [],
+    };
+
+    const ids = [];
+    data.forEach((x) => {
+      ids.push(x.id);
+    });
+    // eslint-disable-next-line consistent-return
+    await asyncForEach(ids, async (id) => {
+      const dbQuery = `INSERT INTO groupmembers(groupid, memberid, userrole, createdat, updatedat)
+      VALUES($1, $2, $3, $4, $5) returning *`;
+      try {
+        const { rows } = await query(dbQuery,
+          [groupId, id, 'member', moment(new Date()), moment(new Date())]);
+        res.success = true;
+        res.data.push({
+          id: rows[0].id,
+          userId: rows[0].memberid,
+          userRole: rows[0].userrole,
+        });
+      } catch (err) {
+        return {
+          err,
+        };
+      }
+    });
+    return res;
+  }
+
+  static async membersInThisGroup(groupId) {
+    const dbQuery = 'SELECT * FROM groupmembers WHERE groupid=$1 ';
+
+    try {
+      const { rows } = await query(dbQuery, [groupId]);
+
+      if (rows[0]) {
+        return rows;
+      }
+      return null;
+    } catch (err) {
+      return {
+        err,
+      };
+    }
+  }
+
+  static async userContacts(userId) {
+    const dbQuery = 'SELECT * FROM contacts WHERE contact_owner_id=$1';
+    const emails = [];
+    const { rows } = await query(dbQuery, [userId]);
+
+    if (rows[0]) {
+      rows.forEach((row) => {
+        emails.push({ email: row.email, id: row.id });
+      });
+      return emails;
+    }
+    return null;
+  }
 }
 
 export { Group };
