@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { Pool } from 'pg';
+import query from '../db/index';
 
 let connectionString;
 /* istanbul ignore next */
@@ -60,6 +61,54 @@ class GroupMember {
       /* istanbul ignore next */
         pool.end();
       });
+  }
+
+  static async removeMemberFromGroup({ userId, memberId, groupId }) {
+    const getGroup = ' SELECT * FROM groups WHERE ownerid=$1';
+
+    const delQuery = 'DELETE FROM groupmembers WHERE memberid=$1 AND groupid=$2 returning *';
+
+    try {
+      const res = await query(getGroup, [userId]);
+
+      const userGroupsIds = [];
+      res.rows.forEach((data) => {
+        userGroupsIds.push(data.id);
+      });
+
+      const userOwnsGroup = userGroupsIds.some(id => parseInt(id, 0) === parseInt(groupId, 0));
+
+      if (userOwnsGroup) {
+        const { rows } = await query(delQuery, [memberId, groupId]);
+        if (!rows[0]) {
+          return {
+            success: true,
+            data: [{
+              message: 'no result',
+            }],
+          };
+        }
+        return {
+          success: true,
+          data: [{
+            message: 'deleted successfully',
+          }],
+        };
+      }
+      return {
+        success: false,
+        data: [
+          {
+            message: 'Unauthorized',
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: [error],
+      };
+    }
   }
 }
 

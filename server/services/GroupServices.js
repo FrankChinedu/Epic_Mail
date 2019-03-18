@@ -1,4 +1,5 @@
 import { Group } from '../model/group';
+import { GroupMember } from '../model/groupMembers';
 
 export default class UserServices {
   static async sendGroupMessage(data) {
@@ -57,6 +58,21 @@ export default class UserServices {
     }
     return {
       status: 400,
+      data: res.data,
+    };
+  }
+
+  static async removeMemberFromGroup(data) {
+    const res = await GroupMember.removeMemberFromGroup(data);
+
+    if (res.success) {
+      return {
+        status: 202,
+        data: res.data,
+      };
+    }
+    return {
+      status: 403,
       data: res.data,
     };
   }
