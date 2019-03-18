@@ -172,7 +172,7 @@ class Group {
     }
   }
 
-  static getAllUserContactsFromPassedEmails(emails, userContacts ) {
+  static getAllUserContactsFromPassedEmails(emails, userContacts) {
     const fromEmail = [];
 
     emails.forEach((email) => {
@@ -210,12 +210,18 @@ class Group {
       const membersInThisGroup = await this.membersInThisGroup(id);
 
       if (!membersInThisGroup) {
-        await this.addNewMembers(verifiedUsers, id);
+        const res = await this.addNewMembers(verifiedUsers, id);
+        if (res.success) {
+          return {
+            success: res.success,
+            data: res.data,
+          };
+        }
         return {
-          success: true,
+          success: false,
           data: [
             {
-              message: 'New contacts added',
+              message: 'something went wrong',
             },
           ],
         };
@@ -223,12 +229,18 @@ class Group {
       const getMembersNotInGroup = this.getMembersNotInGroup(membersInThisGroup, verifiedUsers);
 
       if (getMembersNotInGroup.length) {
-        await this.addNewMembers(getMembersNotInGroup, id);
+        const res = await this.addNewMembers(getMembersNotInGroup, id);
+        if (res.success) {
+          return {
+            success: res.success,
+            data: res.data,
+          };
+        }
         return {
-          success: true,
+          success: false,
           data: [
             {
-              message: 'New contacts added',
+              message: 'something went wrong',
             },
           ],
         };
@@ -253,20 +265,43 @@ class Group {
   }
 
   static async addNewMembers(data, groupId) {
+    // copied from https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
+    async function asyncForEach(array, callback) {
+      // eslint-disable-next-line no-plusplus
+      for (let index = 0; index < array.length; index++) {
+        // eslint-disable-next-line no-await-in-loop
+        await callback(array[index], index, array);
+      }
+    }
+    const res = {
+      success: false,
+      data: [],
+    };
+
     const ids = [];
     data.forEach((x) => {
       ids.push(x.id);
     });
-    ids.forEach(async (id) => {
-      const dbQuery = `INSERT INTO groupmembers(groupid, memberid, createdat, updatedat)
-      VALUES($1, $2, $3, $4) returning *`; // add userRole = member
+    // eslint-disable-next-line consistent-return
+    await asyncForEach(ids, async (id) => {
+      const dbQuery = `INSERT INTO groupmembers(groupid, memberid, userrole, createdat, updatedat)
+      VALUES($1, $2, $3, $4, $5) returning *`; // add userRole = member
       try {
-        await query(dbQuery, [groupId, id, moment(new Date()), moment(new Date())]);
+        const { rows } = await query(dbQuery,
+          [groupId, id, 'member', moment(new Date()), moment(new Date())]);
+        res.success = true;
+        res.data.push({
+          id: rows[0].id,
+          userId: rows[0].memberid,
+          userRole: rows[0].userrole,
+        });
       } catch (err) {
-        throw err;
+        return {
+          err,
+        };
       }
     });
-    // return true;
+    return res;
   }
 
   static async membersInThisGroup(groupId) {
