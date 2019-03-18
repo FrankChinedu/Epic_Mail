@@ -49,4 +49,17 @@ export default class UserController {
       res.status(400).send(response);
     }
   }
+
+  static async removeMemberFromGroup(req, res) {
+    const userId = req.user.id;
+    const { groupId, memberId } = req.params;
+    const data = { userId, memberId, groupId };
+
+    const response = await GroupServices.removeMemberFromGroup(data);
+    if (response.status === 202) {
+      res.status(202).send(response);
+    } else {
+      res.status(403).send(response);
+    }
+  }
 }
