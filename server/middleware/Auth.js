@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import Helper from '../helpers/Helpers';
-import query from '../db/index';
+import { query } from '../db/index';
 
 const Joi = require('joi');
 
