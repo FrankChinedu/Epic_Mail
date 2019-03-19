@@ -48,6 +48,7 @@
     "jsonwebtoken": "8.5.0",
     "moment": "2.24.0",
     "morgan": "1.9.1",
+    "nodemailer": "5.1.1",
     "pg": "7.8.2",
     "swagger-ui-express": "4.0.2",
     "yamljs": "0.3.0"
