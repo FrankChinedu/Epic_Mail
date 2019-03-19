@@ -150,8 +150,7 @@ class User {
   static sendEmail(email, token) {
     const mailOptions = {
       from: 'EPIC MAIL',
-      // to: email,
-      to: 'frankieetchy@gmail.com',
+      to: email,
       subject: 'Reset Password Link',
       html: `<h1> reset link </h1>
          <p> click on the
@@ -163,18 +162,15 @@ class User {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'testcodedev1@gmail.com',
-        pass: 'OBIchinedu123',
+        user: process.env.GMAIL_ACCOUNT,
+        pass: process.env.GMAIL_PASSWORD,
       },
     });
 
     transporter.sendMail(mailOptions)
-      .then((res) => {
-        console.log(res);
-        return {};
-      }).catch((err) => {
-        console.log(err);
-        return {};
+      .then(() => ({}))
+      .catch((err) => {
+        throw err;
       });
     return {};
   }
