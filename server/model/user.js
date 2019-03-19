@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import moment from 'moment';
+import nodemailer from 'nodemailer';
 import 'dotenv/config';
 import Helper from '../helpers/Helpers';
 import { query, pool } from '../db/index';
@@ -124,6 +125,54 @@ class User {
     const res = this.getJsonWebToken(user);
     res.status = 200;
     return res;
+  }
+
+  static async reset(email) {
+    const dbQuery = 'SELECT * FROM users WHERE email=$1';
+    const { rows } = await query(dbQuery, [email]);
+
+    if (!rows[0]) {
+      return {
+        success: true,
+      };
+    }
+
+    const { id, firstname, lastname } = rows[0];
+
+    const user = {
+      id, firstname, lastname, email,
+    };
+    const token = Helper.jwtSignUser(user);
+    this.sendEmail(email, token);
+    return true;
+  }
+
+  static sendEmail(email, token) {
+    const mailOptions = {
+      from: 'EPIC MAIL',
+      to: email,
+      subject: 'Reset Password Link',
+      html: `<h1> reset link </h1>
+         <p> click on the
+        <a href='https://frankchinedu.github.io/Epic_Mail/UI/reset-password.html?x-access-token=${token}'>link</a>
+        to reset password </p>
+      `,
+    };
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GMAIL_ACCOUNT,
+        pass: process.env.GMAIL_PASSWORD,
+      },
+    });
+
+    transporter.sendMail(mailOptions)
+      .then(() => ({}))
+      .catch((err) => {
+        throw err;
+      });
+    return {};
   }
 }
 
