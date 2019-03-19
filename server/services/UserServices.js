@@ -13,12 +13,10 @@ export default class UserServices {
     await User.reset(email);
     return {
       status: 200,
-      data: [
-        {
-          message: 'check your mail for password reset link',
-          email,
-        },
-      ],
+      data: {
+        message: 'check your mail for password reset link',
+        email,
+      },
     };
   }
 }
