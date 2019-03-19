@@ -171,7 +171,7 @@ export default class MessageServices {
     if (response.success) {
       if (!response.empty) {
         let res = response.data[0];
-        res = res.filter(data => data.read === true);
+        res = res.filter(data => data.read === false);
         if (!res.length) {
           res = message;
         }
@@ -193,30 +193,19 @@ export default class MessageServices {
 
 
   static async viewAnInboxMessage({ userId, messageId }) {
-    const response = await Email.getInboxMessages(userId);
-    const message = [
-      {
-        message: 'No result messages',
-      },
-    ];
-
-    if (response.success) {
-      if (!response.empty) {
-        let res = response.data[0];
-        res = res.find(data => data.id === parseInt(messageId, 0));
-        return {
-          status: 200,
-          data: [res],
-        };
-      }
+    const result = await Email.getAnInboxMessage({ userId, messageId });
+    if (result.success) {
+      const response = await Email.getInboxMessages(userId);
+      let res = response.data[0];
+      res = res.find(data => data.id === parseInt(messageId, 0));
       return {
         status: 200,
-        data: message,
+        data: [res],
       };
     }
     return {
-      status: 500,
-      error: response.error,
+      status: 404,
+      data: result.data,
     };
   }
 

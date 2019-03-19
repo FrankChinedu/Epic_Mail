@@ -168,6 +168,63 @@ class Email {
       };
     }
   }
+
+  static async messageExists(userId, messageId, table, field) {
+    const dbQuery = `SELECT * FROM ${table} WHERE ${field}=$1 AND messageid=$2`;
+    try {
+      const { rows } = await query(dbQuery, [userId, messageId]);
+      if (!rows[0]) {
+        return {
+          success: false,
+          data: [
+            {
+              message: 'no found',
+            },
+          ],
+        };
+      }
+      return {
+        success: true,
+        data: [
+          {
+            message: rows[0],
+          },
+        ],
+      };
+    } catch (err) {
+      return {
+        success: false,
+        data: [
+          {
+            message: err,
+          },
+        ],
+      };
+    }
+  }
+
+  static async readMessage(userId, messageId, table, field) {
+    const dbQuery = `UPDATE ${table} SET read=$1, updatedat=$2 WHERE messageid=$3 AND ${field}=$4 returning *`;
+    const { rows } = await query(dbQuery, ['true', moment(new Date()), messageId, userId]);
+    return rows[0];
+  }
+
+  static async getAnInboxMessage({ userId, messageId }) {
+    const exists = await this.messageExists(userId, messageId, 'inboxs', 'receiverid');
+    if (exists.success) {
+      const msg = await this.readMessage(userId, messageId, 'inboxs', 'receiverid');
+
+      return {
+        success: true,
+        data: [msg],
+      };
+    }
+
+    return {
+      success: exists.success,
+      data: exists.data,
+    };
+  }
 }
 
 export { Email };

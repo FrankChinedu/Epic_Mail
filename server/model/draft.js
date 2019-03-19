@@ -47,6 +47,7 @@ class Draft {
         receiverId INTEGER,
         senderId INTEGER,
         messageId INTEGER,
+        read BOOLEAN,
         createdAt TIMESTAMP,
         updatedAt TIMESTAMP,
         FOREIGN KEY (receiverId) REFERENCES users (id) ON DELETE CASCADE,
