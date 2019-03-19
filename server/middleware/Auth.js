@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import { query } from '../db/index';
-import { decode } from 'punycode';
 
 const Joi = require('joi');
 
