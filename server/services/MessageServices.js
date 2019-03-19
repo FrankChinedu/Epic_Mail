@@ -3,7 +3,7 @@ import { Inbox } from '../model/inbox';
 import { Email } from '../model/email';
 import { Draft } from '../model/draft';
 
-export default class messageServices {
+export default class MessageServices {
   static async saveDraft(data) {
     const { userId, recieversEmail } = data;
 
@@ -52,11 +52,32 @@ export default class messageServices {
   }
 
   static async sendMessage(data) {
+    const res = await this.send(data);
+
+    if (res.success) {
+      return {
+        status: 201,
+        message: 'message sent successfully',
+        data: [res.info],
+      };
+    }
+    return {
+      status: res.status,
+      data: [
+        {
+          message: res.error,
+        },
+      ],
+    };
+  }
+
+  static async send(data) {
     const { userId, recieversEmail } = data;
 
     const res = await Email.getMessageReceiverId(recieversEmail);
     if (!res.success) {
       return {
+        success: false,
         status: 401,
         error: res.error,
       };
@@ -66,6 +87,7 @@ export default class messageServices {
     let msg = await Email.createMessage(data);
     if (!msg.success) {
       return {
+        success: false,
         status: 401,
         error: msg.error,
       };
@@ -79,7 +101,8 @@ export default class messageServices {
 
     if (!result.success) {
       return {
-        status: 4012,
+        success: false,
+        status: 401,
         error: result.error,
       };
     }
@@ -87,6 +110,7 @@ export default class messageServices {
     const fromSent = await Sent.insertIntoSentTable(inserts);
     if (!fromSent.success) {
       return {
+        success: false,
         status: 401,
         error: fromSent.error,
       };
@@ -97,14 +121,13 @@ export default class messageServices {
       createdOn: msg.createdat,
       subject: msg.subject,
       message: msg.message,
-      parentMessageId: msg.parentMessageId,
+      parentMessageId: msg.parentmessageid,
       status: msg.status,
     };
 
     return {
-      status: 201,
-      message: 'message sent successfully',
-      data: [info],
+      success: true,
+      info,
     };
   }
 
@@ -148,7 +171,7 @@ export default class messageServices {
     if (response.success) {
       if (!response.empty) {
         let res = response.data[0];
-        res = res.filter(data => data.read === true);
+        res = res.filter(data => data.read === false);
         if (!res.length) {
           res = message;
         }
@@ -170,30 +193,19 @@ export default class messageServices {
 
 
   static async viewAnInboxMessage({ userId, messageId }) {
-    const response = await Email.getInboxMessages(userId);
-    const message = [
-      {
-        message: 'No result messages',
-      },
-    ];
-
-    if (response.success) {
-      if (!response.empty) {
-        let res = response.data[0];
-        res = res.find(data => data.id === parseInt(messageId, 0));
-        return {
-          status: 200,
-          data: [res],
-        };
-      }
+    const result = await Email.getAnInboxMessage({ userId, messageId });
+    if (result.success) {
+      const response = await Email.getInboxMessages(userId);
+      let res = response.data[0];
+      res = res.find(data => data.id === parseInt(messageId, 0));
       return {
         status: 200,
-        data: message,
+        data: [res],
       };
     }
     return {
-      status: 500,
-      error: response.error,
+      status: 404,
+      data: result.data,
     };
   }
 

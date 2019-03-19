@@ -4,7 +4,7 @@ export default class UserController {
   static async createGroup(req, res) {
     const userId = req.user.id;
     const data = { ...req.body, userId };
-    const response = await GroupServices.sendGroupMessage(data);
+    const response = await GroupServices.createGroup(data);
     res.status(201).send(response);
   }
 
@@ -60,6 +60,22 @@ export default class UserController {
       res.status(202).send(response);
     } else {
       res.status(403).send(response);
+    }
+  }
+
+  static async sendGroupMessage(req, res) {
+    const userId = req.user.id;
+    const { groupId } = req.params;
+    const { subject, message, status } = req.body;
+    const data = {
+      userId, groupId, subject, message, status,
+    };
+
+    const response = await GroupServices.sendGroupMessage(data);
+    if (response.status === 201) {
+      res.status(201).send(response);
+    } else {
+      res.status(400).send(response);
     }
   }
 }

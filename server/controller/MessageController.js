@@ -48,7 +48,11 @@ export default class MessageController {
 
     const data = { userId, messageId };
     const response = await MessageServices.viewAnInboxMessage(data);
-    res.status(200).send(response);
+    if (response.status === 200) {
+      res.status(200).send(response);
+    } else {
+      res.status(404).send(response);
+    }
   }
 
   static async deleteAnInboxMessage(req, res) {

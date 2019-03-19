@@ -1,20 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import { Pool } from 'pg';
 import moment from 'moment';
-import query from '../db/index';
-
-let connectionString;
-/* istanbul ignore next */
-if (process.env.NODE_ENV === 'test') {
-/* istanbul ignore next */
-  connectionString = process.env.TEST_DB;
-} else {
-  connectionString = process.env.DEV_DB;
-}
-
-const pool = new Pool({ connectionString });
-
-pool.connect();
+import { query, pool } from '../db/index';
 
 class Email {
   static async createMessage({
@@ -61,11 +47,11 @@ class Email {
       .query(queryText)
       /* istanbul ignore next */
       .then(() => {
-        pool.end();
+        // pool.end();
       })
       .catch(() => {
         /* istanbul ignore next */
-        pool.end();
+        // pool.end();
       });
   }
 
@@ -79,12 +65,12 @@ class Email {
       /* istanbul ignore next */
       .then(() => {
         /* istanbul ignore next */
-        pool.end();
+        // pool.end();
       })
       /* istanbul ignore next */
       .catch(() => {
         /* istanbul ignore next */
-        pool.end();
+        // pool.end();
       });
   }
 
@@ -181,6 +167,63 @@ class Email {
         error: [error],
       };
     }
+  }
+
+  static async messageExists(userId, messageId, table, field) {
+    const dbQuery = `SELECT * FROM ${table} WHERE ${field}=$1 AND messageid=$2`;
+    try {
+      const { rows } = await query(dbQuery, [userId, messageId]);
+      if (!rows[0]) {
+        return {
+          success: false,
+          data: [
+            {
+              message: 'no found',
+            },
+          ],
+        };
+      }
+      return {
+        success: true,
+        data: [
+          {
+            message: rows[0],
+          },
+        ],
+      };
+    } catch (err) {
+      return {
+        success: false,
+        data: [
+          {
+            message: err,
+          },
+        ],
+      };
+    }
+  }
+
+  static async readMessage(userId, messageId, table, field) {
+    const dbQuery = `UPDATE ${table} SET read=$1, updatedat=$2 WHERE messageid=$3 AND ${field}=$4 returning *`;
+    const { rows } = await query(dbQuery, ['true', moment(new Date()), messageId, userId]);
+    return rows[0];
+  }
+
+  static async getAnInboxMessage({ userId, messageId }) {
+    const exists = await this.messageExists(userId, messageId, 'inboxs', 'receiverid');
+    if (exists.success) {
+      const msg = await this.readMessage(userId, messageId, 'inboxs', 'receiverid');
+
+      return {
+        success: true,
+        data: [msg],
+      };
+    }
+
+    return {
+      success: exists.success,
+      data: exists.data,
+    };
   }
 }
 

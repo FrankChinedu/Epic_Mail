@@ -121,7 +121,7 @@ describe('Groups ', () => {
     });
 
 
-    it('should a users yours to a particular group', (done) => {
+    it('should add users to a particular group', (done) => {
       const data = {
         emails: ['john@doe.com'],
       };
@@ -151,6 +151,37 @@ describe('Groups ', () => {
         });
     });
 
+    it('should send a bulk message to all the members in the group', (done) => {
+      const data = {
+        subject: 'something amazing',
+        message: 'there would be group meeting',
+        status: 'sent',
+      };
+      chai.request(server)
+        .post(`${apiURL}/groups/1/messages`)
+        .send(data)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          if (res.body.status === 201) {
+            res.should.have.status(201);
+            should.exist(res.body);
+            res.body.should.be.a('object');
+            res.body.should.have.property('status');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('array');
+            res.body.status.should.equal(201);
+          } else {
+            res.should.have.status(400);
+            should.exist(res.body);
+            res.body.should.be.a('object');
+            res.body.should.have.property('status');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('array');
+            res.body.status.should.equal(400);
+          }
+          done();
+        });
+    });
 
     it('should delete a memeber from your group', (done) => {
       chai.request(server)

@@ -1,20 +1,7 @@
 /* eslint-disable import/prefer-default-export */
-import { Pool } from 'pg';
 import moment from 'moment';
-import query from '../db/index';
+import { query, pool } from '../db/index';
 
-let connectionString;
-/* istanbul ignore next */
-if (process.env.NODE_ENV === 'test') {
-/* istanbul ignore next */
-  connectionString = process.env.TEST_DB;
-} else {
-  connectionString = process.env.DEV_DB;
-}
-
-const pool = new Pool({ connectionString });
-
-pool.connect();
 
 class Sent {
   static async insertIntoSentTable({ userId, messageId, receiverId }) {
@@ -74,12 +61,12 @@ class Sent {
       /* istanbul ignore next */
       .then(() => {
         /* istanbul ignore next */
-        pool.end();
+        // pool.end();
       })
       /* istanbul ignore next */
       .catch(() => {
         /* istanbul ignore next */
-        pool.end();
+        // pool.end();
       });
   }
 
@@ -93,12 +80,12 @@ class Sent {
       /* istanbul ignore next */
       .then(() => {
         /* istanbul ignore next */
-        pool.end();
+        // pool.end();
       })
       /* istanbul ignore next */
       .catch(() => {
         /* istanbul ignore next */
-        pool.end();
+        // pool.end();
       });
   }
 }

@@ -1,25 +1,12 @@
 /* eslint-disable import/prefer-default-export */
-import { Pool } from 'pg';
 import moment from 'moment';
-import query from '../db/index';
-
-let connectionString;
-/* istanbul ignore next */
-if (process.env.NODE_ENV === 'test') {
-/* istanbul ignore next */
-  connectionString = process.env.TEST_DB;
-} else {
-  connectionString = process.env.DEV_DB;
-}
-
-const pool = new Pool({ connectionString });
-
-pool.connect();
+import { query, pool } from '../db/index';
+import Helpers from '../helpers/Helpers';
 
 class Group {
   /* istanbul ignore next */
   static async createGroupTable() {
-  /* istanbul ignore next */
+    /* istanbul ignore next */
     const queryText = `CREATE TABLE IF NOT EXISTS
         groups(
           id SERIAL NOT NULL UNIQUE PRIMARY KEY,
@@ -32,43 +19,49 @@ class Group {
         )`;
     await pool
       .query(queryText)
-    /* istanbul ignore next */
+      /* istanbul ignore next */
       .then(() => {
-      /* istanbul ignore next */
-        pool.end();
+        /* istanbul ignore next */
+        // pool.end();
       })
-    /* istanbul ignore next */
-      .catch(() => {
       /* istanbul ignore next */
-        pool.end();
+      .catch(() => {
+        /* istanbul ignore next */
+        // pool.end();
       });
   }
 
   /* istanbul ignore next */
   static async dropGroupTable() {
-  /* istanbul ignore next */
+    /* istanbul ignore next */
     const queryText = 'DROP TABLE IF EXISTS groups CASCADE';
     /* istanbul ignore next */
     await pool
       .query(queryText)
-    /* istanbul ignore next */
+      /* istanbul ignore next */
       .then(() => {
-      /* istanbul ignore next */
-        pool.end();
+        /* istanbul ignore next */
+        // pool.end();
       })
-    /* istanbul ignore next */
-      .catch(() => {
       /* istanbul ignore next */
-        pool.end();
+      .catch(() => {
+        /* istanbul ignore next */
+        // pool.end();
       });
   }
 
-  static async sendGroupMessage({ name, userId }) {
+  static async createGroup({ name, userId }) {
     const dbQuery = `INSERT INTO
       groups(name, ownerid, role, createdat, updatedat)
       VALUES($1, $2, $3, $4, $5)
       returning *`;
-    const values = [name, userId, 'admin', moment(new Date()), moment(new Date())];
+    const values = [
+      name,
+      userId,
+      'admin',
+      moment(new Date()),
+      moment(new Date()),
+    ];
 
     try {
       const { rows } = await query(dbQuery, values);
@@ -93,8 +86,7 @@ class Group {
       if (!rows[0]) {
         return {
           success: true,
-          data: [{
-          }],
+          data: [{}],
         };
       }
       return {
@@ -117,25 +109,25 @@ class Group {
       if (!rows[0]) {
         return {
           success: false,
-          data: [{
-            message: 'not found',
-          }],
+          data: [
+            {
+              message: 'not found',
+            },
+          ],
         };
       }
       const update = 'UPDATE groups SET name=$1, updatedat=$2 WHERE ownerid=$3 AND id=$4 returning *';
-      const values = [
-        name || rows[0].name,
-        moment(new Date()),
-        userId, id,
-      ];
+      const values = [name || rows[0].name, moment(new Date()), userId, id];
       const response = await query(update, values);
       return {
         success: true,
-        data: [{
-          id: response.rows[0].id,
-          name: response.rows[0].name,
-          role: response.rows[0].role,
-        }],
+        data: [
+          {
+            id: response.rows[0].id,
+            name: response.rows[0].name,
+            role: response.rows[0].role,
+          },
+        ],
       };
     } catch (err) {
       return {
@@ -153,16 +145,20 @@ class Group {
       if (!rows[0]) {
         return {
           success: true,
-          data: [{
-            message: 'no result',
-          }],
+          data: [
+            {
+              message: 'no result',
+            },
+          ],
         };
       }
       return {
         success: true,
-        data: [{
-          message: 'deleted successfully',
-        }],
+        data: [
+          {
+            message: 'deleted successfully',
+          },
+        ],
       };
     } catch (error) {
       return {
@@ -205,7 +201,10 @@ class Group {
   static async addMembersToGroup({ userId, id, emails }) {
     const userContacts = await this.userContacts(userId);
     if (userContacts) {
-      const verifiedUsers = this.getAllUserContactsFromPassedEmails(emails, userContacts);
+      const verifiedUsers = this.getAllUserContactsFromPassedEmails(
+        emails,
+        userContacts,
+      );
 
       if (verifiedUsers.length) {
         const membersInThisGroup = await this.membersInThisGroup(id);
@@ -227,7 +226,10 @@ class Group {
             ],
           };
         }
-        const getMembersNotInGroup = this.getMembersNotInGroup(membersInThisGroup, verifiedUsers);
+        const getMembersNotInGroup = this.getMembersNotInGroup(
+          membersInThisGroup,
+          verifiedUsers,
+        );
 
         if (getMembersNotInGroup.length) {
           const res = await this.addNewMembers(getMembersNotInGroup, id);
@@ -275,14 +277,6 @@ class Group {
   }
 
   static async addNewMembers(data, groupId) {
-    // copied from https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
-    async function asyncForEach(array, callback) {
-      // eslint-disable-next-line no-plusplus
-      for (let index = 0; index < array.length; index++) {
-        // eslint-disable-next-line no-await-in-loop
-        await callback(array[index], index, array);
-      }
-    }
     const res = {
       success: false,
       data: [],
@@ -293,12 +287,17 @@ class Group {
       ids.push(x.id);
     });
     // eslint-disable-next-line consistent-return
-    await asyncForEach(ids, async (id) => {
+    await Helpers.asyncForEach(ids, async (id) => {
       const dbQuery = `INSERT INTO groupmembers(groupid, memberid, userrole, createdat, updatedat)
       VALUES($1, $2, $3, $4, $5) returning *`;
       try {
-        const { rows } = await query(dbQuery,
-          [groupId, id, 'member', moment(new Date()), moment(new Date())]);
+        const { rows } = await query(dbQuery, [
+          groupId,
+          id,
+          'member',
+          moment(new Date()),
+          moment(new Date()),
+        ]);
         res.success = true;
         res.data.push({
           id: rows[0].id,
