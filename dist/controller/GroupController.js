@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _MessageServices = _interopRequireDefault(require("../services/MessageServices"));
+var _GroupServices = _interopRequireDefault(require("../services/GroupServices"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23,20 +23,20 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var MessageController =
+var UserController =
 /*#__PURE__*/
 function () {
-  function MessageController() {
-    _classCallCheck(this, MessageController);
+  function UserController() {
+    _classCallCheck(this, UserController);
   }
 
-  _createClass(MessageController, null, [{
-    key: "createMessage",
+  _createClass(UserController, null, [{
+    key: "createGroup",
     value: function () {
-      var _createMessage = _asyncToGenerator(
+      var _createGroup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var userId, data, status, response;
+        var userId, data, response;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -45,32 +45,14 @@ function () {
                 data = _objectSpread({}, req.body, {
                   userId: userId
                 });
-                status = data.status;
+                _context.next = 4;
+                return _GroupServices.default.createGroup(data);
 
-                if (!(status === 'sent')) {
-                  _context.next = 9;
-                  break;
-                }
-
-                _context.next = 6;
-                return MessageController.sendMessage(data);
-
-              case 6:
+              case 4:
                 response = _context.sent;
-                _context.next = 12;
-                break;
-
-              case 9:
-                _context.next = 11;
-                return MessageController.saveAsDraft(data);
-
-              case 11:
-                response = _context.sent;
-
-              case 12:
                 res.status(201).send(response);
 
-              case 13:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -78,25 +60,32 @@ function () {
         }, _callee);
       }));
 
-      function createMessage(_x, _x2) {
-        return _createMessage.apply(this, arguments);
+      function createGroup(_x, _x2) {
+        return _createGroup.apply(this, arguments);
       }
 
-      return createMessage;
+      return createGroup;
     }()
   }, {
-    key: "saveAsDraft",
+    key: "getAllGroup",
     value: function () {
-      var _saveAsDraft = _asyncToGenerator(
+      var _getAllGroup = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(data) {
+      regeneratorRuntime.mark(function _callee2(req, res) {
+        var userId, response;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                return _context2.abrupt("return", _MessageServices.default.saveDraft(data));
+                userId = req.user.id;
+                _context2.next = 3;
+                return _GroupServices.default.getAllGroup(userId);
 
-              case 1:
+              case 3:
+                response = _context2.sent;
+                res.status(200).send(response);
+
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -104,25 +93,44 @@ function () {
         }, _callee2);
       }));
 
-      function saveAsDraft(_x3) {
-        return _saveAsDraft.apply(this, arguments);
+      function getAllGroup(_x3, _x4) {
+        return _getAllGroup.apply(this, arguments);
       }
 
-      return saveAsDraft;
+      return getAllGroup;
     }()
   }, {
-    key: "sendMessage",
+    key: "editGroup",
     value: function () {
-      var _sendMessage = _asyncToGenerator(
+      var _editGroup = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(data) {
+      regeneratorRuntime.mark(function _callee3(req, res) {
+        var userId, id, name, data, response;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                return _context3.abrupt("return", _MessageServices.default.sendMessage(data));
+                userId = req.user.id;
+                id = req.params.id;
+                name = req.body.name;
+                data = {
+                  userId: userId,
+                  id: id,
+                  name: name
+                };
+                _context3.next = 6;
+                return _GroupServices.default.editGroup(data);
 
-              case 1:
+              case 6:
+                response = _context3.sent;
+
+                if (response.status === 200) {
+                  res.status(200).send(response);
+                } else {
+                  res.status(404).send(response);
+                }
+
+              case 8:
               case "end":
                 return _context3.stop();
             }
@@ -130,32 +138,37 @@ function () {
         }, _callee3);
       }));
 
-      function sendMessage(_x4) {
-        return _sendMessage.apply(this, arguments);
+      function editGroup(_x5, _x6) {
+        return _editGroup.apply(this, arguments);
       }
 
-      return sendMessage;
+      return editGroup;
     }()
   }, {
-    key: "getRecievedEmails",
+    key: "deleteGroup",
     value: function () {
-      var _getRecievedEmails = _asyncToGenerator(
+      var _deleteGroup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee4(req, res) {
-        var userId, response;
+        var userId, id, data, response;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 userId = req.user.id;
-                _context4.next = 3;
-                return _MessageServices.default.getRecievedEmails(userId);
-
-              case 3:
-                response = _context4.sent;
-                res.status(200).send(response);
+                id = req.params.id;
+                data = {
+                  userId: userId,
+                  id: id
+                };
+                _context4.next = 5;
+                return _GroupServices.default.deleteGroup(data);
 
               case 5:
+                response = _context4.sent;
+                res.status(202).send(response);
+
+              case 7:
               case "end":
                 return _context4.stop();
             }
@@ -163,32 +176,44 @@ function () {
         }, _callee4);
       }));
 
-      function getRecievedEmails(_x5, _x6) {
-        return _getRecievedEmails.apply(this, arguments);
+      function deleteGroup(_x7, _x8) {
+        return _deleteGroup.apply(this, arguments);
       }
 
-      return getRecievedEmails;
+      return deleteGroup;
     }()
   }, {
-    key: "getSentEmails",
+    key: "addMembersToGroup",
     value: function () {
-      var _getSentEmails = _asyncToGenerator(
+      var _addMembersToGroup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee5(req, res) {
-        var userId, response;
+        var userId, id, emails, data, response;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 userId = req.user.id;
-                _context5.next = 3;
-                return _MessageServices.default.getSentEmails(userId);
+                id = req.params.id;
+                emails = req.body.emails;
+                data = {
+                  userId: userId,
+                  id: id,
+                  emails: emails
+                };
+                _context5.next = 6;
+                return _GroupServices.default.addMembersToGroup(data);
 
-              case 3:
+              case 6:
                 response = _context5.sent;
-                res.status(200).send(response);
 
-              case 5:
+                if (response.status === 200) {
+                  res.status(200).send(response);
+                } else {
+                  res.status(400).send(response);
+                }
+
+              case 8:
               case "end":
                 return _context5.stop();
             }
@@ -196,32 +221,44 @@ function () {
         }, _callee5);
       }));
 
-      function getSentEmails(_x7, _x8) {
-        return _getSentEmails.apply(this, arguments);
+      function addMembersToGroup(_x9, _x10) {
+        return _addMembersToGroup.apply(this, arguments);
       }
 
-      return getSentEmails;
+      return addMembersToGroup;
     }()
   }, {
-    key: "getUnReadEmails",
+    key: "removeMemberFromGroup",
     value: function () {
-      var _getUnReadEmails = _asyncToGenerator(
+      var _removeMemberFromGroup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee6(req, res) {
-        var userId, response;
+        var userId, _req$params, groupId, memberId, data, response;
+
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 userId = req.user.id;
-                _context6.next = 3;
-                return _MessageServices.default.getUnReadEmails(userId);
-
-              case 3:
-                response = _context6.sent;
-                res.status(200).send(response);
+                _req$params = req.params, groupId = _req$params.groupId, memberId = _req$params.memberId;
+                data = {
+                  userId: userId,
+                  memberId: memberId,
+                  groupId: groupId
+                };
+                _context6.next = 5;
+                return _GroupServices.default.removeMemberFromGroup(data);
 
               case 5:
+                response = _context6.sent;
+
+                if (response.status === 202) {
+                  res.status(202).send(response);
+                } else {
+                  res.status(403).send(response);
+                }
+
+              case 7:
               case "end":
                 return _context6.stop();
             }
@@ -229,40 +266,44 @@ function () {
         }, _callee6);
       }));
 
-      function getUnReadEmails(_x9, _x10) {
-        return _getUnReadEmails.apply(this, arguments);
+      function removeMemberFromGroup(_x11, _x12) {
+        return _removeMemberFromGroup.apply(this, arguments);
       }
 
-      return getUnReadEmails;
+      return removeMemberFromGroup;
     }()
   }, {
-    key: "viewAnInboxMessage",
+    key: "sendGroupMessage",
     value: function () {
-      var _viewAnInboxMessage = _asyncToGenerator(
+      var _sendGroupMessage = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee7(req, res) {
-        var userId, id, messageId, data, response;
+        var userId, groupId, _req$body, subject, message, status, data, response;
+
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
                 userId = req.user.id;
-                id = req.params.id;
-                messageId = id;
+                groupId = req.params.groupId;
+                _req$body = req.body, subject = _req$body.subject, message = _req$body.message, status = _req$body.status;
                 data = {
                   userId: userId,
-                  messageId: messageId
+                  groupId: groupId,
+                  subject: subject,
+                  message: message,
+                  status: status
                 };
                 _context7.next = 6;
-                return _MessageServices.default.viewAnInboxMessage(data);
+                return _GroupServices.default.sendGroupMessage(data);
 
               case 6:
                 response = _context7.sent;
 
-                if (response.status === 200) {
-                  res.status(200).send(response);
+                if (response.status === 201) {
+                  res.status(201).send(response);
                 } else {
-                  res.status(404).send(response);
+                  res.status(400).send(response);
                 }
 
               case 8:
@@ -273,53 +314,15 @@ function () {
         }, _callee7);
       }));
 
-      function viewAnInboxMessage(_x11, _x12) {
-        return _viewAnInboxMessage.apply(this, arguments);
+      function sendGroupMessage(_x13, _x14) {
+        return _sendGroupMessage.apply(this, arguments);
       }
 
-      return viewAnInboxMessage;
-    }()
-  }, {
-    key: "deleteAnInboxMessage",
-    value: function () {
-      var _deleteAnInboxMessage = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee8(req, res) {
-        var userId, id, data, response;
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                userId = req.user.id;
-                id = req.params.id;
-                data = {
-                  userId: userId,
-                  id: id
-                };
-                _context8.next = 5;
-                return _MessageServices.default.deleteAnInboxMessage(data);
-
-              case 5:
-                response = _context8.sent;
-                res.status(202).send(response);
-
-              case 7:
-              case "end":
-                return _context8.stop();
-            }
-          }
-        }, _callee8);
-      }));
-
-      function deleteAnInboxMessage(_x13, _x14) {
-        return _deleteAnInboxMessage.apply(this, arguments);
-      }
-
-      return deleteAnInboxMessage;
+      return sendGroupMessage;
     }()
   }]);
 
-  return MessageController;
+  return UserController;
 }();
 
-exports.default = MessageController;
+exports.default = UserController;

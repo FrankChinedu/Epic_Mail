@@ -20,6 +20,8 @@ var _api = _interopRequireDefault(require("./routes/api"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint-disable import/no-dynamic-require */
+// import { createAllTables, dropAllTables } from './model/index';
 var swaggerDocument = _yamljs.default.load("".concat(__dirname, "/../swagger.yaml"));
 
 var app = (0, _express.default)();
@@ -43,10 +45,6 @@ app.use(_bodyParser.default.json());
 app.use((0, _cors.default)());
 var apiURL = '/api/v1';
 global.apiURL = apiURL;
-Object.keys(_api.default).forEach(function (key) {
-  var value = _api.default[key];
-  app.use("".concat(apiURL, "/"), value);
-});
 app.use('/', function (req, res, next) {
   if (req.originalUrl !== '/') {
     next();
@@ -57,13 +55,28 @@ app.use('/', function (req, res, next) {
     message: 'welcome to EPIC MAIL'
   });
 });
+Object.keys(_api.default).forEach(function (key) {
+  var value = _api.default[key];
+  app.use("".concat(apiURL, "/"), value);
+});
 app.use(function (req, res) {
   res.status(404);
   res.send({
     error: 'not found'
   });
-});
-app.listen(process.env.PORT, function () {
-  console.log("server start at port ".concat(process.env.PORT, " "));
-});
+}); // const create = async (go) => {
+//   if (go) {
+//     // console.log('go');
+//     // dropAllTables();
+//     createAllTables();
+//   }
+// };
+// create(true);
+
+if (!module.parent) {
+  app.listen(process.env.PORT, function () {
+    console.log("server start at port ".concat(process.env.PORT, " "));
+  });
+}
+
 module.exports = app;

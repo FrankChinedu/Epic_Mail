@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _UserServices = _interopRequireDefault(require("../services/UserServices"));
+var _ContactServices = _interopRequireDefault(require("../services/ContactServices"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19,35 +19,43 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var UserController =
+var ContactController =
 /*#__PURE__*/
 function () {
-  function UserController() {
-    _classCallCheck(this, UserController);
+  function ContactController() {
+    _classCallCheck(this, ContactController);
   }
 
-  _createClass(UserController, null, [{
-    key: "createUser",
+  _createClass(ContactController, null, [{
+    key: "addContact",
     value: function () {
-      var _createUser = _asyncToGenerator(
+      var _addContact = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var data;
+        var email, userId, data, response;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                data = req.body;
-                _context.t0 = res.status(201);
-                _context.next = 4;
-                return _UserServices.default.createUser(data);
+                email = req.body.email;
+                userId = req.user.id;
+                data = {
+                  email: email,
+                  userId: userId
+                };
+                _context.next = 5;
+                return _ContactServices.default.addContact(data);
 
-              case 4:
-                _context.t1 = _context.sent;
+              case 5:
+                response = _context.sent;
 
-                _context.t0.send.call(_context.t0, _context.t1);
+                if (response.status === 201) {
+                  res.status(201).send(response);
+                } else {
+                  res.status(400).send(response);
+                }
 
-              case 6:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -55,42 +63,37 @@ function () {
         }, _callee);
       }));
 
-      function createUser(_x, _x2) {
-        return _createUser.apply(this, arguments);
+      function addContact(_x, _x2) {
+        return _addContact.apply(this, arguments);
       }
 
-      return createUser;
+      return addContact;
     }()
   }, {
-    key: "login",
+    key: "getAllUserContacts",
     value: function () {
-      var _login = _asyncToGenerator(
+      var _getAllUserContacts = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var data, response;
+        var userId, response;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                data = req.body;
+                userId = req.user.id;
                 _context2.next = 3;
-                return _UserServices.default.login(data);
+                return _ContactServices.default.getAllUserContacts(userId);
 
               case 3:
                 response = _context2.sent;
 
-                if (!(response.status === 401)) {
-                  _context2.next = 7;
-                  break;
+                if (response.status === 200) {
+                  res.status(200).send(response);
+                } else {
+                  res.status(400).send(response);
                 }
 
-                res.status(401).send(response);
-                return _context2.abrupt("return");
-
-              case 7:
-                res.status(200).send(response);
-
-              case 8:
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -98,32 +101,42 @@ function () {
         }, _callee2);
       }));
 
-      function login(_x3, _x4) {
-        return _login.apply(this, arguments);
+      function getAllUserContacts(_x3, _x4) {
+        return _getAllUserContacts.apply(this, arguments);
       }
 
-      return login;
+      return getAllUserContacts;
     }()
   }, {
-    key: "reset",
+    key: "deleteContact",
     value: function () {
-      var _reset = _asyncToGenerator(
+      var _deleteContact = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee3(req, res) {
-        var email, response;
+        var userId, id, data, response;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                email = req.body.email;
-                _context3.next = 3;
-                return _UserServices.default.resetPassword(email);
-
-              case 3:
-                response = _context3.sent;
-                res.status(200).send(response);
+                userId = req.user.id;
+                id = req.params.id;
+                data = {
+                  userId: userId,
+                  id: id
+                };
+                _context3.next = 5;
+                return _ContactServices.default.deleteContact(data);
 
               case 5:
+                response = _context3.sent;
+
+                if (response.status === 202) {
+                  res.status(202).send(response);
+                } else {
+                  res.status(404).send(response);
+                }
+
+              case 7:
               case "end":
                 return _context3.stop();
             }
@@ -131,15 +144,15 @@ function () {
         }, _callee3);
       }));
 
-      function reset(_x5, _x6) {
-        return _reset.apply(this, arguments);
+      function deleteContact(_x5, _x6) {
+        return _deleteContact.apply(this, arguments);
       }
 
-      return reset;
+      return deleteContact;
     }()
   }]);
 
-  return UserController;
+  return ContactController;
 }();
 
-exports.default = UserController;
+exports.default = ContactController;

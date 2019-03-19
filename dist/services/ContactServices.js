@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _user = require("../model/user");
+var _contact = require("../model/contact");
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -25,18 +25,39 @@ function () {
   }
 
   _createClass(UserServices, null, [{
-    key: "createUser",
+    key: "addContact",
     value: function () {
-      var _createUser = _asyncToGenerator(
+      var _addContact = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(data) {
+        var res;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt("return", _user.User.createUser(data));
+                _context.next = 2;
+                return _contact.Contact.addContact(data);
 
-              case 1:
+              case 2:
+                res = _context.sent;
+
+                if (!res.success) {
+                  _context.next = 5;
+                  break;
+                }
+
+                return _context.abrupt("return", {
+                  status: 201,
+                  data: res.data
+                });
+
+              case 5:
+                return _context.abrupt("return", {
+                  status: 400,
+                  data: res.data
+                });
+
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -44,25 +65,46 @@ function () {
         }, _callee);
       }));
 
-      function createUser(_x) {
-        return _createUser.apply(this, arguments);
+      function addContact(_x) {
+        return _addContact.apply(this, arguments);
       }
 
-      return createUser;
+      return addContact;
     }()
   }, {
-    key: "login",
+    key: "getAllUserContacts",
     value: function () {
-      var _login = _asyncToGenerator(
+      var _getAllUserContacts = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(data) {
+      regeneratorRuntime.mark(function _callee2(userId) {
+        var res;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                return _context2.abrupt("return", _user.User.login(data));
+                _context2.next = 2;
+                return _contact.Contact.getAllUserContacts(userId);
 
-              case 1:
+              case 2:
+                res = _context2.sent;
+
+                if (!res.success) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                return _context2.abrupt("return", {
+                  status: 200,
+                  data: res.data
+                });
+
+              case 5:
+                return _context2.abrupt("return", {
+                  status: 400,
+                  data: res.data
+                });
+
+              case 6:
               case "end":
                 return _context2.stop();
             }
@@ -70,35 +112,46 @@ function () {
         }, _callee2);
       }));
 
-      function login(_x2) {
-        return _login.apply(this, arguments);
+      function getAllUserContacts(_x2) {
+        return _getAllUserContacts.apply(this, arguments);
       }
 
-      return login;
+      return getAllUserContacts;
     }()
   }, {
-    key: "resetPassword",
+    key: "deleteContact",
     value: function () {
-      var _resetPassword = _asyncToGenerator(
+      var _deleteContact = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3(email) {
+      regeneratorRuntime.mark(function _callee3(data) {
+        var res;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return _user.User.reset(email);
+                return _contact.Contact.deleteContact(data);
 
               case 2:
+                res = _context3.sent;
+
+                if (!res.success) {
+                  _context3.next = 5;
+                  break;
+                }
+
                 return _context3.abrupt("return", {
-                  status: 200,
-                  data: [{
-                    message: 'check your mail for password reset link',
-                    email: email
-                  }]
+                  status: 202,
+                  data: res.data
                 });
 
-              case 3:
+              case 5:
+                return _context3.abrupt("return", {
+                  status: 404,
+                  data: res.data
+                });
+
+              case 6:
               case "end":
                 return _context3.stop();
             }
@@ -106,11 +159,11 @@ function () {
         }, _callee3);
       }));
 
-      function resetPassword(_x3) {
-        return _resetPassword.apply(this, arguments);
+      function deleteContact(_x3) {
+        return _deleteContact.apply(this, arguments);
       }
 
-      return resetPassword;
+      return deleteContact;
     }()
   }]);
 
