@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { query } from '../db/index';
+import { decode } from 'punycode';
 
 const Joi = require('joi');
 
@@ -59,7 +60,11 @@ export default class Auth {
     if (error) {
       res.status(401).send({
         status: 401,
-        error: error.details[0].message,
+        data: [
+          {
+            message: error.details[0].message,
+          },
+        ],
       });
     } else {
       next();
@@ -71,7 +76,11 @@ export default class Auth {
     if (!token) {
       return res.status(401).send({
         status: 401,
-        error: ['Token is not provided'],
+        data: [
+          {
+            message: 'Token is not provided',
+          },
+        ],
       });
     }
     try {
@@ -81,17 +90,42 @@ export default class Auth {
       if (!rows[0]) {
         return res.status(401).send({
           status: 401,
-          error: ['The token you provided is invalid'],
+          data: [
+            {
+              message: 'The token you provided is invalid',
+            },
+          ],
         });
       }
-      req.user = { id: decoded.id };
+      req.user = { id: decoded.id, email: decoded.email };
       next();
     } catch (error) {
       return res.status(401).send({
         status: 401,
-        error: [error],
+        data: [
+          {
+            message: error,
+          },
+        ],
       });
     }
+    return {};
+  }
+
+  static spoof(req, res, next) {
+    const { email } = req.user;
+    const { recieversEmail } = req.body;
+    if (email === recieversEmail) {
+      return res.status(400).send({
+        status: 400,
+        data: [
+          {
+            message: 'You cannot send an email to your self',
+          },
+        ],
+      });
+    }
+    next();
     return {};
   }
 }
