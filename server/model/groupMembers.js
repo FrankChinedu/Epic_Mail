@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { query, pool } from '../db/index';
+import Helpers from '../helpers/Helpers';
 
 class GroupMember {
   /* istanbul ignore next */
@@ -95,6 +96,53 @@ class GroupMember {
         error: [error],
       };
     }
+  }
+
+  static async retriveMembersEmails({ groupId }) {
+    const dbQuery = 'SELECT * FROM groupmembers WHERE groupid=$1';
+    const { rows } = await query(dbQuery, [groupId]);
+
+    if (!rows[0]) {
+      return {
+        success: false,
+        data: [{
+          message: 'you dont have any users in this group',
+        },
+        ],
+      };
+    }
+
+    const groupMembersId = [];
+    rows.forEach((member) => {
+      groupMembersId.push(member.memberid);
+    });
+
+    const groupMembersEmails = await this.getGroupMembersEmails(groupMembersId);
+
+    return {
+      success: true,
+      emails: groupMembersEmails,
+    };
+  }
+
+  static async getGroupMembersEmails(groupMembersId) {
+    const groupMembersEmails = [];
+
+    // eslint-disable-next-line consistent-return
+    await Helpers.asyncForEach(groupMembersId, async (id) => {
+      const getQuery = 'SELECT * FROM contacts WHERE id=$1';
+
+      try {
+        const resp = await query(getQuery, [id]);
+        if (resp.rows[0]) {
+          groupMembersEmails.push(resp.rows[0].email);
+        }
+      } catch (error) {
+        return error;
+      }
+    });
+
+    return groupMembersEmails;
   }
 }
 

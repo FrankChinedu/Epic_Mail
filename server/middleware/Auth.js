@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import Helper from '../helpers/Helpers';
 import { query } from '../db/index';
 
 const Joi = require('joi');
@@ -94,19 +93,5 @@ export default class Auth {
       });
     }
     return {};
-  }
-
-  static emailExist(req, res, next) {
-    const { email } = req.body;
-
-    const emailExist = Helper.emailExist(Helper.AllEmails(), email);
-
-    if (emailExist) {
-      res.status(403).send({
-        error: ['User already exists - -'],
-      });
-    } else {
-      next();
-    }
   }
 }
