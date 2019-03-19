@@ -72,7 +72,7 @@ class Group {
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
@@ -96,7 +96,7 @@ class Group {
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
@@ -109,11 +109,7 @@ class Group {
       if (!rows[0]) {
         return {
           success: false,
-          data: [
-            {
-              message: 'not found',
-            },
-          ],
+          data: 'not found',
         };
       }
       const update = 'UPDATE groups SET name=$1, updatedat=$2 WHERE ownerid=$3 AND id=$4 returning *';
@@ -132,7 +128,7 @@ class Group {
     } catch (err) {
       return {
         success: false,
-        error: [err],
+        error: err,
       };
     }
   }
@@ -145,25 +141,17 @@ class Group {
       if (!rows[0]) {
         return {
           success: true,
-          data: [
-            {
-              message: 'no result',
-            },
-          ],
+          data: 'no result',
         };
       }
       return {
         success: true,
-        data: [
-          {
-            message: 'deleted successfully',
-          },
-        ],
+        data: 'deleted successfully',
       };
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
@@ -219,11 +207,7 @@ class Group {
           }
           return {
             success: false,
-            data: [
-              {
-                message: 'something went wrong',
-              },
-            ],
+            data: 'something went wrong',
           };
         }
         const getMembersNotInGroup = this.getMembersNotInGroup(
@@ -241,38 +225,22 @@ class Group {
           }
           return {
             success: false,
-            data: [
-              {
-                message: 'something went wrong',
-              },
-            ],
+            data: 'something went wrong',
           };
         }
         return {
           success: true,
-          data: [
-            {
-              message: 'User(s) already exists',
-            },
-          ],
+          data: 'User(s) already exists',
         };
       }
       return {
         success: false,
-        data: [
-          {
-            message: 'kindly confirm your emails',
-          },
-        ],
+        data: 'kindly confirm your emails',
       };
     }
     return {
       success: false,
-      data: [
-        {
-          message: 'Kindly try adding some contacts into your contact list',
-        },
-      ],
+      data: 'Kindly try adding some contacts into your contact list',
     };
   }
 

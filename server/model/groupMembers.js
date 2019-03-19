@@ -70,30 +70,22 @@ class GroupMember {
         if (!rows[0]) {
           return {
             success: true,
-            data: [{
-              message: 'no result',
-            }],
+            data: 'no result',
           };
         }
         return {
           success: true,
-          data: [{
-            message: 'deleted successfully',
-          }],
+          data: 'deleted successfully',
         };
       }
       return {
         success: false,
-        data: [
-          {
-            message: 'Unauthorized',
-          },
-        ],
+        data: 'Unauthorized',
       };
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
@@ -105,10 +97,7 @@ class GroupMember {
     if (!rows[0]) {
       return {
         success: false,
-        data: [{
-          message: 'you dont have any users in this group',
-        },
-        ],
+        data: 'you dont have any users in this group',
       };
     }
 

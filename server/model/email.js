@@ -26,7 +26,7 @@ class Email {
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
@@ -82,7 +82,7 @@ class Email {
       if (!rows[0]) {
         return {
           success: false,
-          error: ['user not found try another email'],
+          error: 'user not found try another email',
         };
       }
       const { id } = rows[0];
@@ -93,7 +93,7 @@ class Email {
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
@@ -115,9 +115,7 @@ class Email {
         return {
           success: true,
           empty: true,
-          data: [{
-            message: 'No result',
-          }],
+          data: 'No result',
         };
       }
       const data = rows;
@@ -129,7 +127,7 @@ class Email {
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
@@ -150,21 +148,17 @@ class Email {
       if (!rows[0]) {
         return {
           success: true,
-          data: [{
-            message: 'no result',
-          }],
+          data: 'no result',
         };
       }
       return {
         success: true,
-        data: [{
-          message: 'deleted successfully',
-        }],
+        data: 'deleted successfully',
       };
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
@@ -176,29 +170,17 @@ class Email {
       if (!rows[0]) {
         return {
           success: false,
-          data: [
-            {
-              message: 'no found',
-            },
-          ],
+          data: 'no found',
         };
       }
       return {
         success: true,
-        data: [
-          {
-            message: rows[0],
-          },
-        ],
+        data: rows[0],
       };
     } catch (err) {
       return {
         success: false,
-        data: [
-          {
-            message: err,
-          },
-        ],
+        data: err,
       };
     }
   }
@@ -216,7 +198,7 @@ class Email {
 
       return {
         success: true,
-        data: [msg],
+        data: msg,
       };
     }
 

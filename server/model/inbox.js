@@ -23,7 +23,7 @@ class Inbox {
       if (!rows[0]) {
         return {
           success: false,
-          error: ['an error occured'],
+          error: 'an error occured',
         };
       }
       const { id } = rows[0];
@@ -34,7 +34,7 @@ class Inbox {
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
