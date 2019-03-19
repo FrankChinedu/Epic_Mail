@@ -53,7 +53,7 @@ const createContent = () => {
     emailBody.style.display = 'block';
     emailHead.style.display = 'flex';
   } else {
-    emailBody.style.display = value;   
+    emailBody.style.display = value;
     emailMainBody.style.display = value;
     emailHead.style.display = value;
   }
