@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import moment from 'moment';
 import { query, pool } from '../db/index';
+import Helpers from '../helpers/Helpers';
 
 class Group {
   /* istanbul ignore next */
@@ -276,14 +277,6 @@ class Group {
   }
 
   static async addNewMembers(data, groupId) {
-    // copied from https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
-    async function asyncForEach(array, callback) {
-      // eslint-disable-next-line no-plusplus
-      for (let index = 0; index < array.length; index++) {
-        // eslint-disable-next-line no-await-in-loop
-        await callback(array[index], index, array);
-      }
-    }
     const res = {
       success: false,
       data: [],
@@ -294,7 +287,7 @@ class Group {
       ids.push(x.id);
     });
     // eslint-disable-next-line consistent-return
-    await asyncForEach(ids, async (id) => {
+    await Helpers.asyncForEach(ids, async (id) => {
       const dbQuery = `INSERT INTO groupmembers(groupid, memberid, userrole, createdat, updatedat)
       VALUES($1, $2, $3, $4, $5) returning *`;
       try {
