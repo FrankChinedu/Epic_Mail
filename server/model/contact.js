@@ -58,11 +58,7 @@ class Contact {
     if (!rows[0]) {
       return {
         success: false,
-        data: [
-          {
-            message: 'Contact does not exist',
-          },
-        ],
+        data: 'Contact does not exist',
       };
     }
     const { id } = rows[0];
@@ -70,11 +66,7 @@ class Contact {
     if (parseInt(id, 0) === parseInt(userId, 0)) {
       return {
         success: false,
-        data: [
-          {
-            message: 'You cannot add your self as a contact',
-          },
-        ],
+        data: 'You cannot add your self as a contact',
       };
     }
 
@@ -85,11 +77,7 @@ class Contact {
     if (userExist.rows[0]) {
       return {
         success: false,
-        data: [
-          {
-            message: 'This user is already a contact',
-          },
-        ],
+        data: 'This user is already a contact',
       };
     }
 
@@ -110,7 +98,7 @@ class Contact {
     const resp = await query(add, val);
     return {
       success: true,
-      data: [resp.rows[0]],
+      data: resp.rows[0],
     };
   }
 
@@ -122,7 +110,7 @@ class Contact {
     if (!rows[0]) {
       return {
         success: false,
-        data: [],
+        data: 'no found',
       };
     }
     return {
@@ -139,22 +127,18 @@ class Contact {
       if (!rows[0]) {
         return {
           success: false,
-          data: [{
-            message: 'no result',
-          }],
+          data: 'no result',
         };
       }
       /* find user in group member table and delete the user */
       return {
         success: true,
-        data: [{
-          message: 'deleted successfully',
-        }],
+        data: 'deleted successfully',
       };
     } catch (error) {
       return {
         success: false,
-        error: [error],
+        error,
       };
     }
   }
