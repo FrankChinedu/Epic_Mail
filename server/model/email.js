@@ -82,7 +82,6 @@ class Email {
       await query('BEGIN');
       const getReceiver = 'SELECT * FROM users WHERE email=$1';
       const res = await query(getReceiver, [recieversEmail]);
-      console.log('---', res.rows);
       let receiverId = null;
 
       if (res.rows[0]) {
