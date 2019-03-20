@@ -68,7 +68,7 @@ function () {
                 response = _context.sent;
 
               case 12:
-                res.status(201).send(response);
+                res.status(response.status).send(response);
 
               case 13:
               case "end":
@@ -153,7 +153,7 @@ function () {
 
               case 3:
                 response = _context4.sent;
-                res.status(200).send(response);
+                res.status(response.status).send(response);
 
               case 5:
               case "end":
@@ -186,7 +186,7 @@ function () {
 
               case 3:
                 response = _context5.sent;
-                res.status(200).send(response);
+                res.status(response.status).send(response);
 
               case 5:
               case "end":
@@ -219,7 +219,7 @@ function () {
 
               case 3:
                 response = _context6.sent;
-                res.status(200).send(response);
+                res.status(response.status).send(response);
 
               case 5:
               case "end":
@@ -258,12 +258,7 @@ function () {
 
               case 6:
                 response = _context7.sent;
-
-                if (response.status === 200) {
-                  res.status(200).send(response);
-                } else {
-                  res.status(404).send(response);
-                }
+                res.status(response.status).send(response);
 
               case 8:
               case "end":
@@ -301,7 +296,7 @@ function () {
 
               case 5:
                 response = _context8.sent;
-                res.status(202).send(response);
+                res.status(response.status).send(response);
 
               case 7:
               case "end":

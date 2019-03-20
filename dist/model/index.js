@@ -21,11 +21,11 @@ var _group = require("./group");
 
 var _groupMembers = require("./groupMembers");
 
-var _index = require("../db/index");
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+// import { pool } from '../db/index';
 
 /* istanbul ignore next */
 var createAllTables =
@@ -70,13 +70,12 @@ function () {
             return _groupMembers.GroupMember.createMemberTable();
 
           case 16:
-            _index.pool.end();
-
+            // pool.end();
             if (process.env.NODE_ENV === 'test') {
               process.exit(0);
             }
 
-          case 18:
+          case 17:
           case "end":
             return _context.stop();
         }
@@ -135,13 +134,12 @@ function () {
             return _groupMembers.GroupMember.dropMemberTable();
 
           case 16:
-            _index.pool.end();
-
+            // pool.end();
             if (process.env.NODE_ENV === 'test') {
               process.exit(0);
             }
 
-          case 18:
+          case 17:
           case "end":
             return _context2.stop();
         }
