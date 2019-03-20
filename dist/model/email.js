@@ -49,30 +49,35 @@ function () {
                 values = [subject, message, status, (0, _moment.default)(new Date())];
                 _context.prev = 3;
                 _context.next = 6;
-                return (0, _index.query)(dbQuery, values);
+                return (0, _index.query)('BEGIN');
 
               case 6:
+                _context.next = 8;
+                return (0, _index.query)(dbQuery, values);
+
+              case 8:
                 _ref2 = _context.sent;
                 rows = _ref2.rows;
+                console.log('==', rows);
                 return _context.abrupt("return", {
                   success: true,
                   data: _objectSpread({}, rows[0])
                 });
 
-              case 11:
-                _context.prev = 11;
+              case 14:
+                _context.prev = 14;
                 _context.t0 = _context["catch"](3);
                 return _context.abrupt("return", {
                   success: false,
                   error: _context.t0
                 });
 
-              case 14:
+              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 11]]);
+        }, _callee, null, [[3, 14]]);
       }));
 
       function createMessage(_x) {

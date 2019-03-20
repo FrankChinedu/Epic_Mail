@@ -11,7 +11,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var userRoute = _express.default.Router();
 
 userRoute.post('/auth/signup', _Auth.default.trimmer, _Auth.default.validate, _UserController.default.createUser);
-userRoute.post('/auth/login', _Auth.default.trimmer, _Auth.default.validate, _UserController.default.login);
+userRoute.post('/auth/login', _Auth.default.trimmer, _UserController.default.login);
 userRoute.post('/auth/reset', _Auth.default.trimmer, _UserController.default.reset);
 userRoute.post('/auth/reset-password', _Auth.default.trimmer, _Auth.default.verifyToken, _UserController.default.resetPassword);
 module.exports = userRoute;
