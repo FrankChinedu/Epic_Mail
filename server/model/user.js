@@ -95,12 +95,12 @@ class User {
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
         return {
-          status: 401,
+          status: 500,
           error: 'account already exists',
         };
       }
       return {
-        status: 401,
+        status: 500,
         error,
       };
     }
