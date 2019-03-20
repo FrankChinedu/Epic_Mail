@@ -16,7 +16,7 @@ class Email {
     ];
 
     try {
-      await query('BEGIN');
+      // await query('BEGIN');
       const { rows } = await query(dbQuery, values);
       return {
         success: true,

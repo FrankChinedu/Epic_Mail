@@ -90,6 +90,7 @@ class User {
 
       return this.getJsonWebToken(user);
     } catch (error) {
+      console.log('---', error);
       if (error.routine === '_bt_check_unique') {
         return {
           status: 409,
