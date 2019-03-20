@@ -18,7 +18,9 @@ class Email {
     ];
 
     try {
+      await query('BEGIN');
       const { rows } = await query(dbQuery, values);
+      console.log('==', rows);
       return {
         success: true,
         data: { ...rows[0] },
