@@ -8,7 +8,7 @@ import { Draft } from './draft';
 import { Group } from './group';
 import { GroupMember } from './groupMembers';
 
-import { pool } from '../db/index';
+// import { pool } from '../db/index';
 
 /* istanbul ignore next */
 const createAllTables = async () => {
@@ -29,7 +29,7 @@ const createAllTables = async () => {
   /* istanbul ignore next */
   await GroupMember.createMemberTable();
 
-  pool.end();
+  // pool.end();
 
   if (process.env.NODE_ENV === 'test') {
     process.exit(0);
@@ -55,7 +55,7 @@ const dropAllTables = async () => {
   /* istanbul ignore next */
   await GroupMember.dropMemberTable();
 
-  pool.end();
+  // pool.end();
 
   if (process.env.NODE_ENV === 'test') {
     process.exit(0);

@@ -12,7 +12,7 @@ export default class MessageController {
     } else {
       response = await MessageController.saveAsDraft(data);
     }
-    res.status(201).send(response);
+    res.status(response.status).send(response);
   }
 
   static async saveAsDraft(data) {
@@ -26,19 +26,19 @@ export default class MessageController {
   static async getRecievedEmails(req, res) {
     const userId = req.user.id;
     const response = await MessageServices.getRecievedEmails(userId);
-    res.status(200).send(response);
+    res.status(response.status).send(response);
   }
 
   static async getSentEmails(req, res) {
     const userId = req.user.id;
     const response = await MessageServices.getSentEmails(userId);
-    res.status(200).send(response);
+    res.status(response.status).send(response);
   }
 
   static async getUnReadEmails(req, res) {
     const userId = req.user.id;
     const response = await MessageServices.getUnReadEmails(userId);
-    res.status(200).send(response);
+    res.status(response.status).send(response);
   }
 
   static async viewAnInboxMessage(req, res) {
@@ -48,11 +48,7 @@ export default class MessageController {
 
     const data = { userId, messageId };
     const response = await MessageServices.viewAnInboxMessage(data);
-    if (response.status === 200) {
-      res.status(200).send(response);
-    } else {
-      res.status(404).send(response);
-    }
+    res.status(response.status).send(response);
   }
 
   static async deleteAnInboxMessage(req, res) {
@@ -61,6 +57,6 @@ export default class MessageController {
     const data = { userId, id };
 
     const response = await MessageServices.deleteAnInboxMessage(data);
-    res.status(202).send(response);
+    res.status(response.status).send(response);
   }
 }
