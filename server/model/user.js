@@ -54,10 +54,16 @@ class User {
   }
 
   static getJsonWebToken(user) {
+    const {
+      firstname,
+      lastname,
+      email,
+    } = user;
+    const data = { firstname, lastname, email };
     const res = {
       status: 201,
       data: {
-        // ...user,
+        ...data,
         token: Helper.jwtSignUser(user),
       },
     };
@@ -133,7 +139,10 @@ class User {
 
     if (!rows[0]) {
       return {
-        success: true,
+        status: 404,
+        data: {
+          message: 'User not found',
+        },
       };
     }
 
@@ -144,14 +153,20 @@ class User {
     };
     const token = Helper.jwtSignUser(user);
     this.sendEmail(email, token);
-    return true;
+    return {
+      status: 200,
+      data: {
+        message: 'check your email for reset password link',
+        email,
+      },
+    };
   }
 
   static sendEmail(email, token) {
     const mailOptions = {
       from: 'EPIC MAIL',
       to: email,
-      subject: 'Reset Password Link',
+      subject: 'EPIC MAIL Reset Password Link',
       html: `<h1> reset link </h1>
          <p> click on the
         <a href='https://frankchinedu.github.io/Epic_Mail/UI/reset-password.html?x-access-token=${token}'>link</a>
@@ -173,6 +188,41 @@ class User {
         throw err;
       });
     return {};
+  }
+
+  static async resetPassword({ userId, password, email }) {
+    const hashpassword = Helper.hashPassword(password);
+
+    const dbQuery = 'SELECT * FROM users WHERE email= $1';
+
+    try {
+      const { rows } = await query(dbQuery, [email]);
+      const user = rows[0];
+      if (!user) {
+        return {
+          status: 404,
+          error: 'User not found',
+        };
+      }
+
+      const update = 'UPDATE users SET password=$1, updatedat=$2 WHERE id=$3 AND email=$4 returning *';
+      const res = await query(update, [hashpassword, moment(new Date()), userId, email]);
+      if (!res.rows[0]) {
+        return {
+          status: 400,
+          error: 'something went wrong try again',
+        };
+      }
+      return {
+        status: 200,
+        data: 'Password changed, goto login',
+      };
+    } catch (error) {
+      return {
+        status: 400,
+        error,
+      };
+    }
   }
 }
 

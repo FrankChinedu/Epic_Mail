@@ -9,14 +9,13 @@ export default class UserServices {
     return User.login(data);
   }
 
-  static async resetPassword(email) {
-    await User.reset(email);
-    return {
-      status: 200,
-      data: {
-        message: 'check your mail for password reset link',
-        email,
-      },
-    };
+  static async reset(email) {
+    const res = await User.reset(email);
+    return res;
+  }
+
+  static async resetPassword(data) {
+    // console.log(data);
+    return User.resetPassword(data);
   }
 }

@@ -20,7 +20,18 @@ export default class UserController {
   static async reset(req, res) {
     const { email } = req.body;
 
-    const response = await UserServices.resetPassword(email);
-    res.status(200).send(response);
+    const response = await UserServices.reset(email);
+    res.status(response.status).send(response);
+  }
+
+  static async resetPassword(req, res) {
+    // console.log('', req);
+    const userId = req.user.id;
+    const { email } = req.user;
+    const { password } = req.body;
+    const data = { userId, password, email };
+
+    const response = await UserServices.resetPassword(data);
+    res.status(response.status).send(response);
   }
 }
