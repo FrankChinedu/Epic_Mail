@@ -6,6 +6,7 @@
   <title>Sign Up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/app.css" />
   <script src=""></script>
 </head>
 <body>
@@ -25,9 +26,9 @@
     </div>
   </header>
   <main class="flex justify-content-ctr">
-    <div class="col-5 mt-25 form-cover">
+    <div class="col-5 mt-5 form-cover">
       <h3 class="center-text">Sign Up</h3>
-      <form class="" onsubmit="event.preventDefault(); submitForm()">
+      <form class="" onsubmit="event.preventDefault(); signUp()">
         <div class="mt-25">
           <label for="firstname">First Name</label>
           <input type="text" class="form-control mt-5" id="firstname" required placeholder="First Name">
@@ -48,6 +49,10 @@
           <label for="con-password">Confirm Password</label>
           <input type="password" class="form-control mt-25" id="con-password" required placeholder="confirm Password">
         </div>
+        <p id="error" class="error"></p>
+        <div class="center-text mt-5">
+          <a href="./forgot-password.html">forgot password</a>
+        </div>
         <div class="mt-25 center-text">
           <button type="submit" class="mt-25 btn">Sign Up</button>
         </div>
@@ -55,6 +60,6 @@
     </div>
   </main>
 
-  <script src="./js/index.js"></script>  
+  <script src="./js/app/authenticate.js"></script>
 </body>
 </html>
