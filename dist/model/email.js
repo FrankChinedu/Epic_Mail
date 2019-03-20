@@ -176,7 +176,6 @@ function () {
 
               case 7:
                 res = _context4.sent;
-                console.log('---', res.rows);
                 receiverId = null;
 
                 if (res.rows[0]) {
@@ -185,19 +184,19 @@ function () {
 
                 dbQuery = "INSERT INTO\n      emails(subject, message, status)\n      VALUES($1, $2, $3)\n      returning *";
                 values = [subject, message, status];
-                _context4.next = 15;
+                _context4.next = 14;
                 return (0, _index.query)(dbQuery, values);
 
-              case 15:
+              case 14:
                 result = _context4.sent;
                 msg = result.rows[0];
                 messageId = msg.id;
                 draftQuery = "INSERT INTO\n    drafts(senderid, receiverid, messageid) \n    VALUES ($1, $2, $3) RETURNING *\n    ";
                 draftValues = [userId, receiverId, messageId];
-                _context4.next = 22;
+                _context4.next = 21;
                 return (0, _index.query)(draftQuery, draftValues);
 
-              case 22:
+              case 21:
                 info = {
                   id: messageId,
                   createdOn: msg.createdat,
@@ -206,34 +205,34 @@ function () {
                   parentMessageId: msg.parentmessageid,
                   status: msg.status
                 };
-                _context4.next = 25;
+                _context4.next = 24;
                 return (0, _index.query)('COMMIT');
 
-              case 25:
+              case 24:
                 return _context4.abrupt("return", {
                   status: 201,
                   message: 'draft saved successfully',
                   data: info
                 });
 
-              case 28:
-                _context4.prev = 28;
+              case 27:
+                _context4.prev = 27;
                 _context4.t0 = _context4["catch"](1);
-                _context4.next = 32;
+                _context4.next = 31;
                 return (0, _index.query)('ROLLBACK');
 
-              case 32:
+              case 31:
                 return _context4.abrupt("return", {
                   statuc: 500,
                   error: 'something went wrong'
                 });
 
-              case 33:
+              case 32:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, null, [[1, 28]]);
+        }, _callee4, null, [[1, 27]]);
       }));
 
       function saveDraft(_x2) {
