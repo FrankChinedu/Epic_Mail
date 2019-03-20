@@ -5,11 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Email = void 0;
 
-var _moment = _interopRequireDefault(require("moment"));
-
 var _index = require("../db/index");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
@@ -45,8 +41,8 @@ function () {
             switch (_context.prev = _context.next) {
               case 0:
                 subject = _ref.subject, message = _ref.message, status = _ref.status;
-                dbQuery = "INSERT INTO\n      emails(subject, message, status, createdat)\n      VALUES($1, $2, $3, $4)\n      returning *";
-                values = [subject, message, status, (0, _moment.default)(new Date())];
+                dbQuery = "INSERT INTO\n      emails(subject, message, status)\n      VALUES($1, $2, $3, $4)\n      returning *";
+                values = [subject, message, status];
                 _context.prev = 3;
                 _context.next = 6;
                 return (0, _index.query)('BEGIN');
@@ -58,26 +54,29 @@ function () {
               case 8:
                 _ref2 = _context.sent;
                 rows = _ref2.rows;
-                console.log('==', rows);
                 return _context.abrupt("return", {
                   success: true,
                   data: _objectSpread({}, rows[0])
                 });
 
-              case 14:
-                _context.prev = 14;
+              case 13:
+                _context.prev = 13;
                 _context.t0 = _context["catch"](3);
+                _context.next = 17;
+                return (0, _index.query)('ROLLBACK');
+
+              case 17:
                 return _context.abrupt("return", {
                   success: false,
                   error: _context.t0
                 });
 
-              case 17:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[3, 14]]);
+        }, _callee, null, [[3, 13]]);
       }));
 
       function createMessage(_x) {
@@ -100,7 +99,7 @@ function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 /* istanbul ignore next */
-                queryText = "CREATE TABLE IF NOT EXISTS\n      emails(\n        id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n        subject VARCHAR(128),\n        message TEXT,\n        parentMessageId INTEGER,\n        status VARCHAR(128),\n        createdAt TIMESTAMP\n      )";
+                queryText = "CREATE TABLE IF NOT EXISTS\n      emails(\n        id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n        subject VARCHAR(128),\n        message TEXT,\n        parentMessageId INTEGER,\n        status VARCHAR(128),\n        createdAt TIMESTAMP DEFAULT NOW()\n      )";
                 _context2.next = 3;
                 return _index.pool.query(queryText)
                 /* istanbul ignore next */
@@ -469,9 +468,9 @@ function () {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                dbQuery = "UPDATE ".concat(table, " SET read=$1, updatedat=$2 WHERE messageid=$3 AND ").concat(field, "=$4 returning *");
+                dbQuery = "UPDATE ".concat(table, " SET read=$1, WHERE messageid=$2 AND ").concat(field, "=$3 returning *");
                 _context10.next = 3;
-                return (0, _index.query)(dbQuery, ['true', (0, _moment.default)(new Date()), messageId, userId]);
+                return (0, _index.query)(dbQuery, ['true', messageId, userId]);
 
               case 3:
                 _ref8 = _context10.sent;

@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Group = void 0;
 
-var _moment = _interopRequireDefault(require("moment"));
-
 var _index = require("../db/index");
 
 var _Helpers = _interopRequireDefault(require("../helpers/Helpers"));
@@ -48,7 +46,7 @@ function () {
             switch (_context.prev = _context.next) {
               case 0:
                 /* istanbul ignore next */
-                queryText = "CREATE TABLE IF NOT EXISTS\n        groups(\n          id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n          name VARCHAR(128) NOT NULL,\n          role VARCHAR(128),\n          ownerId INTEGER,\n          createdAt TIMESTAMP,\n          updatedAt TIMESTAMP,\n          FOREIGN KEY (ownerId) REFERENCES users (id) ON DELETE CASCADE\n        )";
+                queryText = "CREATE TABLE IF NOT EXISTS\n        groups(\n          id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n          name VARCHAR(128) NOT NULL,\n          role VARCHAR(128),\n          ownerId INTEGER,\n          createdAt TIMESTAMP DEFAULT NOW(),\n          updatedAt TIMESTAMP DEFAULT NOW(),\n          FOREIGN KEY (ownerId) REFERENCES users (id) ON DELETE CASCADE\n        )";
                 _context.next = 3;
                 return _index.pool.query(queryText)
                 /* istanbul ignore next */
@@ -121,8 +119,8 @@ function () {
             switch (_context3.prev = _context3.next) {
               case 0:
                 name = _ref.name, userId = _ref.userId;
-                dbQuery = "INSERT INTO\n      groups(name, ownerid, role, createdat, updatedat)\n      VALUES($1, $2, $3, $4, $5)\n      returning *";
-                values = [name, userId, 'admin', (0, _moment.default)(new Date()), (0, _moment.default)(new Date())];
+                dbQuery = "INSERT INTO\n      groups(name, ownerid, role)\n      VALUES($1, $2, $3)\n      returning *";
+                values = [name, userId, 'admin'];
                 _context3.prev = 3;
                 _context3.next = 6;
                 return (0, _index.query)(dbQuery, values);
@@ -250,8 +248,8 @@ function () {
                 });
 
               case 9:
-                update = 'UPDATE groups SET name=$1, updatedat=$2 WHERE ownerid=$3 AND id=$4 returning *';
-                values = [name || rows[0].name, (0, _moment.default)(new Date()), userId, id];
+                update = 'UPDATE groups SET name=$1 WHERE ownerid=$2 AND id=$3 returning *';
+                values = [name || rows[0].name, userId, id];
                 _context5.next = 13;
                 return (0, _index.query)(update, values);
 
@@ -539,10 +537,10 @@ function () {
                       while (1) {
                         switch (_context8.prev = _context8.next) {
                           case 0:
-                            dbQuery = "INSERT INTO groupmembers(groupid, memberid, userrole, createdat, updatedat)\n      VALUES($1, $2, $3, $4, $5) returning *";
+                            dbQuery = "INSERT INTO groupmembers(groupid, memberid, userrole)\n      VALUES($1, $2, $3, $4, $5) returning *";
                             _context8.prev = 1;
                             _context8.next = 4;
-                            return (0, _index.query)(dbQuery, [groupId, id, 'member', (0, _moment.default)(new Date()), (0, _moment.default)(new Date())]);
+                            return (0, _index.query)(dbQuery, [groupId, id, 'member']);
 
                           case 4:
                             _ref10 = _context8.sent;

@@ -42,7 +42,7 @@ function () {
             switch (_context.prev = _context.next) {
               case 0:
                 /* istanbul ignore next */
-                queryText = "CREATE TABLE IF NOT EXISTS\n        groupmembers(\n          id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n          groupId INTEGER,\n          memberId INTEGER,\n          userRole VARCHAR(128),\n          createdAt TIMESTAMP,\n          updatedAt TIMESTAMP,\n          FOREIGN KEY (groupId) REFERENCES groups (id) ON DELETE CASCADE,\n          FOREIGN KEY (memberId) REFERENCES contacts (id) ON DELETE CASCADE\n        )";
+                queryText = "CREATE TABLE IF NOT EXISTS\n        groupmembers(\n          id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n          groupId INTEGER,\n          memberId INTEGER,\n          userRole VARCHAR(128),\n          createdAt TIMESTAMP DEFAULT NOW(),\n          updatedAt TIMESTAMP DEFAULT NOW(),\n          FOREIGN KEY (groupId) REFERENCES groups (id) ON DELETE CASCADE,\n          FOREIGN KEY (memberId) REFERENCES contacts (id) ON DELETE CASCADE\n        )";
                 _context.next = 3;
                 return _index.pool.query(queryText)
                 /* istanbul ignore next */

@@ -5,11 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Inbox = void 0;
 
-var _moment = _interopRequireDefault(require("moment"));
-
 var _index = require("../db/index");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -41,8 +37,8 @@ function () {
             switch (_context.prev = _context.next) {
               case 0:
                 userId = _ref.userId, messageId = _ref.messageId, receiverId = _ref.receiverId;
-                findQuery = "INSERT INTO\n    inboxs(senderid, receiverid, messageid, read, createdat, updatedat) \n    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *\n    ";
-                values = [userId, receiverId, messageId, false, (0, _moment.default)(new Date()), (0, _moment.default)(new Date())];
+                findQuery = "INSERT INTO\n    inboxs(senderid, receiverid, messageid, read) \n    VALUES ($1, $2, $3, $4) RETURNING *\n    ";
+                values = [userId, receiverId, messageId, false];
                 _context.prev = 3;
                 _context.next = 6;
                 return (0, _index.query)(findQuery, values);
@@ -104,7 +100,7 @@ function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 /* istanbul ignore next */
-                queryText = "CREATE TABLE IF NOT EXISTS\n      inboxs(\n        id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n        receiverId INTEGER,\n        senderId INTEGER,\n        messageId INTEGER,\n        read BOOLEAN,\n        createdAt TIMESTAMP,\n        updatedAt TIMESTAMP,\n        FOREIGN KEY (receiverId) REFERENCES users (id) ON DELETE CASCADE,\n        FOREIGN KEY (senderId) REFERENCES users (id) ON DELETE CASCADE,\n        FOREIGN KEY (messageId) REFERENCES emails (id) ON DELETE CASCADE\n      )";
+                queryText = "CREATE TABLE IF NOT EXISTS\n      inboxs(\n        id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n        receiverId INTEGER,\n        senderId INTEGER,\n        messageId INTEGER,\n        read BOOLEAN,\n        createdAt TIMESTAMP DEFAULT NOW(),\n        updatedAt TIMESTAMP DEFAULT NOW(),\n        FOREIGN KEY (receiverId) REFERENCES users (id) ON DELETE CASCADE,\n        FOREIGN KEY (senderId) REFERENCES users (id) ON DELETE CASCADE,\n        FOREIGN KEY (messageId) REFERENCES emails (id) ON DELETE CASCADE\n      )";
                 _context2.next = 3;
                 return _index.pool.query(queryText)
                 /* istanbul ignore next */

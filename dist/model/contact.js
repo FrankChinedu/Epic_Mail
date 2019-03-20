@@ -5,11 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Contact = void 0;
 
-var _moment = _interopRequireDefault(require("moment"));
-
 var _index = require("../db/index");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -42,7 +38,7 @@ function () {
             switch (_context.prev = _context.next) {
               case 0:
                 /* istanbul ignore next */
-                queryText = "CREATE TABLE IF NOT EXISTS\n      contacts(\n        id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n        firstname VARCHAR(128) NOT NULL,\n        lastname VARCHAR(128),\n        email VARCHAR(128) NOT NULL,\n        contact_Owner_Id INTEGER,\n        avatar VARCHAR(128),\n        createdAt TIMESTAMP,\n        updatedAt TIMESTAMP,\n        FOREIGN KEY (contact_Owner_Id) REFERENCES users (id) ON DELETE CASCADE\n      )";
+                queryText = "CREATE TABLE IF NOT EXISTS\n      contacts(\n        id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n        firstname VARCHAR(128) NOT NULL,\n        lastname VARCHAR(128),\n        email VARCHAR(128) NOT NULL,\n        contact_Owner_Id INTEGER,\n        avatar VARCHAR(128),\n        createdAt TIMESTAMP DEFAULT NOW(),\n        updatedAt TIMESTAMP DEFAULT NOW(),\n        FOREIGN KEY (contact_Owner_Id) REFERENCES users (id) ON DELETE CASCADE\n      )";
                 _context.next = 3;
                 return _index.pool.query(queryText)
                 /* istanbul ignore next */
@@ -165,8 +161,8 @@ function () {
                 });
 
               case 17:
-                add = "INSERT INTO\n      contacts(firstname, lastname, email, contact_owner_id, \n        avatar, createdat, updatedat)\n      VALUES($1, $2, $3, $4, $5, $6, $7)\n      returning *";
-                val = [rows[0].firstname, rows[0].lastname, rows[0].email, userId, rows[0].avatar, (0, _moment.default)(new Date()), (0, _moment.default)(new Date())];
+                add = "INSERT INTO\n      contacts(firstname, lastname, email, contact_owner_id, \n        avatar)\n      VALUES($1, $2, $3, $4, $5)\n      returning *";
+                val = [rows[0].firstname, rows[0].lastname, rows[0].email, userId, rows[0].avatar];
                 _context3.next = 21;
                 return (0, _index.query)(add, val);
 

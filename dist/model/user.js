@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.User = void 0;
 
-var _moment = _interopRequireDefault(require("moment"));
-
 var _nodemailer = _interopRequireDefault(require("nodemailer"));
 
 require("dotenv/config");
@@ -52,7 +50,7 @@ function () {
             switch (_context.prev = _context.next) {
               case 0:
                 /* istanbul ignore next */
-                queryText = "CREATE TABLE IF NOT EXISTS\n      users(\n        id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n        firstname VARCHAR(128) NOT NULL,\n        lastname VARCHAR(128),\n        email VARCHAR(128) UNIQUE NOT NULL,\n        password VARCHAR(128) NOT NULL,\n        avatar VARCHAR(128),\n        createdAt TIMESTAMP,\n        updatedAt TIMESTAMP\n      )";
+                queryText = "CREATE TABLE IF NOT EXISTS\n      users(\n        id SERIAL NOT NULL UNIQUE PRIMARY KEY,\n        firstname VARCHAR(128) NOT NULL,\n        lastname VARCHAR(128),\n        email VARCHAR(128) UNIQUE NOT NULL,\n        password VARCHAR(128) NOT NULL,\n        avatar VARCHAR(128),\n        createdAt TIMESTAMP DEFAULT NOW(),\n        updatedAt TIMESTAMP DEFAULT NOW()\n      )";
                 _context.next = 3;
                 return _index.pool.query(queryText)
                 /* istanbul ignore next */
@@ -145,8 +143,8 @@ function () {
               case 0:
                 firstname = _ref.firstname, lastname = _ref.lastname, password = _ref.password, email = _ref.email;
                 hashpassword = _Helpers.default.hashPassword(password);
-                dbQuery = "INSERT INTO\n      users(firstname, lastname, email, password, createdAt, updatedAt)\n      VALUES($1, $2, $3, $4, $5, $6) returning *";
-                values = [firstname, lastname, email, hashpassword, (0, _moment.default)(new Date()), (0, _moment.default)(new Date())];
+                dbQuery = "INSERT INTO\n      users(firstname, lastname, email, password)\n      VALUES($1, $2, $3, $4) returning *";
+                values = [firstname, lastname, email, hashpassword];
                 _context3.prev = 4;
                 _context3.next = 7;
                 return (0, _index.query)(dbQuery, values);
@@ -167,7 +165,7 @@ function () {
                 }
 
                 return _context3.abrupt("return", {
-                  status: 500,
+                  status: 409,
                   error: 'account already exists'
                 });
 
@@ -383,9 +381,9 @@ function () {
                 });
 
               case 11:
-                update = 'UPDATE users SET password=$1, updatedat=$2 WHERE id=$3 AND email=$4 returning *';
+                update = 'UPDATE users SET password=$1 WHERE id=$2 AND email=$3 returning *';
                 _context6.next = 14;
-                return (0, _index.query)(update, [hashpassword, (0, _moment.default)(new Date()), userId, email]);
+                return (0, _index.query)(update, [hashpassword, userId, email]);
 
               case 14:
                 res = _context6.sent;
