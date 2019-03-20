@@ -112,7 +112,7 @@ class User {
 
     if (!user) {
       return {
-        status: 401,
+        status: 409,
         error: 'The credentials you provided is incorrect',
       };
     }
@@ -121,7 +121,7 @@ class User {
 
     if (!isUserPassword) {
       return {
-        status: 401,
+        status: 409,
         error: 'The credentials you provided is incorrect',
       };
     }
