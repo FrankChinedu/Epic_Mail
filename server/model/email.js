@@ -354,7 +354,7 @@ class Email {
       return {
         status: 200,
         data: rows[0],
-      }
+      };
     } catch (e) {
       return {
         status: 500,
