@@ -1,20 +1,17 @@
 /* eslint-disable import/prefer-default-export */
-import moment from 'moment';
 import { query, pool } from '../db/index';
 
 class Draft {
   static async insertIntoDraftTable({ userId, messageId, receiverId }) {
     const findQuery = `INSERT INTO
-    drafts(senderid, receiverid, messageid, createdat, updatedat) 
-    VALUES ($1, $2, $3, $4, $5) RETURNING *
+    drafts(senderid, receiverid, messageid) 
+    VALUES ($1, $2, $3) RETURNING *
     `;
 
     const values = [
       userId,
       receiverId,
       messageId,
-      moment(new Date()),
-      moment(new Date()),
     ];
 
     try {
@@ -48,8 +45,8 @@ class Draft {
         senderId INTEGER,
         messageId INTEGER,
         read BOOLEAN,
-        createdAt TIMESTAMP,
-        updatedAt TIMESTAMP,
+        createdAt TIMESTAMP DEFAULT NOW(),
+        updatedAt TIMESTAMP DEFAULT NOW(),
         FOREIGN KEY (receiverId) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (senderId) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (messageId) REFERENCES emails (id) ON DELETE CASCADE

@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import moment from 'moment';
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
 import Helper from '../helpers/Helpers';
@@ -17,8 +16,8 @@ class User {
         email VARCHAR(128) UNIQUE NOT NULL,
         password VARCHAR(128) NOT NULL,
         avatar VARCHAR(128),
-        createdAt TIMESTAMP,
-        updatedAt TIMESTAMP
+        createdAt TIMESTAMP DEFAULT NOW(),
+        updatedAt TIMESTAMP DEFAULT NOW()
       )`;
     await pool
       .query(queryText)
@@ -76,15 +75,13 @@ class User {
     const hashpassword = Helper.hashPassword(password);
 
     const dbQuery = `INSERT INTO
-      users(firstname, lastname, email, password, createdAt, updatedAt)
-      VALUES($1, $2, $3, $4, $5, $6) returning *`;
+      users(firstname, lastname, email, password)
+      VALUES($1, $2, $3, $4) returning *`;
     const values = [
       firstname,
       lastname,
       email,
       hashpassword,
-      moment(new Date()),
-      moment(new Date()),
     ];
 
     try {
@@ -95,12 +92,12 @@ class User {
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
         return {
-          status: 401,
+          status: 409,
           error: 'account already exists',
         };
       }
       return {
-        status: 401,
+        status: 500,
         error,
       };
     }
@@ -115,7 +112,7 @@ class User {
 
     if (!user) {
       return {
-        status: 401,
+        status: 409,
         error: 'The credentials you provided is incorrect',
       };
     }
@@ -124,7 +121,7 @@ class User {
 
     if (!isUserPassword) {
       return {
-        status: 401,
+        status: 409,
         error: 'The credentials you provided is incorrect',
       };
     }
@@ -205,8 +202,8 @@ class User {
         };
       }
 
-      const update = 'UPDATE users SET password=$1, updatedat=$2 WHERE id=$3 AND email=$4 returning *';
-      const res = await query(update, [hashpassword, moment(new Date()), userId, email]);
+      const update = 'UPDATE users SET password=$1 WHERE id=$2 AND email=$3 returning *';
+      const res = await query(update, [hashpassword, userId, email]);
       if (!res.rows[0]) {
         return {
           status: 400,

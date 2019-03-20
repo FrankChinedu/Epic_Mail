@@ -1,13 +1,12 @@
 /* eslint-disable import/prefer-default-export */
-import moment from 'moment';
 import { query, pool } from '../db/index';
 
 
 class Sent {
   static async insertIntoSentTable({ userId, messageId, receiverId }) {
     const findQuery = `INSERT INTO
-    sents(senderid, receiverid, messageid, read, createdat, updatedat) 
-    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
+    sents(senderid, receiverid, messageid, read) 
+    VALUES ($1, $2, $3, $4) RETURNING *
     `;
 
     const values = [
@@ -15,8 +14,6 @@ class Sent {
       receiverId,
       messageId,
       false,
-      moment(new Date()),
-      moment(new Date()),
     ];
 
     try {
@@ -50,8 +47,8 @@ class Sent {
         senderId INTEGER,
         messageId INTEGER,
         read BOOLEAN,
-        createdAt TIMESTAMP,
-        updatedAt TIMESTAMP,
+        createdAt TIMESTAMP DEFAULT NOW(),
+        updatedAt TIMESTAMP DEFAULT NOW(),
         FOREIGN KEY (receiverId) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (senderId) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (messageId) REFERENCES emails (id) ON DELETE CASCADE

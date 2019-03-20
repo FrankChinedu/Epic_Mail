@@ -4,7 +4,7 @@ import Auth from '../middleware/Auth';
 
 const contactRoute = express.Router();
 
-contactRoute.post('/contacts', Auth.verifyToken, Auth.magicValidator, ContactController.addContact);
+contactRoute.post('/contacts', Auth.trimmer, Auth.verifyToken, Auth.magicValidator, ContactController.addContact);
 contactRoute.get('/contacts', Auth.verifyToken, ContactController.getAllUserContacts);
 contactRoute.delete('/contacts/:id', Auth.verifyToken, ContactController.deleteContact);
 

@@ -8,7 +8,6 @@ import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import routes from './routes/api';
-// import { createAllTables, dropAllTables } from './model/index';
 
 const swaggerDocument = YAML.load(`${__dirname}/../swagger.yaml`);
 
@@ -59,16 +58,6 @@ app.use((req, res) => {
     error: 'not found',
   });
 });
-
-// const create = async (go) => {
-//   if (go) {
-//     // console.log('go');
-//     // dropAllTables();
-//     createAllTables();
-//   }
-// };
-
-// create(true);
 
 if (!module.parent) {
   app.listen(process.env.PORT, () => {

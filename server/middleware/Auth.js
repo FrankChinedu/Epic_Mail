@@ -9,7 +9,7 @@ export default class Auth {
       firstname: Joi.string().required().min(2).regex(/^[a-zA-Z]+/),
       lastname: Joi.string().required().min(2).regex(/^[a-zA-Z]+/),
       email: Joi.string().email({ minDomainAtoms: 2 }).required(),
-      password: Joi.string().min(8),
+      password: Joi.string().min(8).required(),
     };
 
     const { error } = Joi.validate(req.body, schema);
@@ -37,7 +37,7 @@ export default class Auth {
         case 'password':
           res.status(401).send({
             status: 401,
-            error: 'password was must be at least 8',
+            error: 'password cannot be empty and must be at least 8',
           });
           break;
         default:
@@ -49,6 +49,21 @@ export default class Auth {
     } else {
       next();
     }
+  }
+
+  static trimmer(req, res, next) {
+    const { body } = req;
+    if (body) {
+      const trimmed = {};
+
+      Object.keys(body).forEach((key) => {
+        const value = body[key];
+        Object.assign(trimmed, { [key]: value.trim() });
+      });
+      req.body = trimmed;
+    }
+
+    next();
   }
 
   static magicValidator(req, res, next) {

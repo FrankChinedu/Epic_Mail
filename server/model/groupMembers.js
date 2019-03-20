@@ -12,8 +12,8 @@ class GroupMember {
           groupId INTEGER,
           memberId INTEGER,
           userRole VARCHAR(128),
-          createdAt TIMESTAMP,
-          updatedAt TIMESTAMP,
+          createdAt TIMESTAMP DEFAULT NOW(),
+          updatedAt TIMESTAMP DEFAULT NOW(),
           FOREIGN KEY (groupId) REFERENCES groups (id) ON DELETE CASCADE,
           FOREIGN KEY (memberId) REFERENCES contacts (id) ON DELETE CASCADE
         )`;

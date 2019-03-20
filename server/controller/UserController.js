@@ -3,7 +3,8 @@ import UserServices from '../services/UserServices';
 export default class UserController {
   static async createUser(req, res) {
     const data = req.body;
-    res.status(201).send(await UserServices.createUser(data));
+    const response = await UserServices.createUser(data);
+    res.status(response.status).send(response);
   }
 
   static async login(req, res) {

@@ -4,7 +4,7 @@ import Auth from '../middleware/Auth';
 
 const messageRoute = express.Router();
 
-messageRoute.post('/messages', Auth.verifyToken, Auth.spoof, MessageController.createMessage);
+messageRoute.post('/messages', Auth.trimmer, Auth.verifyToken, Auth.spoof, MessageController.createMessage);
 
 messageRoute.get('/messages', Auth.verifyToken, MessageController.getRecievedEmails);
 
