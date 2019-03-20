@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   version: '1.0'
-  title: EPIC MAIL
+  title: EPIC MAIL-db
   description: >
     an app for sending email to people
   contact: {}
@@ -332,7 +332,7 @@ paths:
                 receiverid: 1
                 senderid: 2
                 read: true
-                createdon: 2019-03-16T08:27:08.9810000Z
+                createdon: 2019-03-16T08:27:08.981Z
           headers:
             X-Powered-By:
               type: string
@@ -364,13 +364,13 @@ paths:
               status: 401
               error:
               - Token is not provided
-  /messages/3:
+  /messages/1:
     get:
       description: get a particular users email from the inbox
       summary: get a particular  email message
       tags:
       - messages
-      operationId: Messages3Get
+      operationId: Messages1Get
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -397,7 +397,7 @@ paths:
                 receiverid: 1
                 senderid: 2
                 read: true
-                createdon: 2019-03-16T08:27:08.9810000Z
+                createdon: 2019-03-16T08:27:08.981Z
           headers:
             X-Powered-By:
               type: string
@@ -429,6 +429,7 @@ paths:
               status: 401
               error:
               - Token is not provided
+  /messages/3:
     delete:
       description: 'user can delete message '
       summary: delete  message
@@ -485,6 +486,330 @@ paths:
               status: 401
               error:
               - Token is not provided
+  /groups:
+    post:
+      description: A user can own and create a group
+      summary: create group
+      tags:
+      - groups
+      operationId: GroupsPost
+      deprecated: false
+      produces:
+      - application/json; charset=utf-8
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: name
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        201:
+          description: ''
+          schema:
+            $ref: '#/definitions/creategroup'
+          examples:
+            application/json; charset=utf-8:
+              status: 201
+              message: draft saved successfully
+              data:
+              - id: 1
+                name: group 1
+                role: admin
+                ownerid: 1
+                createdat: 2019-03-16T18:18:44.147Z
+                updatedat: 2019-03-16T18:18:44.148Z
+          headers:
+            X-Powered-By:
+              type: string
+              default: Express
+            Access-Control-Allow-Origin:
+              type: string
+              default: '*'
+            Access-Control-Allow-Headers:
+              type: string
+              default: X-Requested-With
+            Content-Length:
+              type: string
+              default: 191
+            ETag:
+              type: string
+              default: W/"bf-BduW5adAuTVxaW4nRT9ku7wzT7M"
+            Date:
+              type: string
+              default: Sat, 16 Mar 2019 19:18:44 GMT
+            Connection:
+              type: string
+              default: keep-alive
+    get:
+      description: get all groups that belongs to a user
+      summary: get groups
+      tags:
+      - groups
+      operationId: GroupsGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /groups/1/name:
+    patch:
+      description: a user can update a group name they own
+      summary: update group name
+      tags:
+      - groups
+      operationId: Groups1NamePatch
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: name
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /groups/1:
+    delete:
+      description: user can delete group they belong to
+      summary: delete group
+      tags:
+      - groups
+      operationId: Groups1Delete
+      deprecated: false
+      produces:
+      - application/json; charset=utf-8
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        202:
+          description: ''
+          schema:
+            $ref: '#/definitions/deletegroup'
+          examples:
+            application/json; charset=utf-8:
+              status: 202
+              data:
+              - message: deleted successfully
+          headers:
+            X-Powered-By:
+              type: string
+              default: Express
+            Access-Control-Allow-Origin:
+              type: string
+              default: '*'
+            Access-Control-Allow-Headers:
+              type: string
+              default: X-Requested-With
+            Content-Length:
+              type: string
+              default: 58
+            ETag:
+              type: string
+              default: W/"3a-YU6BJFz6mKfslKs4PP/+b8msSdg"
+            Date:
+              type: string
+              default: Sun, 17 Mar 2019 00:33:57 GMT
+            Connection:
+              type: string
+              default: keep-alive
+  /groups/1/users:
+    post:
+      description: A user can add different users to there group
+      summary: add users to a group
+      tags:
+      - groups
+      operationId: Groups1UsersPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: emails[]
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+    delete:
+      description: A user can remove a user they have in their group
+      summary: remove member
+      tags:
+      - groups
+      operationId: Groups1UsersDelete
+      deprecated: false
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /groups/1/messages:
+    post:
+      description: user can send a group message
+      summary: send a group message
+      tags:
+      - groups
+      operationId: Groups1MessagesPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: subject
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: message
+        in: formData
+        required: true
+        type: string
+        description: ''
+      - name: status
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /contacts:
+    post:
+      description: a new contact to a user
+      summary: create contacts
+      tags:
+      - contacts
+      operationId: ContactsPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: email
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+    get:
+      description: 'TODO: Add Description'
+      summary: get all user  contacts
+      tags:
+      - contacts
+      operationId: ContactsGet
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /contacts/1:
+    delete:
+      description: user can delete a user they own
+      summary: delete contact
+      tags:
+      - contacts
+      operationId: Contacts1Delete
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
 definitions:
   createanaccount:
     title: createanaccount
@@ -571,7 +896,7 @@ definitions:
         example: false
         type: boolean
       createdon:
-        example: 3/16/2019 8:27:08 AM
+        example: 2019-03-16T08:27:08.981Z
         type: string
     required:
     - id
@@ -627,7 +952,7 @@ definitions:
         receiverid: 1
         senderid: 2
         read: true
-        createdon: 2019-03-16T08:27:08.9810000Z
+        createdon: 2019-03-16T08:27:08.981Z
     type: object
     properties:
       status:
@@ -653,7 +978,7 @@ definitions:
         receiverid: 1
         senderid: 2
         read: true
-        createdon: 2019-03-16T08:27:08.9810000Z
+        createdon: 2019-03-16T08:27:08.981Z
     type: object
     properties:
       status:
@@ -693,8 +1018,89 @@ definitions:
         type: string
     required:
     - message
+  creategroup:
+    title: creategroup
+    example:
+      status: 201
+      message: draft saved successfully
+      data:
+      - id: 1
+        name: group 1
+        role: admin
+        ownerid: 1
+        createdat: 2019-03-16T18:18:44.147Z
+        updatedat: 2019-03-16T18:18:44.148Z
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      message:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Data8'
+    required:
+    - status
+    - message
+    - data
+  Data8:
+    title: Data8
+    type: object
+    properties:
+      id:
+        example: 1
+        type: integer
+        format: int32
+      name:
+        example: group 1
+        type: string
+      role:
+        example: admin
+        type: string
+      ownerid:
+        example: 1
+        type: integer
+        format: int32
+      createdat:
+        example: 2019-03-16T18:18:44.147Z
+        type: string
+      updatedat:
+        example: 2019-03-16T18:18:44.148Z
+        type: string
+    required:
+    - id
+    - name
+    - role
+    - ownerid
+    - createdat
+    - updatedat
+  deletegroup:
+    title: deletegroup
+    example:
+      status: 202
+      data:
+      - message: deleted successfully
+    type: object
+    properties:
+      status:
+        type: integer
+        format: int32
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Data7'
+    required:
+    - status
+    - data
 tags:
 - name: users
   description: user routes which includes sign in and sign out
 - name: messages
   description: route that contains messages endpoints
+- name: groups
+  description: all group routes
+- name: contacts
+  description: >
+    end points to contacts
