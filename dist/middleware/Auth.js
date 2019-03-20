@@ -41,7 +41,7 @@ function () {
         email: Joi.string().email({
           minDomainAtoms: 2
         }).required(),
-        password: Joi.string().min(8)
+        password: Joi.string().min(8).required()
       };
 
       var _Joi$validate = Joi.validate(req.body, schema),
@@ -73,7 +73,7 @@ function () {
           case 'password':
             res.status(401).send({
               status: 401,
-              error: 'password was must be at least 8'
+              error: 'password cannot be empty and must be at least 8'
             });
             break;
 

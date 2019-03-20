@@ -167,13 +167,13 @@ function () {
                 }
 
                 return _context3.abrupt("return", {
-                  status: 401,
+                  status: 500,
                   error: 'account already exists'
                 });
 
               case 17:
                 return _context3.abrupt("return", {
-                  status: 401,
+                  status: 500,
                   error: _context3.t0
                 });
 

@@ -32,22 +32,20 @@ function () {
       var _createUser = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var data;
+        var data, response;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 data = req.body;
-                _context.t0 = res.status(201);
-                _context.next = 4;
+                _context.next = 3;
                 return _UserServices.default.createUser(data);
 
-              case 4:
-                _context.t1 = _context.sent;
+              case 3:
+                response = _context.sent;
+                res.status(response.status).send(response);
 
-                _context.t0.send.call(_context.t0, _context.t1);
-
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
