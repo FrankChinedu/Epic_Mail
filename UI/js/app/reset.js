@@ -1,8 +1,5 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
 
 
 const unSetToken = () => {
@@ -14,7 +11,6 @@ const unSetToken = () => {
 unSetToken();
 
 const baseUrl = 'http://127.0.0.1:4000';
-// const baseUrl = 'https://epic-mail-ocf.herokuapp.com';
 
 const resetPassword = () => {
   const urlParams = new URLSearchParams(window.location.search);

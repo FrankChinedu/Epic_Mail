@@ -1,16 +1,17 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
 const baseUrl = 'http://127.0.0.1:4000';
-// const baseUrl = 'https://epic-mail-ocf.herokuapp.com';
 
 const {
   accessToken, userFirstname, userLastname, userEmail,
 } = localStorage;
 
-// console.log('--', accessToken && userFirstname && userLastname && userEmail);
+const setToken = (res) => {
+  window.localStorage.setItem('accessToken', res.data.token);
+  window.localStorage.setItem('userEmail', res.data.email);
+  window.localStorage.setItem('userFirstname', res.data.firstname);
+  window.localStorage.setItem('userLastname', res.data.lastname);
+};
 
 const reDirectIfLoggedIn = () => {
   if (accessToken && userFirstname && userLastname && userEmail) {
@@ -85,11 +86,4 @@ const signUp = () => {
         error.innerHTML = 'something went wrong';
       }
     });
-};
-
-const setToken = (res) => {
-  window.localStorage.setItem('accessToken', res.data.token);
-  window.localStorage.setItem('userEmail', res.data.email);
-  window.localStorage.setItem('userFirstname', res.data.firstname);
-  window.localStorage.setItem('userLastname', res.data.lastname);
 };
