@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import moment from 'moment';
 import { query, pool } from '../db/index';
 
 class Contact {
@@ -14,8 +13,8 @@ class Contact {
         email VARCHAR(128) NOT NULL,
         contact_Owner_Id INTEGER,
         avatar VARCHAR(128),
-        createdAt TIMESTAMP,
-        updatedAt TIMESTAMP,
+        createdAt TIMESTAMP DEFAULT NOW(),
+        updatedAt TIMESTAMP DEFAULT NOW(),
         FOREIGN KEY (contact_Owner_Id) REFERENCES users (id) ON DELETE CASCADE
       )`;
     await pool
@@ -83,8 +82,8 @@ class Contact {
 
     const add = `INSERT INTO
       contacts(firstname, lastname, email, contact_owner_id, 
-        avatar, createdat, updatedat)
-      VALUES($1, $2, $3, $4, $5, $6, $7)
+        avatar)
+      VALUES($1, $2, $3, $4, $5)
       returning *`;
     const val = [
       rows[0].firstname,
@@ -92,8 +91,6 @@ class Contact {
       rows[0].email,
       userId,
       rows[0].avatar,
-      moment(new Date()),
-      moment(new Date()),
     ];
     const resp = await query(add, val);
     return {

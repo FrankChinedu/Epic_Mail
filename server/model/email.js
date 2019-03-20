@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import moment from 'moment';
 import { query, pool } from '../db/index';
 
 class Email {
@@ -7,28 +6,27 @@ class Email {
     subject, message, status,
   }) {
     const dbQuery = `INSERT INTO
-      emails(subject, message, status, createdat)
+      emails(subject, message, status)
       VALUES($1, $2, $3, $4)
       returning *`;
     const values = [
       subject,
       message,
       status,
-      moment(new Date()),
     ];
 
     try {
       await query('BEGIN');
       const { rows } = await query(dbQuery, values);
-      console.log('==', rows);
       return {
         success: true,
         data: { ...rows[0] },
       };
-    } catch (error) {
+    } catch (e) {
+      await query('ROLLBACK');
       return {
         success: false,
-        error,
+        error: e,
       };
     }
   }
@@ -43,7 +41,7 @@ class Email {
         message TEXT,
         parentMessageId INTEGER,
         status VARCHAR(128),
-        createdAt TIMESTAMP
+        createdAt TIMESTAMP DEFAULT NOW()
       )`;
     await pool
       .query(queryText)
@@ -188,8 +186,8 @@ class Email {
   }
 
   static async readMessage(userId, messageId, table, field) {
-    const dbQuery = `UPDATE ${table} SET read=$1, updatedat=$2 WHERE messageid=$3 AND ${field}=$4 returning *`;
-    const { rows } = await query(dbQuery, ['true', moment(new Date()), messageId, userId]);
+    const dbQuery = `UPDATE ${table} SET read=$1, WHERE messageid=$2 AND ${field}=$3 returning *`;
+    const { rows } = await query(dbQuery, ['true', messageId, userId]);
     return rows[0];
   }
 

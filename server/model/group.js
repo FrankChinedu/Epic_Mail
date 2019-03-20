@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import moment from 'moment';
 import { query, pool } from '../db/index';
 import Helpers from '../helpers/Helpers';
 
@@ -13,8 +12,8 @@ class Group {
           name VARCHAR(128) NOT NULL,
           role VARCHAR(128),
           ownerId INTEGER,
-          createdAt TIMESTAMP,
-          updatedAt TIMESTAMP,
+          createdAt TIMESTAMP DEFAULT NOW(),
+          updatedAt TIMESTAMP DEFAULT NOW(),
           FOREIGN KEY (ownerId) REFERENCES users (id) ON DELETE CASCADE
         )`;
     await pool
@@ -52,15 +51,13 @@ class Group {
 
   static async createGroup({ name, userId }) {
     const dbQuery = `INSERT INTO
-      groups(name, ownerid, role, createdat, updatedat)
-      VALUES($1, $2, $3, $4, $5)
+      groups(name, ownerid, role)
+      VALUES($1, $2, $3)
       returning *`;
     const values = [
       name,
       userId,
       'admin',
-      moment(new Date()),
-      moment(new Date()),
     ];
 
     try {
@@ -112,8 +109,8 @@ class Group {
           data: 'not found',
         };
       }
-      const update = 'UPDATE groups SET name=$1, updatedat=$2 WHERE ownerid=$3 AND id=$4 returning *';
-      const values = [name || rows[0].name, moment(new Date()), userId, id];
+      const update = 'UPDATE groups SET name=$1 WHERE ownerid=$2 AND id=$3 returning *';
+      const values = [name || rows[0].name, userId, id];
       const response = await query(update, values);
       return {
         success: true,
@@ -256,15 +253,13 @@ class Group {
     });
     // eslint-disable-next-line consistent-return
     await Helpers.asyncForEach(ids, async (id) => {
-      const dbQuery = `INSERT INTO groupmembers(groupid, memberid, userrole, createdat, updatedat)
+      const dbQuery = `INSERT INTO groupmembers(groupid, memberid, userrole)
       VALUES($1, $2, $3, $4, $5) returning *`;
       try {
         const { rows } = await query(dbQuery, [
           groupId,
           id,
           'member',
-          moment(new Date()),
-          moment(new Date()),
         ]);
         res.success = true;
         res.data.push({

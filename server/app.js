@@ -64,7 +64,7 @@ app.use((req, res) => {
 //   if (go) {
 //     // console.log('go');
 //     // dropAllTables();
-//     createAllTables();
+//     // createAllTables();
 //   }
 // };
 
