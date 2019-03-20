@@ -24,7 +24,7 @@ class Email {
       };
     } catch (e) {
       // console.log(e);
-      await query('ROLLBACK');
+      // await query('ROLLBACK');
       return {
         success: false,
         error: e,
@@ -365,6 +365,7 @@ class Email {
   static async readMessage(userId, messageId, table, field) {
     const dbQuery = `UPDATE ${table} SET read=$1 WHERE messageid=$2 AND ${field}=$3 returning *`;
     try {
+      await query('BEGIN');
       await query(dbQuery, ['true', messageId, userId]);
 
       const getQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
@@ -373,11 +374,13 @@ class Email {
     INNER JOIN emails ON inboxs.messageid = emails.id  WHERE inboxs.receiverid = $1 AND inboxs.messageid =$2`;
 
       const res = await query(getQuery, [userId, messageId]);
+      await query('COMMIT');
       return {
         success: true,
         data: res.rows,
       };
     } catch (e) {
+      await query('ROLLBACK');
       return {
         success: false,
         error: 'something went wrong',
