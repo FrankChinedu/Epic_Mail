@@ -57,24 +57,6 @@ describe(' Sign up', () => {
     });
   });
 
-  // describe('/Post auth/signup', () => {
-  //   it('should not be able to sign up a new user if email parameter is missing ', (done) => {
-  //     const data = {
-  //       firstname: 'frank',
-  //       lastname: 'angelo',
-  //       email: '',
-  //       password: '12345678',
-  //     };
-  //     chai.request(server)
-  //       .post(`${apiURL}/auth/signup`)
-  //       .send(data)
-  //       .end((err, res) => {
-  //         res.should.have.status(400);
-  //       });
-  //     done();
-  //   });
-  // });
-
   describe('/Post auth/signup', () => {
     it('should not be able to sign up a new user if password parameter is missing ', (done) => {
       const data = {
@@ -125,10 +107,9 @@ describe(' Sign up', () => {
         .post(`${apiURL}/auth/signup`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(500);
+          res.should.have.status(400);
           should.exist(res.body);
           res.body.should.be.a('object');
-          // res.body.should.have.property('error');
         });
       done();
     });
