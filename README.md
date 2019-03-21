@@ -52,7 +52,7 @@ messages/information over the internet.
 
 ## To test project
 ```
- - npm test  // to run test
+ - npm run custom-test  // to run test
 ```
 ## Routes (api - end points)
  (properly stated in the documentation)
