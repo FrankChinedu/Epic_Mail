@@ -102,12 +102,14 @@ export default class Auth {
     if (error) {
       switch (error.details[0].context.key) {
         case 'email':
+          /* istanbul ignore next */
           res.status(401).send({
             status: 401,
             error: 'you must provide a valid email address',
           });
           break;
         case 'password':
+        /* istanbul ignore next */
           res.status(401).send({
             status: 401,
             error: 'password cannot be empty and must be at least 8',
@@ -115,6 +117,7 @@ export default class Auth {
           break;
         /* istanbul ignore next */
         default:
+        /* istanbul ignore next */
           res.status(401).send({
             status: 401,
             error: 'invalid registration information',

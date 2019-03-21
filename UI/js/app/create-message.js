@@ -62,6 +62,8 @@ const sendMessage = () => {
         console.log(res);
         // if (res.status === 200)
         // window.location.href = './inbox-page.html';
+      }).catch((e) => {
+        console.log(e);
       });
   }
 };
