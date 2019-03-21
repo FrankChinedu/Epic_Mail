@@ -138,8 +138,8 @@ export default class Auth {
   static async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {
-      return res.status(401).send({
-        status: 401,
+      return res.status(400).send({
+        status: 400,
         error: 'Token is not provided',
       });
     }
@@ -148,8 +148,8 @@ export default class Auth {
       const text = 'SELECT * FROM users WHERE id = $1';
       const { rows } = await query(text, [decoded.id]);
       if (!rows[0]) {
-        return res.status(401).send({
-          status: 401,
+        return res.status(400).send({
+          status: 400,
           error: 'The token you provided is invalid',
         });
       }
