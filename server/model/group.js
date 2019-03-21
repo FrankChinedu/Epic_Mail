@@ -130,6 +130,72 @@ class Group {
     }
   }
 
+  static async sendGroupMessage(membersEmails, data) {
+    const {
+      userId, subject, message, status,
+    } = data;
+    try {
+      await query('BEGIN');
+      const dbQuery = `INSERT INTO emails(subject, message, status)
+        VALUES($1, $2, $3) returning *`;
+      const values = [
+        subject,
+        message,
+        status,
+      ];
+
+      const result = await query(dbQuery, values);
+
+      const msg = result.rows[0];
+      const messageId = msg.id;
+
+      await Helpers.asyncForEach(membersEmails, async (recieversEmail) => {
+        const getReceiver = 'SELECT * FROM users WHERE email=$1';
+        const res = await query(getReceiver, [recieversEmail]);
+        const receiverId = res.rows[0].id;
+
+        const inboxQuery = `INSERT INTO
+          inboxs(senderid, receiverid, messageid, read) 
+          VALUES ($1, $2, $3, $4) RETURNING * `;
+
+        const inboxValue = [
+          userId,
+          receiverId,
+          messageId,
+          false,
+        ];
+        await query(inboxQuery, inboxValue);
+
+        const sentQuery = `INSERT INTO
+          sents(senderid, receiverid, messageid, read) 
+          VALUES ($1, $2, $3, $4) RETURNING * `;
+
+        const sentValue = [
+          userId,
+          receiverId,
+          messageId,
+          false,
+        ];
+        await query(sentQuery, sentValue);
+      });
+      await query('COMMIT');
+      return {
+        id: messageId,
+        createdOn: msg.createdat,
+        subject: msg.subject,
+        message: msg.message,
+        parentMessageId: msg.parentmessageid,
+        status: msg.status,
+      };
+    } catch (e) {
+      await query('ROLLBACK');
+      return {
+        statuc: 500,
+        error: 'something went wrong',
+      };
+    }
+  }
+
   static async deleteGroup({ userId, id }) {
     const dbQuery = 'DELETE FROM groups WHERE id=$1 AND ownerid=$2 returning *';
 
