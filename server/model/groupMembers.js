@@ -28,6 +28,7 @@ class GroupMember {
       .catch(() => {
       /* istanbul ignore next */
         // pool.end();
+      /* istanbul ignore next */
       });
   }
 
@@ -59,10 +60,13 @@ class GroupMember {
       const res = await query(getGroup, [userId]);
 
       const userGroupsIds = [];
+      /* istanbul ignore next */
       res.rows.forEach((data) => {
+      /* istanbul ignore next */
         userGroupsIds.push(data.id);
       });
 
+      /* istanbul ignore next */
       const userOwnsGroup = userGroupsIds.some(id => parseInt(id, 0) === parseInt(groupId, 0));
 
       if (userOwnsGroup) {
@@ -114,7 +118,9 @@ class GroupMember {
     }
 
     const groupMembersId = [];
+    /* istanbul ignore next */
     rows.forEach((member) => {
+    /* istanbul ignore next */
       groupMembersId.push(member.memberid);
     });
 
@@ -129,13 +135,18 @@ class GroupMember {
   static async getGroupMembersEmails(groupMembersId) {
     const groupMembersEmails = [];
 
+    /* istanbul ignore next */
     // eslint-disable-next-line consistent-return
     await Helpers.asyncForEach(groupMembersId, async (id) => {
+    /* istanbul ignore next */
       const getQuery = 'SELECT * FROM contacts WHERE id=$1';
 
       try {
+      /* istanbul ignore next */
         const resp = await query(getQuery, [id]);
+        /* istanbul ignore next */
         if (resp.rows[0]) {
+        /* istanbul ignore next */
           groupMembersEmails.push(resp.rows[0].email);
         }
       } catch (error) {

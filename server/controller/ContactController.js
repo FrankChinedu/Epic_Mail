@@ -20,6 +20,7 @@ export default class ContactController {
     if (response.status === 200) {
       res.status(200).send(response);
     } else {
+    /* istanbul ignore next */
       res.status(400).send(response);
     }
   }

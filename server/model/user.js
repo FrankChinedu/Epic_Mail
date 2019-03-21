@@ -149,6 +149,7 @@ class User {
       id, firstname, lastname, email,
     };
     const token = Helper.jwtSignUser(user);
+    /* istanbul ignore next */
     this.sendEmail(email, token);
     return {
       status: 200,
@@ -160,6 +161,7 @@ class User {
   }
 
   static sendEmail(email, token) {
+  /* istanbul ignore next */
     const mailOptions = {
       from: 'EPIC MAIL',
       to: email,
@@ -171,6 +173,7 @@ class User {
       `,
     };
 
+    /* istanbul ignore next */
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -179,11 +182,15 @@ class User {
       },
     });
 
+    /* istanbul ignore next */
     transporter.sendMail(mailOptions)
+    /* istanbul ignore next */
       .then(() => ({}))
+    /* istanbul ignore next */
       .catch((err) => {
         throw err;
       });
+    /* istanbul ignore next */
     return {};
   }
 
