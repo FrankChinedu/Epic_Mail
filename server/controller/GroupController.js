@@ -33,21 +33,17 @@ export default class UserController {
     const data = { userId, id };
 
     const response = await GroupServices.deleteGroup(data);
-    res.status(202).send(response);
+    res.status(response.status).send(response);
   }
 
-  static async addMembersToGroup(req, res) {
+  static async addContactToGroup(req, res) {
     const userId = req.user.id;
     const { id } = req.params;
     const { emails } = req.body;
     const data = { userId, id, emails };
 
-    const response = await GroupServices.addMembersToGroup(data);
-    if (response.status === 200) {
-      res.status(200).send(response);
-    } else {
-      res.status(400).send(response);
-    }
+    const response = await GroupServices.addContactToGroup(data);
+    res.status(response.status).send(response);
   }
 
   static async removeMemberFromGroup(req, res) {
@@ -56,11 +52,7 @@ export default class UserController {
     const data = { userId, memberId, groupId };
 
     const response = await GroupServices.removeMemberFromGroup(data);
-    if (response.status === 202) {
-      res.status(202).send(response);
-    } else {
-      res.status(403).send(response);
-    }
+    res.status(response.status).send(response);
   }
 
   static async sendGroupMessage(req, res) {
@@ -72,10 +64,6 @@ export default class UserController {
     };
 
     const response = await GroupServices.sendGroupMessage(data);
-    if (response.status === 201) {
-      res.status(201).send(response);
-    } else {
-      res.status(400).send(response);
-    }
+    res.status(response.status).send(response);
   }
 }

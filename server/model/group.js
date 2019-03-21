@@ -83,7 +83,7 @@ class Group {
       if (!rows[0]) {
         return {
           success: true,
-          data: [{}],
+          data: [],
         };
       }
       return {
@@ -137,17 +137,17 @@ class Group {
       const { rows } = await query(dbQuery, [id, userId]);
       if (!rows[0]) {
         return {
-          success: true,
+          status: 400,
           data: 'no result',
         };
       }
       return {
-        success: true,
+        status: 202,
         data: 'deleted successfully',
       };
     } catch (error) {
       return {
-        success: false,
+        status: 500,
         error,
       };
     }
@@ -183,7 +183,7 @@ class Group {
     return members;
   }
 
-  static async addMembersToGroup({ userId, id, emails }) {
+  static async addContactToGroup({ userId, id, emails }) {
     const userContacts = await this.userContacts(userId);
     if (userContacts) {
       const verifiedUsers = this.getAllUserContactsFromPassedEmails(
@@ -198,12 +198,12 @@ class Group {
           const res = await this.addNewMembers(verifiedUsers, id);
           if (res.success) {
             return {
-              success: res.success,
+              status: 200,
               data: res.data,
             };
           }
           return {
-            success: false,
+            status: 500,
             data: 'something went wrong',
           };
         }
@@ -216,27 +216,27 @@ class Group {
           const res = await this.addNewMembers(getMembersNotInGroup, id);
           if (res.success) {
             return {
-              success: res.success,
+              status: 200,
               data: res.data,
             };
           }
           return {
-            success: false,
+            status: 500,
             data: 'something went wrong',
           };
         }
         return {
-          success: true,
+          status: 400,
           data: 'User(s) already exists',
         };
       }
       return {
-        success: false,
+        status: 400,
         data: 'kindly confirm your emails',
       };
     }
     return {
-      success: false,
+      status: 400,
       data: 'Kindly try adding some contacts into your contact list',
     };
   }
@@ -254,7 +254,7 @@ class Group {
     // eslint-disable-next-line consistent-return
     await Helpers.asyncForEach(ids, async (id) => {
       const dbQuery = `INSERT INTO groupmembers(groupid, memberid, userrole)
-      VALUES($1, $2, $3, $4, $5) returning *`;
+      VALUES($1, $2, $3) returning *`;
       try {
         const { rows } = await query(dbQuery, [
           groupId,
