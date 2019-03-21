@@ -78,8 +78,8 @@ export default class Auth {
     const { error } = Joi.validate(body, schema);
 
     if (error) {
-      res.status(401).send({
-        status: 401,
+      res.status(400).send({
+        status: 400,
         error: error.details[0].message,
       });
     } else {
@@ -108,8 +108,8 @@ export default class Auth {
       req.user = { id: decoded.id, email: decoded.email };
       next();
     } catch (error) {
-      return res.status(401).send({
-        status: 401,
+      return res.status(500).send({
+        status: 500,
         error,
       });
     }

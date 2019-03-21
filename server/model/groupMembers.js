@@ -69,35 +69,47 @@ class GroupMember {
         const { rows } = await query(delQuery, [memberId, groupId]);
         if (!rows[0]) {
           return {
-            success: true,
+            status: 404,
             data: 'no result',
           };
         }
         return {
-          success: true,
+          status: 202,
           data: 'deleted successfully',
         };
       }
       return {
-        success: false,
+        status: 403,
         data: 'Unauthorized',
       };
     } catch (error) {
       return {
-        success: false,
+        status: 500,
         error,
       };
     }
   }
 
-  static async retriveMembersEmails({ groupId }) {
+  static async retriveMembersEmails({ groupId, userId }) {
+    const qry = 'SELECT * FROM groups WHERE id=$1 AND ownerid=$2';
+
+    const res = await query(qry, [groupId, userId]);
+
+    if (!res.rows[0]) {
+      return {
+        status: 403,
+        success: false,
+        data: 'Unauthorized',
+      };
+    }
+
     const dbQuery = 'SELECT * FROM groupmembers WHERE groupid=$1';
     const { rows } = await query(dbQuery, [groupId]);
-
     if (!rows[0]) {
       return {
+        status: 200,
         success: false,
-        data: 'you dont have any users in this group',
+        data: 'you dont have any members in this group',
       };
     }
 
