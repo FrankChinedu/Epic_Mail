@@ -5,7 +5,7 @@ export default class UserController {
     const userId = req.user.id;
     const data = { ...req.body, userId };
     const response = await GroupServices.createGroup(data);
-    res.status(201).send(response);
+    res.status(response.status).send(response);
   }
 
   static async getAllGroup(req, res) {

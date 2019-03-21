@@ -6,9 +6,11 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
+let accessToken;
+
 const { apiURL } = global;
 
-describe(' Sign up', () => {
+describe('Contacts ', () => {
   describe('sign up', () => {
     it('should create an account for a new user', (done) => {
       const data = {
@@ -32,6 +34,7 @@ describe(' Sign up', () => {
         });
     });
   });
+
 
   describe('sign up', () => {
     it('should create an account for a new user', (done) => {
@@ -57,83 +60,6 @@ describe(' Sign up', () => {
     });
   });
 
-  describe('/Post auth/signup', () => {
-    it('should not be able to sign up a new user if email parameter is missing ', (done) => {
-      const data = {
-        firstname: 'frank',
-        lastname: 'angelo',
-        email: '',
-        password: '12345678',
-      };
-      chai.request(server)
-        .post(`${apiURL}/auth/signup`)
-        .send(data)
-        .end((err, res) => {
-          res.should.have.status(401);
-        });
-      done();
-    });
-  });
-
-  describe('/Post auth/signup', () => {
-    it('should not be able to sign up a new user if password parameter is missing ', (done) => {
-      const data = {
-        firstname: 'frank',
-        lastname: 'angelo',
-        email: 'angelo@me.com',
-        password: '',
-      };
-      chai.request(server)
-        .post(`${apiURL}/auth/signup`)
-        .send(data)
-        .end((err, res) => {
-          res.should.have.status(401);
-          should.exist(res.body);
-          res.body.should.be.a('object');
-          res.body.should.have.property('error');
-        });
-      done();
-    });
-  });
-
-  describe('/Post auth/signup', () => {
-    it('should not be able to sign up a new user if first name parameter is missing', (done) => {
-      const data = {
-        firstname: '',
-        lastname: 'angelo',
-        email: 'angelo@me.com',
-        password: '12345678',
-      };
-      chai.request(server)
-        .post(`${apiURL}/auth/signup`)
-        .send(data)
-        .end((err, res) => {
-          res.should.have.status(401);
-          should.exist(res.body);
-          res.body.should.be.a('object');
-          res.body.should.have.property('error');
-        });
-      done();
-    });
-  });
-
-  describe('/Post auth/signup', () => {
-    it('should not be able to sign up a new user if no parameter is missing', (done) => {
-      const data = {
-      };
-      chai.request(server)
-        .post(`${apiURL}/auth/signup`)
-        .send(data)
-        .end((err, res) => {
-          res.should.have.status(401);
-          should.exist(res.body);
-          res.body.should.be.a('object');
-          res.body.should.have.property('error');
-        });
-      done();
-    });
-  });
-
   describe('/Post auth/login', () => {
     it('should log a user in', (done) => {
       const data = {
@@ -144,6 +70,7 @@ describe(' Sign up', () => {
         .post(`${apiURL}/auth/login`)
         .send(data)
         .end((err, res) => {
+          accessToken = res.body.data.token;
           res.should.have.status(200);
           should.exist(res.body);
           res.body.should.be.a('object');
@@ -154,23 +81,90 @@ describe(' Sign up', () => {
           done();
         });
     });
+  });
 
-    it('should not be able to log a user in if wrong parameters are passed', (done) => {
+  describe('Contacts  ', () => {
+    it('should add a user to be a contact', (done) => {
       const data = {
-        email: 'franki@me.com',
-        password: '123456789',
+        email: 'john@doe.com',
       };
       chai.request(server)
-        .post(`${apiURL}/auth/login`)
+        .post(`${apiURL}/contacts`)
         .send(data)
+        .set('x-access-token', accessToken)
         .end((err, res) => {
-          res.should.have.status(409);
+          res.should.have.status(201);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('status');
-          res.body.should.have.property('error');
+          res.body.should.have.property('data');
+          res.body.status.should.equal(201);
+          done();
         });
-      done();
+    });
+
+    it('should not add user if user is already a contact ', (done) => {
+      const data = {
+        email: 'john@doe.com',
+      };
+      chai.request(server)
+        .post(`${apiURL}/contacts`)
+        .send(data)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          res.should.have.status(400);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.status.should.equal(400);
+          done();
+        });
+    });
+
+    it('should get all users contacts', (done) => {
+      chai.request(server)
+        .get(`${apiURL}/contacts`)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          res.should.have.status(200);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.status.should.equal(200);
+          done();
+        });
+    });
+
+    it('should delete a user\'s contact ', (done) => {
+      chai.request(server)
+        .delete(`${apiURL}/contacts/1`)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          res.should.have.status(202);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.status.should.equal(202);
+          done();
+        });
+    });
+
+    it('should return 404 if user is already deleted or does not exist ', (done) => {
+      chai.request(server)
+        .delete(`${apiURL}/contacts/1`)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          res.should.have.status(404);
+          should.exist(res.body);
+          res.body.should.be.a('object');
+          res.body.should.have.property('status');
+          res.body.should.have.property('data');
+          res.body.status.should.equal(404);
+          done();
+        });
     });
   });
 });

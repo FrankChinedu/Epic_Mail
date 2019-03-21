@@ -22,6 +22,11 @@ messages/information over the internet.
 - User can view sent messages
 - User can view a particular inbox message
 - User can delete a particular inbox message
+- User can have a contact list
+- User can get all their contacts 
+- User can create a group
+- User can send messages to the group
+- User can
 
 
 ## Gh pages
@@ -47,7 +52,7 @@ messages/information over the internet.
 
 ## To test project
 ```
- - npm test  // to run test
+ - npm run custom-test  // to run test
 ```
 ## Routes (api - end points)
  (properly stated in the documentation)

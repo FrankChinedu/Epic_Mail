@@ -46,16 +46,6 @@ export default class MessageServices {
   }
 
   static async deleteAnInboxMessage(data) {
-    const response = await Email.deleteInboxMessage(data);
-    if (response.success) {
-      return {
-        status: 202,
-        data: response.data,
-      };
-    }
-    return {
-      status: 500,
-      error: response.error,
-    };
+    return Email.deleteInboxMessage(data);
   }
 }

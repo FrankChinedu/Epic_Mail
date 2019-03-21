@@ -17,41 +17,48 @@ export default class Auth {
     if (error) {
       switch (error.details[0].context.key) {
         case 'email':
-          res.status(401).send({
-            status: 401,
+          res.status(400).send({
+            status: 400,
             error: 'you must provide a valid email address',
           });
           break;
         case 'firstname':
-          res.status(401).send({
-            status: 401,
+          res.status(400).send({
+            status: 400,
             error: 'firstname cannot be empty or less than two characters and must not start with a number',
           });
           break;
         case 'lastname':
         /* istanbul ignore next */
-          res.status(401).send({
-            status: 401,
+          res.status(400).send({
+            status: 400,
             error: 'lastname cannot be empty or less than two characters and must not start with a number',
           });
           /* istanbul ignore next */
           break;
         case 'password':
-          res.status(401).send({
-            status: 401,
+          res.status(400).send({
+            status: 400,
             error: 'password cannot be empty and must be at least 8',
           });
           break;
         /* istanbul ignore next */
         default:
-          res.status(401).send({
-            status: 401,
+          res.status(400).send({
+            status: 400,
             error: 'invalid registration information',
           });
       }
     } else {
       next();
     }
+  }
+
+  static emailToLowerCase(req, res, next) {
+    let { email } = req.body;
+    email = email.toLowerCase();
+    req.body.email = email;
+    next();
   }
 
   static trimmer(req, res, next) {
@@ -131,8 +138,8 @@ export default class Auth {
   static async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {
-      return res.status(401).send({
-        status: 401,
+      return res.status(400).send({
+        status: 400,
         error: 'Token is not provided',
       });
     }
@@ -141,8 +148,8 @@ export default class Auth {
       const text = 'SELECT * FROM users WHERE id = $1';
       const { rows } = await query(text, [decoded.id]);
       if (!rows[0]) {
-        return res.status(401).send({
-          status: 401,
+        return res.status(400).send({
+          status: 400,
           error: 'The token you provided is invalid',
         });
       }

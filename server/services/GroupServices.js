@@ -3,13 +3,7 @@ import { GroupMember } from '../model/groupMembers';
 
 export default class UserServices {
   static async createGroup(data) {
-    const res = await Group.createGroup(data);
-
-    return {
-      status: 201,
-      message: 'group created successfully',
-      data: [res.data],
-    };
+    return Group.createGroup(data);
   }
 
   static async getAllGroup(userId) {
