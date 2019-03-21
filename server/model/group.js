@@ -51,6 +51,15 @@ class Group {
   }
 
   static async createGroup({ name, userId }) {
+    const qry = 'SELECT * FROM groups WHERE name=$1 AND ownerid=$2';
+    const res = await query(qry, [name, userId]);
+    if (res.rows[0]) {
+      return {
+        status: 409,
+        message: `You already have a group with name '${res.rows[0].name}'`,
+      };
+    }
+
     const dbQuery = `INSERT INTO
       groups(name, ownerid, role)
       VALUES($1, $2, $3)
@@ -64,13 +73,13 @@ class Group {
     try {
       const { rows } = await query(dbQuery, values);
       return {
-        success: true,
+        status: 201,
         data: { ...rows[0] },
       };
     } catch (error) {
       return {
-        success: false,
-        error,
+        status: 500,
+        error: 'something went wrong',
       };
     }
   }

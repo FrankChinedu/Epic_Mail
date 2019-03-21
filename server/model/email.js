@@ -320,7 +320,7 @@ class Email {
     } catch (error) {
       return {
         status: 500,
-        error,
+        error: 'something went wrong',
       };
     }
   }
