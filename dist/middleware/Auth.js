@@ -232,8 +232,8 @@ function () {
                   break;
                 }
 
-                return _context2.abrupt("return", res.status(401).send({
-                  status: 401,
+                return _context2.abrupt("return", res.status(400).send({
+                  status: 400,
                   error: 'Token is not provided'
                 }));
 
@@ -257,8 +257,8 @@ function () {
                   break;
                 }
 
-                return _context2.abrupt("return", res.status(401).send({
-                  status: 401,
+                return _context2.abrupt("return", res.status(400).send({
+                  status: 400,
                   error: 'The token you provided is invalid'
                 }));
 
