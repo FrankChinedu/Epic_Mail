@@ -42,6 +42,7 @@ app.use('/', (req, res, next) => {
     next();
     return;
   }
+  /* istanbul ignore next */
   res.send({
     message: 'welcome to EPIC MAIL',
   });
@@ -52,15 +53,20 @@ Object.keys(routes).forEach((key) => {
   app.use(`${apiURL}/`, value);
 });
 
+/* istanbul ignore next */
 app.use((req, res) => {
+/* istanbul ignore next */
   res.status(404);
+  /* istanbul ignore next */
   res.send({
     error: 'not found',
   });
 });
 
 if (!module.parent) {
+/* istanbul ignore next */
   app.listen(process.env.PORT, () => {
+  /* istanbul ignore next */
     console.log(`server start at port ${process.env.PORT} `);
   });
 }

@@ -70,11 +70,6 @@ describe(' Sign up', () => {
         .send(data)
         .end((err, res) => {
           res.should.have.status(401);
-          // should.exist(res.body);
-          // res.body.should.have.property('status');
-          // res.body.should.have.property('data');
-          // res.body.should.be.a('object');
-          // res.body.should.have.property('error');
         });
       done();
     });
@@ -169,7 +164,7 @@ describe(' Sign up', () => {
         .post(`${apiURL}/auth/login`)
         .send(data)
         .end((err, res) => {
-          res.should.have.status(401);
+          res.should.have.status(409);
           should.exist(res.body);
           res.body.should.be.a('object');
           res.body.should.have.property('status');

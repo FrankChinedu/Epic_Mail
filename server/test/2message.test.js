@@ -52,7 +52,6 @@ describe('Message ', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('status');
           res.body.should.have.property('data');
-          res.body.data.should.be.a('array');
           res.body.status.should.equal(201);
           done();
         });
@@ -70,7 +69,6 @@ describe('Message ', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('status');
           res.body.should.have.property('data');
-          // res.body.data.should.be.a('array');
           res.body.status.should.equal(200);
           done();
         });
@@ -88,7 +86,6 @@ describe('Message ', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('status');
           res.body.should.have.property('data');
-          // res.body.data.should.be.a('array');
           res.body.status.should.equal(200);
           done();
         });
@@ -108,7 +105,6 @@ describe('Message ', () => {
             res.body.should.be.a('object');
             res.body.should.have.property('status');
             res.body.should.have.property('data');
-            // res.body.data.should.be.a('array');
             res.body.status.should.equal(200);
           } else {
             res.should.have.status(404);
@@ -116,7 +112,6 @@ describe('Message ', () => {
             res.body.should.be.a('object');
             res.body.should.have.property('status');
             res.body.should.have.property('data');
-            // res.body.data.should.be.a('array');
             res.body.status.should.equal(404);
           }
           done();
@@ -135,7 +130,6 @@ describe('Message ', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('status');
           res.body.should.have.property('data');
-          // res.body.data.should.be.a('array');
           res.body.status.should.equal(202);
           done(err);
         });
@@ -153,7 +147,6 @@ describe('Message ', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('status');
           res.body.should.have.property('data');
-          // res.body.data.should.be.a('array');
           res.body.status.should.equal(200);
           done();
         });
