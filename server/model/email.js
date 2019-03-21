@@ -264,7 +264,7 @@ class Email {
       return {
         success: true,
         empty: false,
-        data: [data],
+        data,
       };
     } catch (error) {
       return {
@@ -309,17 +309,17 @@ class Email {
       const { rows } = await query(dbQuery, [id, userId]);
       if (!rows[0]) {
         return {
-          success: true,
+          status: 404,
           data: 'no result',
         };
       }
       return {
-        success: true,
+        status: 202,
         data: 'deleted successfully',
       };
     } catch (error) {
       return {
-        success: false,
+        status: 500,
         error,
       };
     }
