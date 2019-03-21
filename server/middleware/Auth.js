@@ -91,6 +91,43 @@ export default class Auth {
     }
   }
 
+  static async verifyLogin(req, res, next) {
+    const schema = {
+      email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+      password: Joi.string().min(8).required(),
+    };
+
+    const { error } = Joi.validate(req.body, schema);
+
+    if (error) {
+      switch (error.details[0].context.key) {
+        case 'email':
+          /* istanbul ignore next */
+          res.status(401).send({
+            status: 401,
+            error: 'you must provide a valid email address',
+          });
+          break;
+        case 'password':
+        /* istanbul ignore next */
+          res.status(401).send({
+            status: 401,
+            error: 'password cannot be empty and must be at least 8',
+          });
+          break;
+        /* istanbul ignore next */
+        default:
+        /* istanbul ignore next */
+          res.status(401).send({
+            status: 401,
+            error: 'invalid registration information',
+          });
+      }
+    } else {
+      next();
+    }
+  }
+
   static async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {
