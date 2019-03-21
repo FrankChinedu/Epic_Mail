@@ -1,26 +1,26 @@
 swagger: '2.0'
 info:
   version: '1.0'
-  title: EPIC MAIL-db
+  title: EPIC MAIL
   description: >
-    an app for sending email to people
+    An Amazing email sending App built with LOVE.
   contact: {}
-host: 127.0.0.1:4000
-basePath: /api/v1
+host: epic-mail-ocf.herokuapp.com
+basePath: /
 schemes:
-- http
+- https
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-  /auth/signup:
+  /api/v1/auth/signup:
     post:
       description: route to sign in user
       summary: create an account
       tags:
       - users
-      operationId: AuthSignupPost
+      operationId: ApiV1AuthSignupPost
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -84,13 +84,13 @@ paths:
             Connection:
               type: string
               default: keep-alive
-  /auth/login:
+  /api/v1/auth/login:
     post:
       description: 'route to login user '
       summary: login user
       tags:
       - users
-      operationId: AuthLoginPost
+      operationId: ApiV1AuthLoginPost
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -144,13 +144,40 @@ paths:
             Connection:
               type: string
               default: keep-alive
-  /messages:
+  /api/v1/auth/reset:
+    post:
+      description: 'TODO: Add Description'
+      summary: sent reset password link
+      tags:
+      - users
+      operationId: ApiV1AuthResetPost
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: Content-Type
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: email
+        in: formData
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          headers: {}
+  /api/v1/messages:
     post:
       description: create and send email to another user
       summary: create and send message
       tags:
       - messages
-      operationId: MessagesPost
+      operationId: ApiV1MessagesPost
       deprecated: false
       produces:
       - application/json
@@ -196,7 +223,7 @@ paths:
       summary: get inbox messages
       tags:
       - messages
-      operationId: MessagesGet
+      operationId: ApiV1MessagesGet
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -242,13 +269,13 @@ paths:
               status: 401
               error:
               - Token is not provided
-  /messages/sent:
+  /api/v1/messages/sent:
     get:
       description: 'get all users sent messages '
       summary: get sent messages
       tags:
       - messages
-      operationId: MessagesSentGet
+      operationId: ApiV1MessagesSentGet
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -294,13 +321,13 @@ paths:
               status: 401
               error:
               - Token is not provided
-  /messages/unread:
+  /api/v1/messages/unread:
     get:
       description: 'gets all users unread messages '
       summary: get users unread messages
       tags:
       - messages
-      operationId: MessagesUnreadGet
+      operationId: ApiV1MessagesUnreadGet
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -364,13 +391,13 @@ paths:
               status: 401
               error:
               - Token is not provided
-  /messages/1:
+  /api/v1/messages/1:
     get:
       description: get a particular users email from the inbox
       summary: get a particular  email message
       tags:
       - messages
-      operationId: Messages1Get
+      operationId: ApiV1Messages1Get
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -429,13 +456,13 @@ paths:
               status: 401
               error:
               - Token is not provided
-  /messages/3:
+  /api/v1/messages/3:
     delete:
       description: 'user can delete message '
       summary: delete  message
       tags:
       - messages
-      operationId: Messages3Delete
+      operationId: ApiV1Messages3Delete
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -486,13 +513,13 @@ paths:
               status: 401
               error:
               - Token is not provided
-  /groups:
+  /api/v1/groups:
     post:
       description: A user can own and create a group
       summary: create group
       tags:
       - groups
-      operationId: GroupsPost
+      operationId: ApiV1GroupsPost
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -557,7 +584,7 @@ paths:
       summary: get groups
       tags:
       - groups
-      operationId: GroupsGet
+      operationId: ApiV1GroupsGet
       deprecated: false
       produces:
       - application/json
@@ -571,13 +598,13 @@ paths:
         200:
           description: ''
           headers: {}
-  /groups/1/name:
+  /api/v1/groups/1/name:
     patch:
       description: a user can update a group name they own
       summary: update group name
       tags:
       - groups
-      operationId: Groups1NamePatch
+      operationId: ApiV1Groups1NamePatch
       deprecated: false
       produces:
       - application/json
@@ -603,13 +630,13 @@ paths:
         200:
           description: ''
           headers: {}
-  /groups/1:
+  /api/v1/groups/3:
     delete:
       description: user can delete group they belong to
       summary: delete group
       tags:
       - groups
-      operationId: Groups1Delete
+      operationId: ApiV1Groups3Delete
       deprecated: false
       produces:
       - application/json; charset=utf-8
@@ -651,13 +678,13 @@ paths:
             Connection:
               type: string
               default: keep-alive
-  /groups/1/users:
+  /api/v1/groups/4/users:
     post:
       description: A user can add different users to there group
       summary: add users to a group
       tags:
       - groups
-      operationId: Groups1UsersPost
+      operationId: ApiV1Groups4UsersPost
       deprecated: false
       produces:
       - application/json
@@ -683,27 +710,33 @@ paths:
         200:
           description: ''
           headers: {}
+  /api/v1/groups/4/users/1:
     delete:
       description: A user can remove a user they have in their group
       summary: remove member
       tags:
       - groups
-      operationId: Groups1UsersDelete
+      operationId: ApiV1Groups4Users1Delete
       deprecated: false
       produces:
       - application/json
-      parameters: []
+      parameters:
+      - name: x-access-token
+        in: header
+        required: true
+        type: string
+        description: ''
       responses:
         200:
           description: ''
           headers: {}
-  /groups/1/messages:
+  /127.0.0.1:4000/api/v1/groups/1/messages:
     post:
       description: user can send a group message
       summary: send a group message
       tags:
       - groups
-      operationId: Groups1MessagesPost
+      operationId: 1270014000ApiV1Groups1MessagesPost
       deprecated: false
       produces:
       - application/json
@@ -739,13 +772,13 @@ paths:
         200:
           description: ''
           headers: {}
-  /contacts:
+  /api/v1/contacts:
     post:
       description: a new contact to a user
       summary: create contacts
       tags:
       - contacts
-      operationId: ContactsPost
+      operationId: ApiV1ContactsPost
       deprecated: false
       produces:
       - application/json
@@ -776,7 +809,7 @@ paths:
       summary: get all user  contacts
       tags:
       - contacts
-      operationId: ContactsGet
+      operationId: ApiV1ContactsGet
       deprecated: false
       produces:
       - application/json
@@ -790,13 +823,13 @@ paths:
         200:
           description: ''
           headers: {}
-  /contacts/1:
+  /api/v1/contacts/1:
     delete:
       description: user can delete a user they own
       summary: delete contact
       tags:
       - contacts
-      operationId: Contacts1Delete
+      operationId: ApiV1Contacts1Delete
       deprecated: false
       produces:
       - application/json
