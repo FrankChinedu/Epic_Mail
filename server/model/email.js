@@ -137,11 +137,18 @@ class Email {
   static async sendMessage({
     subject, message, status, recieversEmail, userId,
   }) {
+    const getReceiver = 'SELECT * FROM users WHERE email=$1';
+    const res = await query(getReceiver, [recieversEmail]);
+
+    if (res.rows[0] === undefined) {
+      return {
+        status: 404,
+        error: 'Not found',
+      };
+    }
+    const receiverId = res.rows[0].id;
     try {
       await query('BEGIN');
-      const getReceiver = 'SELECT * FROM users WHERE email=$1';
-      const res = await query(getReceiver, [recieversEmail]);
-      const receiverId = res.rows[0].id;
 
       const dbQuery = `INSERT INTO
       emails(subject, message, status)
@@ -203,7 +210,7 @@ class Email {
     } catch (e) {
       await query('ROLLBACK');
       return {
-        statuc: 500,
+        status: 500,
         error: 'something went wrong',
       };
     }
@@ -296,7 +303,7 @@ class Email {
   }
 
   static async deleteInboxMessage({ userId, id }) {
-    const dbQuery = 'DELETE FROM inboxs WHERE id=$1 AND receiverid=$2 returning *';
+    const dbQuery = 'DELETE FROM inboxs WHERE messageid=$1 AND receiverid=$2 returning *';
 
     try {
       const { rows } = await query(dbQuery, [id, userId]);
