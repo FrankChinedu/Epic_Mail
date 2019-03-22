@@ -26,17 +26,11 @@ messages/information over the internet.
 - User can get all their contacts 
 - User can create a group
 - User can send messages to the group
-- User can
 
 
 ## Gh pages
 [home](https://frankchinedu.github.io/Epic_Mail/UI/index.html)
 
-## Gh pages login data 
-```
- - username : anything@mail.com
- - password : anything
-```
 
 ## Pivotal Tracker
   [url](https://www.pivotaltracker.com/n/projects/2315126)
@@ -72,6 +66,26 @@ messages/information over the internet.
 - GET https://epic-mail-ocf.herokuapp.com/api/v1/messages/unread - get all user's unread messages
 
 - DELETE https://epic-mail-ocf.herokuapp.com/api/v1/messages/:id - delete a message from the inbox
+
+- POST https://epic-mail-ocf.herokuapp.com/api/v1/groups - create group
+
+- GET https://epic-mail-ocf.herokuapp.com/api/v1/groups - get all groups
+
+- UPDATE https://epic-mail-ocf.herokuapp.com/api/v1/groups/1/name - Update group name
+
+- DELETE https://epic-mail-ocf.herokuapp.com/api/v1/groups/1 - delete group 
+
+- POST https://epic-mail-ocf.herokuapp.com/api/v1/groups/1/users -add members to a group
+
+- DELETE https://epic-mail-ocf.herokuapp.com/api/v1/groups/1/users/1 - delete a member from the group 
+
+- POST https://epic-mail-ocf.herokuapp.com/api/v1/groups/1/messages - send group message
+
+- POST https://epic-mail-ocf.herokuapp.com/api/v1/contacts - create contact
+
+- GET https://epic-mail-ocf.herokuapp.com/api/v1/contacts -  get all  contacts
+
+- DELETE - https://epic-mail-ocf.herokuapp.com/api/v1/contacts/1 - delete a contact 
 
 ## Project References
  - - -
