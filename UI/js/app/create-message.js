@@ -5,7 +5,6 @@ const modal = document.createElement('script');
 modal.src = './js/app/modal.js';
 document.head.appendChild(modal);
 
-const baseUrl = 'http://127.0.0.1:4000';
 // const token = window.localStorage.getItem('accessToken');
 
 const sendMessage = () => {

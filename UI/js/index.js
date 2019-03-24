@@ -3,6 +3,10 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
+
+
+const baseUrl = 'http://127.0.0.1:4000';
+
 const profilePanel = document.getElementById('profile-panel');
 
 if (profilePanel) {
@@ -96,6 +100,22 @@ const openMessage = (panel) => {
 
   const elm = document.querySelector(`.${panel}`);
   elm.style.display = 'block';
+};
+
+const getOnesentMessage = (num) => {
+  console.log(num);
+  console.log('one sent mesage');
+  console.log('token', token);
+  fetch(`${baseUrl}/api/v1/messages/sent/${num}`, {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      console.log('res===>', res);
+    }).catch((e) => {
+    });
 };
 
 const goBack = (from, to) => {

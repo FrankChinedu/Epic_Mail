@@ -29,6 +29,12 @@ const logout = () => {
   window.location.href = './signin.html';
 };
 
+const formatDate = (time) => {
+  let t = new Date(time);
+  t = t.toLocaleString();
+  return t;
+};
+
 const getSentMessages = () => {
   fetch(`${baseUrl}/api/v1/messages/sent`, {
     method: 'GET',
@@ -45,18 +51,18 @@ const getSentMessages = () => {
           data.forEach((sent) => {
             num += 1;
             sentMsg.innerHTML += `
-            <div class="main-flex message-list" onclick="openMessage('sentMail')">
+            <div class="main-flex message-list" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})">
               <span class="col-3 flex">
                 <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
                   <i class="fas fa-plane-departure dark-col ml-25" title="sent message"></i>
                 </span>
-                <span class="col-9 mail-head draft-t">To : Frank Angelo</span>
+                <span class="col-9 mail-head draft-t">To : ${sent.firstname} ${sent.lastname}</span>
               </span>
-              <article class="col-7 mail-body">some content added here again </article>
+              <article class="col-7 mail-body">${sent.message} </article>
               <span class="col-2 flex justify-content-sb">
                 <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
                 <span class="col-2 center-text start-text retract" title="Retract this Sent Message"><i class="fas fa-undo"></i></span>
-                <span class="col-6 center-text start-text">12 : 44 pm</span>
+                <span class="col-6 center-text start-text">${formatDate(sent.createdon)}</span>
               </span>
             </div>
             `;
