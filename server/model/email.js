@@ -240,17 +240,19 @@ class Email {
     }
   }
 
-  static qry(field, table) {
+  static qry(field, table, otherField) {
     const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
-    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn
+    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn,
+    users.firstname as firstname, users.lastname as lastname, users.email as email
     FROM ${table}
-    INNER JOIN emails ON ${table}.messageid = emails.id  WHERE ${table}.${field} = $1;
+    INNER JOIN users ON ${table}.${otherField} = users.id 
+    INNER JOIN emails ON ${table}.messageid = emails.id WHERE ${table}.${field} = $1
      `;
     return dbQuery;
   }
 
-  static async queryToRun(userId, field, table) {
-    const dbQuery = this.qry(field, table);
+  static async queryToRun(userId, field, table, otherField) {
+    const dbQuery = this.qry(field, table, otherField);
     try {
       const { rows } = await query(dbQuery, [userId]);
       if (!rows[0]) {
@@ -266,20 +268,20 @@ class Email {
         empty: false,
         data,
       };
-    } catch (error) {
+    } catch (e) {
       return {
         success: false,
-        error,
+        error: 'something went wrong',
       };
     }
   }
 
   static async getInboxMessages(userId) {
-    return this.queryToRun(userId, 'receiverid', 'inboxs');
+    return this.queryToRun(userId, 'receiverid', 'inboxs', 'senderid');
   }
 
   static async getSentEmails(userId) {
-    return this.queryToRun(userId, 'senderid', 'sents');
+    return this.queryToRun(userId, 'senderid', 'sents', 'receiverid');
   }
 
   static async getUnReadEmails(userId) {
