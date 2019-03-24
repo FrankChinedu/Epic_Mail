@@ -395,15 +395,15 @@
           <span onclick="createContent()">X</span>
         </div>
         <div class="email-main-body" style="display:none;">
-          <form class="" >
-              <input type="text" id="receipient" class="form-ctrl pt-25" autocomplete="off" placeholder="Receipient">
-              <input type="text" id="subject" class="form-ctrl mt-25" autocomplete="off" placeholder="Subject">
+          <form onsubmit="event.preventDefault(); sendMessage()" >
+              <input type="email" id="receipient" class="form-ctrl pt-25" required autocomplete="off" placeholder="Receipient">
+              <input type="text" id="subject" class="form-ctrl mt-25" required autocomplete="off" placeholder="Subject">
             <div>
-              <textarea name="" id="text-area" class="form-ctrl mt-25" id="" cols="30" placeholder="Message Here" rows="10"></textarea>
+              <textarea id="text-area" class="form-ctrl mt-25" required  cols="30" placeholder="Message Here" rows="10"></textarea>
             </div>
             <div class="mt-25 flex justify-content-sb ">
-              <button type="button" class="btn btn-success" title="send message to user" 
-              onclick="sendMessage()">Send</button>
+              <button type="submit" class="btn btn-success" title="send message to user" 
+              >Send</button>
               <button type="button" class=" btn btn-default" title="Saves message as draft"
               onclick="event.saveDraft()">Draft</button>
             </div>
@@ -420,8 +420,8 @@
   </div>
 </div>
   <script src="./js/index.js"></script>
-  <script src="./js/app/app.js"></script>
   <script src="./js/app/create-message.js"></script>
+  <script src="./js/app/app.js"></script>
 </body>
 
 </html>

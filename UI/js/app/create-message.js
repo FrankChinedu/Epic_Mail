@@ -1,23 +1,25 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+
 const modal = document.createElement('script');
 modal.src = './js/app/modal.js';
 document.head.appendChild(modal);
-const baseUrl = 'http://127.0.0.1:4000';
 
-const token = window.localStorage.getItem('accessToken');
+const baseUrl = 'http://127.0.0.1:4000';
+// const token = window.localStorage.getItem('accessToken');
 
 const sendMessage = () => {
-  let email = document.querySelector('#receipient').value;
+  let recieversEmail = document.querySelector('#receipient').value;
   const subject = document.querySelector('#subject').value;
   const message = document.querySelector('#text-area').value;
   const status = 'sent';
-  email = email.trim();
+  recieversEmail = recieversEmail.trim();
 
   // copied https://www.w3resource.com/javascript/form/email-validation.php
   const validate = () => {
+    // eslint-disable-next-line no-useless-escape
     const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (email === '' || !re.test(email)) {
+    if (recieversEmail === '' || !re.test(recieversEmail)) {
       const str = 'receipient must not be empty and you must be a valid email';
       openModal(str);
       setTimeout(() => {
@@ -41,11 +43,11 @@ const sendMessage = () => {
     }
     return true;
   };
-  const valid = validate(email);
+  const valid = validate();
 
   if (valid) {
     const data = {
-      email,
+      recieversEmail,
       subject,
       status,
       message,
@@ -59,8 +61,24 @@ const sendMessage = () => {
       },
     }).then(res => res.json())
       .then((res) => {
-        console.log(res);
-        // if (res.status === 200)
+        if (res.status === 201) {
+          document.querySelector('#receipient').value = '';
+          document.querySelector('#subject').value = '';
+          document.querySelector('#text-area').value = '';
+          const str = res.message;
+          const head = 'SUCCESS';
+          const type = 'success';
+          openModal(str, head, type);
+          setTimeout(() => {
+            closeModal();
+          }, 3000);
+        } else {
+          const str = res.error;
+          openModal(str);
+          setTimeout(() => {
+            closeModal();
+          }, 4000);
+        }
         // window.location.href = './inbox-page.html';
       }).catch((e) => {
         console.log(e);

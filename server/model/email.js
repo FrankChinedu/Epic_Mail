@@ -143,7 +143,7 @@ class Email {
     if (res.rows[0] === undefined) {
       return {
         status: 404,
-        error: 'Not found',
+        error: `User with email ${recieversEmail} not found`,
       };
     }
     const receiverId = res.rows[0].id;
