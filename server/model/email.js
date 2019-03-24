@@ -389,7 +389,7 @@ class Email {
       await query('COMMIT');
       return {
         success: true,
-        data: res.rows,
+        data: res.rows[0],
       };
     } catch (e) {
       await query('ROLLBACK');
