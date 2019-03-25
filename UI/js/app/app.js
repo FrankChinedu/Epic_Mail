@@ -35,6 +35,22 @@ const formatDate = (time) => {
   return t;
 };
 
+const getInboxMessages = () => {
+  fetch(`${baseUrl}/api/v1/messages`, {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      console.log('====>', res);
+    }).catch((e) => {
+
+    });
+};
+
+getInboxMessages();
+
 const getSentMessages = () => {
   fetch(`${baseUrl}/api/v1/messages/sent`, {
     method: 'GET',
@@ -69,7 +85,6 @@ const getSentMessages = () => {
           });
         }
       }
-      console.log('res', res);
     }).catch((err) => {
       console.log('err =>', err);
     });
