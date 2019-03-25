@@ -3,6 +3,10 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
+
+
+const baseUrl = 'http://127.0.0.1:4000';
+
 const profilePanel = document.getElementById('profile-panel');
 
 if (profilePanel) {
@@ -96,6 +100,55 @@ const openMessage = (panel) => {
 
   const elm = document.querySelector(`.${panel}`);
   elm.style.display = 'block';
+};
+
+const getOnesentMessage = (num) => {
+  const display = document.querySelector('#sent-display');
+  fetch(`${baseUrl}/api/v1/messages/sent/${num}`, {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      if (res.status === 200) {
+        const sent = res.data;
+        display.innerHTML = `
+        <div>
+          <span class="go-back" onclick="goBack('sentMail', 'sent')"><i class="fas fa-arrow-left"></i></span>
+          <span class="tag mr-25">
+            <i class="fas fa-plane-departure mr-5 dark-col"></i>Sent
+          </span>
+          <span class="tag cursor" title="Retract this message">
+            <i class="fas fa-undo danger-col"></i>Retract
+          </span>
+        </div>
+        <div class="read-mailContent">
+          <div class="flex">
+            <h2>${sent.subject}</h2> <span></span>
+          </div>
+          <div>
+            <div class="flex">
+              <span>To: &nbsp; </span>
+              <b>${sent.firstname} ${sent.lastname}</b>
+            </div>
+            <div class="flex">
+                <span>From: &nbsp; </span>
+                <b>me</b>
+            </div>
+          </div>
+
+          <div class="mailContent">
+          ${sent.message}
+          </div>
+          <div class="mt-25">
+            <button class="btn btn-sm btn-default">Reply</button>
+          </div>
+        </div>
+        `;
+      }
+    }).catch((e) => {
+    });
 };
 
 const goBack = (from, to) => {

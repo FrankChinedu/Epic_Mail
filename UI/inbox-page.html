@@ -166,42 +166,7 @@
 
               </div>
 
-              <div class="displayForJs Email-message sentMail" style="display:none">
-                <div>
-                  <span class="go-back" onclick="goBack('sentMail', 'sent')"><i class="fas fa-arrow-left"></i></span>
-                  <span class="tag mr-25">
-                    <i class="fas fa-plane-departure mr-5 dark-col"></i>Sent
-                  </span>
-                  <span class="tag cursor" title="Retract this message">
-                    <i class="fas fa-undo danger-col"></i>Retract
-                  </span>
-                </div>
-                <div class="read-mailContent">
-                  <div class="flex">
-                    <h2>Title of Sent mail</h2> <span></span>
-                  </div>
-                  <div>
-                    <div class="flex">
-                      <span>To: &nbsp; </span>
-                      <b>frank@anelo.com</b>
-                    </div>
-                    <div class="flex">
-                        <span>From: &nbsp; </span>
-                        <b>me</b>
-                    </div>
-
-                  </div>
-
-                  <div class="mailContent">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab exercitationem dicta, illo dolorum quia
-                    ,asperiores distinctio voluptate iure eum labore debitis. Vero possimus doloribus laudantium illo soluta obcaecati tempore ipsam.
-                  </div>
-                  <div class="mt-25">
-                    <button class="btn btn-sm btn-default">Reply</button>
-                  </div>
-
-                </div>
-
+              <div class="displayForJs Email-message sentMail" id="sent-display" style="display:none">
               </div>
 
               <div class="displayForJs" id="draft-message" style="display:none">
@@ -395,15 +360,15 @@
           <span onclick="createContent()">X</span>
         </div>
         <div class="email-main-body" style="display:none;">
-          <form class="" >
-              <input type="text" id="receipient" class="form-ctrl pt-25" autocomplete="off" placeholder="Receipient">
-              <input type="text" id="subject" class="form-ctrl mt-25" autocomplete="off" placeholder="Subject">
+          <form onsubmit="event.preventDefault(); sendMessage()" >
+              <input type="email" id="receipient" class="form-ctrl pt-25" required autocomplete="off" placeholder="Receipient">
+              <input type="text" id="subject" class="form-ctrl mt-25" required autocomplete="off" placeholder="Subject">
             <div>
-              <textarea name="" id="text-area" class="form-ctrl mt-25" id="" cols="30" placeholder="Message Here" rows="10"></textarea>
+              <textarea id="text-area" class="form-ctrl mt-25" required  cols="30" placeholder="Message Here" rows="10"></textarea>
             </div>
             <div class="mt-25 flex justify-content-sb ">
-              <button type="button" class="btn btn-success" title="send message to user" 
-              onclick="sendMessage()">Send</button>
+              <button type="submit" class="btn btn-success" title="send message to user" 
+              >Send</button>
               <button type="button" class=" btn btn-default" title="Saves message as draft"
               onclick="event.saveDraft()">Draft</button>
             </div>
@@ -420,8 +385,8 @@
   </div>
 </div>
   <script src="./js/index.js"></script>
-  <script src="./js/app/app.js"></script>
   <script src="./js/app/create-message.js"></script>
+  <script src="./js/app/app.js"></script>
 </body>
 
 </html>

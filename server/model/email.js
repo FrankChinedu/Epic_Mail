@@ -23,7 +23,6 @@ class Email {
         data: { ...rows[0] },
       };
     } catch (e) {
-      // console.log(e);
       // await query('ROLLBACK');
       return {
         success: false,
@@ -143,7 +142,7 @@ class Email {
     if (res.rows[0] === undefined) {
       return {
         status: 404,
-        error: 'Not found',
+        error: `User with email ${recieversEmail} not found`,
       };
     }
     const receiverId = res.rows[0].id;
@@ -240,17 +239,19 @@ class Email {
     }
   }
 
-  static qry(field, table) {
+  static qry(field, table, otherField) {
     const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
-    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn
+    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn,
+    users.firstname as firstname, users.lastname as lastname, users.email as email
     FROM ${table}
-    INNER JOIN emails ON ${table}.messageid = emails.id  WHERE ${table}.${field} = $1;
+    INNER JOIN users ON ${table}.${otherField} = users.id 
+    INNER JOIN emails ON ${table}.messageid = emails.id WHERE ${table}.${field} = $1
      `;
     return dbQuery;
   }
 
-  static async queryToRun(userId, field, table) {
-    const dbQuery = this.qry(field, table);
+  static async queryToRun(userId, field, table, otherField) {
+    const dbQuery = this.qry(field, table, otherField);
     try {
       const { rows } = await query(dbQuery, [userId]);
       if (!rows[0]) {
@@ -266,20 +267,20 @@ class Email {
         empty: false,
         data,
       };
-    } catch (error) {
+    } catch (e) {
       return {
         success: false,
-        error,
+        error: 'something went wrong',
       };
     }
   }
 
   static async getInboxMessages(userId) {
-    return this.queryToRun(userId, 'receiverid', 'inboxs');
+    return this.queryToRun(userId, 'receiverid', 'inboxs', 'senderid');
   }
 
   static async getSentEmails(userId) {
-    return this.queryToRun(userId, 'senderid', 'sents');
+    return this.queryToRun(userId, 'senderid', 'sents', 'receiverid');
   }
 
   static async getUnReadEmails(userId) {
@@ -369,22 +370,26 @@ class Email {
     }
   }
 
-  static async readMessage(userId, messageId, table, field) {
+  static async readMessage(userId, messageId, table, field, otherfield) {
     const dbQuery = `UPDATE ${table} SET read=$1 WHERE messageid=$2 AND ${field}=$3 returning *`;
+
     try {
       await query('BEGIN');
       await query(dbQuery, ['true', messageId, userId]);
 
       const getQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
-    emails.status as status, inboxs.receiverid as receiverId, inboxs.senderid as senderId, inboxs.read as read, inboxs.createdat as createdOn
-    FROM inboxs
-    INNER JOIN emails ON inboxs.messageid = emails.id  WHERE inboxs.receiverid = $1 AND inboxs.messageid =$2`;
+    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn,
+    users.firstname as firstname, users.lastname as lastname, users.email as email
+    FROM ${table}
+    INNER JOIN users ON ${table}.${otherfield} = users.id
+    INNER JOIN emails ON ${table}.messageid = emails.id  WHERE ${table}.${field} = $1 AND ${table}.messageid =$2`;
 
       const res = await query(getQuery, [userId, messageId]);
+
       await query('COMMIT');
       return {
         success: true,
-        data: res.rows,
+        data: res.rows[0],
       };
     } catch (e) {
       await query('ROLLBACK');
@@ -398,7 +403,28 @@ class Email {
   static async getAnInboxMessage({ userId, messageId }) {
     const exists = await this.messageExists(userId, messageId, 'inboxs', 'receiverid');
     if (exists.success) {
-      const res = await this.readMessage(userId, messageId, 'inboxs', 'receiverid');
+      const res = await this.readMessage(userId, messageId, 'inboxs', 'receiverid', 'senderid');
+      if (res.success) {
+        return {
+          status: 200,
+          data: res.data,
+        };
+      }
+      return {
+        status: 500,
+        error: res.error,
+      };
+    }
+    return {
+      status: 200,
+      data: [],
+    };
+  }
+
+  static async getASentMessage({ userId, messageId }) {
+    const exists = await this.messageExists(userId, messageId, 'sents', 'senderid');
+    if (exists.success) {
+      const res = await this.readMessage(userId, messageId, 'sents', 'senderid', 'receiverid');
       if (res.success) {
         return {
           status: 200,

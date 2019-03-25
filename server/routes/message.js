@@ -10,6 +10,8 @@ messageRoute.get('/messages', Auth.verifyToken, MessageController.getRecievedEma
 
 messageRoute.get('/messages/sent', Auth.verifyToken, MessageController.getSentEmails);
 
+messageRoute.get('/messages/sent/:id', Auth.verifyToken, MessageController.viewASentMessage);
+
 messageRoute.get('/messages/unread', Auth.verifyToken, MessageController.getUnReadEmails);
 
 messageRoute.get('/messages/:id', Auth.verifyToken, MessageController.viewAnInboxMessage);

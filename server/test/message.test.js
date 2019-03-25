@@ -119,6 +119,32 @@ describe('Message ', () => {
     });
   });
 
+  describe('/GET /messages/sent/:id', () => {
+    it('user should be able to get a specific user email from sent messages', (done) => {
+      chai.request(server)
+        .get(`${apiURL}/messages/sent/:id`)
+        .set('x-access-token', accessToken)
+        .end((err, res) => {
+          if (res.body.status === 200) {
+            res.should.have.status(200);
+            should.exist(res.body);
+            res.body.should.be.a('object');
+            res.body.should.have.property('status');
+            res.body.should.have.property('data');
+            res.body.status.should.equal(200);
+          } else {
+            res.should.have.status(404);
+            should.exist(res.body);
+            res.body.should.be.a('object');
+            res.body.should.have.property('status');
+            res.body.should.have.property('data');
+            res.body.status.should.equal(404);
+          }
+          done();
+        });
+    });
+  });
+
   describe('/DELETE /messages/:id', () => {
     it('user should be able to delete a message from there inbox', (done) => {
       chai.request(server)
