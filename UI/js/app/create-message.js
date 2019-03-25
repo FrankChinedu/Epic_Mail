@@ -86,6 +86,5 @@ const sendMessage = () => {
 };
 
 const saveDraft = () => {
-  // console.log('close');
   closeModal();
 };

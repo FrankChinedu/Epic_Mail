@@ -35,6 +35,20 @@ const formatDate = (time) => {
   return t;
 };
 
+const isRead = (read) => {
+  if (read) {
+    return 'read';
+  }
+  return 'unread';
+};
+
+const readTitle = (read) => {
+  if (read) {
+    return 'read Message';
+  }
+  return 'UnRead Message';
+};
+
 const getInboxMessages = () => {
   fetch(`${baseUrl}/api/v1/messages`, {
     method: 'GET',
@@ -43,9 +57,31 @@ const getInboxMessages = () => {
     },
   }).then(res => res.json())
     .then((res) => {
-      console.log('====>', res);
+      if (res.status === 200) {
+        const inboxMsg = document.querySelector('#inbox-message');
+        const { data } = res;
+        if (data.length) {
+          data.forEach((inbox) => {
+            inboxMsg.innerHTML += `
+            <div class="main-flex message-list" onclick="openMessage('readMail'); getOneInboxMessage(${inbox.id})">
+              <span class="col-3 flex">
+                <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                  <i class="fas fa-inbox dark-col ml-25"></i>
+                </span>
+                <span class="col-9 mail-head">${inbox.firstname} ${inbox.lastname}</span>
+              </span>
+              <article class="col-7 mail-body">${inbox.subject}</article>
+              <span class="col-2 flex justify-content-sb">
+                <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
+                <span class="col-2 center-text start-text" title="${readTitle(inbox.read)}"><i class="fas fa-check ${isRead(inbox.read)}"></i></span>
+                <span class="col-8 center-text start-text">${formatDate(inbox.createdon)}</span>
+              </span>
+            </div>
+            `;
+          });
+        }
+      }
     }).catch((e) => {
-
     });
 };
 
@@ -62,10 +98,8 @@ const getSentMessages = () => {
       if (res.status === 200) {
         const sentMsg = document.querySelector('#sent-message');
         const { data } = res;
-        let num = 0;
         if (data.length) {
           data.forEach((sent) => {
-            num += 1;
             sentMsg.innerHTML += `
             <div class="main-flex message-list" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})">
               <span class="col-3 flex">
