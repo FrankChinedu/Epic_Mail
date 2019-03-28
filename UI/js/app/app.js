@@ -82,9 +82,21 @@ const getInboxMessages = () => {
             </div>
             `;
           });
+        } else {
+          inboxMsg.innerHTML = `
+          <div class="main-flex message-list" >
+            <article class="col-10 mail-body center-text">Inbox Is Empty until you have new Messages.... </article>
+          </div>
+          `;
         }
       }
     }).catch((e) => {
+      const inboxMsg = document.querySelector('#inbox-message');
+      inboxMsg.innerHTML = `
+          <div class="main-flex message-list" >
+            <article class="col-10 mail-body center-text">An Error or something must have occured try reloading this page. </article>
+          </div>
+          `;
     });
 };
 
@@ -120,10 +132,21 @@ const getSentMessages = () => {
             </div>
             `;
           });
+        } else {
+          sentMsg.innerHTML = `
+          <div class="main-flex message-list" >
+            <article class="col-10 mail-body center-text">Sent Box Is Empty until you send some Messages to friends.... </article>
+          </div>
+          `;
         }
       }
     }).catch((err) => {
-      console.log('err =>', err);
+      const sentMsg = document.querySelector('#sent-message');
+      sentMsg.innerHTML = `
+      <div class="main-flex message-list" >
+        <article class="col-10 mail-body center-text">An Error or something must have occured try reloading this page. </article>
+      </div>
+      `;
     });
 };
 
