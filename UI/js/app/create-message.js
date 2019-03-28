@@ -67,6 +67,10 @@ const sendMessage = () => {
           const str = res.message;
           const head = 'SUCCESS';
           const type = 'success';
+
+
+          getInboxMessages();
+          getSentMessages();
           openModal(str, head, type);
           setTimeout(() => {
             closeModal();

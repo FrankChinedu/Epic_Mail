@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const {
@@ -52,6 +53,23 @@ const readTitle = (read) => {
   return 'UnRead Message';
 };
 
+const deleteMessage = (id) => {
+  // eslint-disable-next-line no-alert
+  console.log(id);
+  const confirmed = confirm('Are You sure you want to delete this message');
+  if (confirmed) {
+    fetch(`${baseUrl}/api/v1/messages/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        console.log(res);
+      });
+  }
+};
+
 const getInboxMessages = () => {
   fetch(`${baseUrl}/api/v1/messages`, {
     method: 'GET',
@@ -66,16 +84,16 @@ const getInboxMessages = () => {
         if (data.length) {
           data.forEach((inbox) => {
             inboxMsg.innerHTML += `
-            <div class="main-flex message-list" onclick="openMessage('readMail'); getOneInboxMessage(${inbox.id})">
-              <span class="col-3 flex">
+            <div class="main-flex message-list">
+              <span class="col-3 flex"  onclick="openMessage('readMail'); getOneInboxMessage(${inbox.id})" >
                 <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
                   <i class="fas fa-inbox dark-col ml-25"></i>
                 </span>
                 <span class="col-9 mail-head">${inbox.firstname} ${inbox.lastname}</span>
               </span>
-              <article class="col-7 mail-body">${inbox.subject}</article>
+              <article class="col-7 mail-body"  onclick="openMessage('readMail'); getOneInboxMessage(${inbox.id})" >${inbox.subject}</article>
               <span class="col-2 flex justify-content-sb">
-                <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
+                <span class="col-2 center-text start-text" title="delete" onclick="deleteMessage(${inbox.id})" ><i class="fas fa-trash delete"></i></span>
                 <span class="col-2 center-text start-text" title="${readTitle(inbox.read)}"><i class="fas fa-check ${isRead(inbox.read)}"></i></span>
                 <span class="col-8 center-text start-text">${formatDate(inbox.createdon)}</span>
               </span>
@@ -116,16 +134,16 @@ const getSentMessages = () => {
         if (data.length) {
           data.forEach((sent) => {
             sentMsg.innerHTML += `
-            <div class="main-flex message-list" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})">
-              <span class="col-3 flex">
+            <div class="main-flex message-list" >
+              <span class="col-3 flex" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >
                 <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
                   <i class="fas fa-plane-departure dark-col ml-25" title="sent message"></i>
                 </span>
                 <span class="col-9 mail-head draft-t">To : ${sent.firstname} ${sent.lastname}</span>
               </span>
-              <article class="col-7 mail-body">${sent.message} </article>
+              <article class="col-7 mail-body" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >${sent.message} </article>
               <span class="col-2 flex justify-content-sb">
-                <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
+                <span class="col-2 center-text start-text" title="delete" onclick="deleteMessage(${sent.id})"  ><i class="fas fa-trash delete"></i></span>
                 <span class="col-2 center-text start-text retract" title="Retract this Sent Message"><i class="fas fa-undo"></i></span>
                 <span class="col-6 center-text start-text">${formatDate(sent.createdon)}</span>
               </span>

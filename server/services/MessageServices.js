@@ -52,4 +52,8 @@ export default class MessageServices {
   static async deleteAnInboxMessage(data) {
     return Email.deleteInboxMessage(data);
   }
+
+  static async deleteASentMessage(data) {
+    return Email.deleteASentMessage(data);
+  }
 }

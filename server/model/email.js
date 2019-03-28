@@ -326,6 +326,29 @@ class Email {
     }
   }
 
+  static async deleteASentMessage({ userId, id }) {
+    const dbQuery = 'DELETE FROM sents WHERE messageid=$1 AND senderid=$2 returning *';
+
+    try {
+      const { rows } = await query(dbQuery, [id, userId]);
+      if (!rows[0]) {
+        return {
+          status: 404,
+          data: 'no result',
+        };
+      }
+      return {
+        status: 202,
+        data: 'deleted successfully',
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        error: 'something went wrong',
+      };
+    }
+  }
+
   static async messageExists(userId, messageId, table, field) {
     const dbQuery = `SELECT * FROM ${table} WHERE ${field}=$1 AND messageid=$2`;
     try {
