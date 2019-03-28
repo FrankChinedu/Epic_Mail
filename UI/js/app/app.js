@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
@@ -53,9 +54,25 @@ const readTitle = (read) => {
   return 'UnRead Message';
 };
 
-const deleteMessage = (id) => {
+const deleteSentMessage = (id) => {
   // eslint-disable-next-line no-alert
   console.log(id);
+  const confirmed = confirm('Are You sure you want to delete this message');
+  if (confirmed) {
+    fetch(`${baseUrl}/api/v1/messages/sent/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        // getSentMessages();
+      });
+  }
+};
+
+const deleteInboxMessage = (id) => {
+  // eslint-disable-next-line no-alert
   const confirmed = confirm('Are You sure you want to delete this message');
   if (confirmed) {
     fetch(`${baseUrl}/api/v1/messages/${id}`, {
@@ -65,7 +82,7 @@ const deleteMessage = (id) => {
       },
     }).then(res => res.json())
       .then((res) => {
-        console.log(res);
+        // getInboxMessages();
       });
   }
 };
@@ -93,7 +110,7 @@ const getInboxMessages = () => {
               </span>
               <article class="col-7 mail-body"  onclick="openMessage('readMail'); getOneInboxMessage(${inbox.id})" >${inbox.subject}</article>
               <span class="col-2 flex justify-content-sb">
-                <span class="col-2 center-text start-text" title="delete" onclick="deleteMessage(${inbox.id})" ><i class="fas fa-trash delete"></i></span>
+                <span class="col-2 center-text start-text" title="delete" onclick="deleteInboxMessage(${inbox.id})" ><i class="fas fa-trash delete"></i></span>
                 <span class="col-2 center-text start-text" title="${readTitle(inbox.read)}"><i class="fas fa-check ${isRead(inbox.read)}"></i></span>
                 <span class="col-8 center-text start-text">${formatDate(inbox.createdon)}</span>
               </span>
@@ -143,7 +160,7 @@ const getSentMessages = () => {
               </span>
               <article class="col-7 mail-body" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >${sent.message} </article>
               <span class="col-2 flex justify-content-sb">
-                <span class="col-2 center-text start-text" title="delete" onclick="deleteMessage(${sent.id})"  ><i class="fas fa-trash delete"></i></span>
+                <span class="col-2 center-text start-text" title="delete" onclick="deleteSentMessage(${sent.id})"  ><i class="fas fa-trash delete"></i></span>
                 <span class="col-2 center-text start-text retract" title="Retract this Sent Message"><i class="fas fa-undo"></i></span>
                 <span class="col-6 center-text start-text">${formatDate(sent.createdon)}</span>
               </span>
