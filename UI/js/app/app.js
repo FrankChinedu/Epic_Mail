@@ -56,7 +56,6 @@ const readTitle = (read) => {
 
 const deleteSentMessage = (id) => {
   // eslint-disable-next-line no-alert
-  console.log(id);
   const confirmed = confirm('Are You sure you want to delete this message');
   if (confirmed) {
     fetch(`${baseUrl}/api/v1/messages/sent/${id}`, {
