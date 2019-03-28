@@ -40,7 +40,7 @@ const signIn = () => {
         setToken(res);
         window.location.href = './inbox-page.html';
       } else
-      if (res.status === 401) {
+      if (res.status === 400) {
         error.innerHTML = res.error;
       } else {
         error.innerHTML = 'something went wrong';

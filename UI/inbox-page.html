@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="css/custom.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/modal.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/app.css" />
   <script src=""></script>
 </head>
 
@@ -27,9 +29,8 @@
         <div class="align-self user-panel flex align-item-center">
           <div class="prof-img mr-25"></div>
           <h3 class="m-0 mr-25">
-            <a href="#" class="li-sty-none">Frank</a>
+            <a href="#" class="li-sty-none" id="user-name" style="text-transform: capitalize;"></a>
           </h3>
-          <!-- <span>&#9660;</span> -->
           <span id="profile-panel">
             <a href="#" id="drop-down">
               &#9650;
@@ -41,16 +42,10 @@
     <div class="profile-section" id="profile-section">
       <div>
         <ul class="">
-          <!-- <li>
-            <a href="#">
-              Profile
+          <li>
+            <a id="user-email" style="font-size:55%;">
             </a>
           </li>
-          <li>
-            <a href="./reset-password.html">
-              Reset
-            </a>
-          </li> -->
           <li onclick="logout()">
             <a>
               Logout
@@ -96,110 +91,12 @@
             <div class="col-11 message-body">
 
               <div class="displayForJs" id="inbox-message">
-
-                <div class="main-flex message-list" onclick="openMessage('readMail')">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-inbox dark-col ml-25"></i>
-                    </span>
-                    <span class="col-9 mail-head">some thing </span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text" title="unread message"><i class="fas fa-check unread"></i></span>
-                    <span class="col-8 center-text start-text">03 : 56 pm</span>
-                  </span>
-                </div>
-                <div class="main-flex message-list">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-inbox dark-col ml-25"></i>
-                    </span>
-                    <span class="col-9 mail-head">some thing </span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text" title="read message"><i class="fas fa-check read"></i></span>
-                    <span class="col-8 center-text start-text">03 : 56 pm</span>
-                  </span>
-                </div>
-
               </div>
 
-              <div class="displayForJs Email-message readMail" style="display:none">
-                <div>
-                  <span class="go-back" onclick="goBack('readMail', 'inbox')"><i class="fas fa-arrow-left"></i></span>
-                  <span class="tag">
-                    <i class="fas fa-inbox mr-5 dark-col"></i>Inbox
-                  </span>
-                </div>
-                <div class="read-mailContent">
-                  <div class="flex">
-                    <h2>Title of the mail</h2> <span></span>
-                  </div>
-                  <div>
-                    <div class="flex">
-                      <span>From: &nbsp; </span>
-                      <b>frank@anelo.com</b>
-                    </div>
-                    <div class="flex">
-                        <span>To: &nbsp; </span>
-                        <b>me</b>
-                    </div>
-
-                  </div>
-
-                  <div class="mailContent">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab exercitationem dicta, illo dolorum quia
-                    ,asperiores distinctio voluptate iure eum labore debitis. Vero possimus doloribus laudantium illo soluta obcaecati tempore ipsam.
-                  </div>
-
-                  <div class="mt-25">
-                    <button class="btn btn-sm btn-default">Reply</button>
-                  </div>
-
-                </div>
-
+              <div class="displayForJs Email-message readMail" id="inbox-display" style="display:none">
               </div>
 
-              <div class="displayForJs Email-message sentMail" style="display:none">
-                <div>
-                  <span class="go-back" onclick="goBack('sentMail', 'sent')"><i class="fas fa-arrow-left"></i></span>
-                  <span class="tag mr-25">
-                    <i class="fas fa-plane-departure mr-5 dark-col"></i>Sent
-                  </span>
-                  <span class="tag cursor" title="Retract this message">
-                    <i class="fas fa-undo danger-col"></i>Retract
-                  </span>
-                </div>
-                <div class="read-mailContent">
-                  <div class="flex">
-                    <h2>Title of Sent mail</h2> <span></span>
-                  </div>
-                  <div>
-                    <div class="flex">
-                      <span>To: &nbsp; </span>
-                      <b>frank@anelo.com</b>
-                    </div>
-                    <div class="flex">
-                        <span>From: &nbsp; </span>
-                        <b>me</b>
-                    </div>
-
-                  </div>
-
-                  <div class="mailContent">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab exercitationem dicta, illo dolorum quia
-                    ,asperiores distinctio voluptate iure eum labore debitis. Vero possimus doloribus laudantium illo soluta obcaecati tempore ipsam.
-                  </div>
-                  <div class="mt-25">
-                    <button class="btn btn-sm btn-default">Reply</button>
-                  </div>
-
-                </div>
-
+              <div class="displayForJs Email-message sentMail" id="sent-display" style="display:none">
               </div>
 
               <div class="displayForJs" id="draft-message" style="display:none">
@@ -221,20 +118,6 @@
               </div>
 
               <div class="displayForJs" id="sent-message" style="display:none;">
-                <div class="main-flex message-list" onclick="openMessage('sentMail')">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-plane-departure dark-col ml-25" title="sent message"></i>
-                    </span>
-                    <span class="col-9 mail-head draft-t">To : Frank Angelo</span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text retract" title="Retract this Sent Message"><i class="fas fa-undo"></i></span>
-                    <span class="col-6 center-text start-text">12 : 44 pm</span>
-                  </span>
-                </div>
 
                 <div class="main-flex message-list">
                   <span class="col-3 flex">
@@ -393,22 +276,32 @@
           <span onclick="createContent()">X</span>
         </div>
         <div class="email-main-body" style="display:none;">
-          <form class="">
-              <input type="text" id="receipient" class="form-ctrl pt-25" autocomplete="off" placeholder="Receipient">
-              <input type="text" id="subject" class="form-ctrl mt-25" autocomplete="off" placeholder="Subject">
+          <form onsubmit="event.preventDefault(); sendMessage()" >
+              <input type="email" id="receipient" class="form-ctrl pt-25" required autocomplete="off" placeholder="Receipient">
+              <input type="text" id="subject" class="form-ctrl mt-25" required autocomplete="off" placeholder="Subject">
             <div>
-              <textarea name="" id="text-area" class="form-ctrl mt-25" id="" cols="30" placeholder="Message Here" rows="10"></textarea>
+              <textarea id="text-area" class="form-ctrl mt-25" required  cols="30" placeholder="Message Here" rows="10"></textarea>
             </div>
             <div class="mt-25 flex justify-content-sb ">
-              <button type="submit" class="btn btn-success" title="send message to user">Send</button>
-              <button type="submit" class=" btn btn-default" title="Saves message as draft">Draft</button>
+              <button type="submit" class="btn btn-success" title="send message to user" 
+              >Send</button>
+              <button type="button" class=" btn btn-default" title="Saves message as draft"
+              onclick="event.saveDraft()">Draft</button>
             </div>
           </form>
         </div>
       </div>
     </main>
   </div>
+<div id="myModal" class="modal">
+  <h4 id="modal-header" class="center-text modal-header"></h4>
+  <div class="modal-content">
+    <span class="close" id="close">&times;</span>
+    <p id="modal-body" class="center-text modal-body"></p>
+  </div>
+</div>
   <script src="./js/index.js"></script>
+  <script src="./js/app/create-message.js"></script>
   <script src="./js/app/app.js"></script>
 </body>
 
