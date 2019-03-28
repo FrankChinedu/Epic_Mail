@@ -13,6 +13,9 @@ const unSetToken = () => {
   window.localStorage.removeItem('userLastname');
 };
 
+document.querySelector('#user-name').innerHTML = userFirstname;
+document.querySelector('#user-email').innerHTML = userEmail;
+
 const isAuthenticated = () => {
   if (accessToken === undefined
      && userFirstname === undefined

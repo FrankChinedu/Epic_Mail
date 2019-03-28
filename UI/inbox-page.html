@@ -29,9 +29,8 @@
         <div class="align-self user-panel flex align-item-center">
           <div class="prof-img mr-25"></div>
           <h3 class="m-0 mr-25">
-            <a href="#" class="li-sty-none">Frank</a>
+            <a href="#" class="li-sty-none" id="user-name" style="text-transform: capitalize;"></a>
           </h3>
-          <!-- <span>&#9660;</span> -->
           <span id="profile-panel">
             <a href="#" id="drop-down">
               &#9650;
@@ -43,16 +42,10 @@
     <div class="profile-section" id="profile-section">
       <div>
         <ul class="">
-          <!-- <li>
-            <a href="#">
-              Profile
+          <li>
+            <a id="user-email" style="font-size:55%;">
             </a>
           </li>
-          <li>
-            <a href="./reset-password.html">
-              Reset
-            </a>
-          </li> -->
           <li onclick="logout()">
             <a>
               Logout
@@ -98,36 +91,6 @@
             <div class="col-11 message-body">
 
               <div class="displayForJs" id="inbox-message">
-
-                <div class="main-flex message-list" onclick="openMessage('readMail')">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-inbox dark-col ml-25"></i>
-                    </span>
-                    <span class="col-9 mail-head">some thing </span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text" title="unread message"><i class="fas fa-check unread"></i></span>
-                    <span class="col-8 center-text start-text">03 : 56 pm</span>
-                  </span>
-                </div>
-
-                <div class="main-flex message-list">
-                  <span class="col-3 flex">
-                    <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                      <i class="fas fa-inbox dark-col ml-25"></i>
-                    </span>
-                    <span class="col-9 mail-head">some thing </span>
-                  </span>
-                  <article class="col-7 mail-body">some content added here again </article>
-                  <span class="col-2 flex justify-content-sb">
-                    <span class="col-2 center-text start-text" title="delete"><i class="fas fa-trash delete"></i></span>
-                    <span class="col-2 center-text start-text" title="read message"><i class="fas fa-check read"></i></span>
-                    <span class="col-8 center-text start-text">03 : 56 pm</span>
-                  </span>
-                </div>
 
               </div>
 
