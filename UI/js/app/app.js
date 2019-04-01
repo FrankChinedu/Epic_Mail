@@ -96,6 +96,7 @@ const getInboxMessages = () => {
     .then((res) => {
       if (res.status === 200) {
         const inboxMsg = document.querySelector('#inbox-message');
+        inboxMsg.innerHTML = '';
         const { data } = res;
         if (data.length) {
           data.forEach((inbox) => {
@@ -146,6 +147,7 @@ const getSentMessages = () => {
     .then((res) => {
       if (res.status === 200) {
         const sentMsg = document.querySelector('#sent-message');
+        sentMsg.innerHTML = '';
         const { data } = res;
         if (data.length) {
           data.forEach((sent) => {
