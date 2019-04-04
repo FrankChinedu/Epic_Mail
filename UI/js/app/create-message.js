@@ -67,6 +67,10 @@ const sendMessage = () => {
           const str = res.message;
           const head = 'SUCCESS';
           const type = 'success';
+
+
+          getInboxMessages();
+          getSentMessages();
           openModal(str, head, type);
           setTimeout(() => {
             closeModal();
@@ -80,12 +84,11 @@ const sendMessage = () => {
         }
         // window.location.href = './inbox-page.html';
       }).catch((e) => {
-        console.log(e);
+        // console.log(e);
       });
   }
 };
 
 const saveDraft = () => {
-  // console.log('close');
   closeModal();
 };

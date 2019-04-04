@@ -151,6 +151,52 @@ const getOnesentMessage = (num) => {
     });
 };
 
+const getOneInboxMessage = (num) => {
+  const display = document.querySelector('#inbox-display');
+  fetch(`${baseUrl}/api/v1/messages/${num}`, {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      if (res.status === 200) {
+        const inbox = res.data;
+        display.innerHTML = `
+        <div>
+          <span class="go-back" onclick="goBack('readMail', 'inbox')"><i class="fas fa-arrow-left"></i></span>
+          <span class="tag">
+            <i class="fas fa-inbox mr-5 dark-col"></i>Inbox
+          </span>
+        </div>
+        <div class="read-mailContent">
+          <div class="flex">
+            <h2>${inbox.subject}</h2> <span></span>
+          </div>
+          <div>
+            <div class="flex">
+              <span>From: &nbsp; </span>
+              <b>${inbox.email}</b>
+            </div>
+            <div class="flex">
+                <span>To: &nbsp; </span>
+                <b>me</b>
+            </div>
+          </div>
+          <div class="mailContent">
+            ${inbox.message}
+          </div>
+
+          <div class="mt-25">
+            <button class="btn btn-sm btn-default">Reply</button>
+          </div>
+        </div>
+        `;
+      }
+    }).catch((e) => {
+    });
+};
+
 const goBack = (from, to) => {
   const elm = document.querySelector(`.${from}`);
   elm.style.display = 'none';

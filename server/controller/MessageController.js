@@ -69,4 +69,13 @@ export default class MessageController {
     const response = await MessageServices.deleteAnInboxMessage(data);
     res.status(response.status).send(response);
   }
+
+  static async deleteASentMessage(req, res) {
+    const userId = req.user.id;
+    const { id } = req.params;
+    const data = { userId, id };
+
+    const response = await MessageServices.deleteASentMessage(data);
+    res.status(response.status).send(response);
+  }
 }
