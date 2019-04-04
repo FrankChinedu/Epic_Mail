@@ -160,7 +160,7 @@
                   </div>
                   <form onsubmit="event.preventDefault(); addContact()">
                     <label for="addIndContact">Email</label>
-                    <input type="email" required class="form-control mt-25" placeholder="user@email.com">
+                    <input type="email" id="contactEmail"  class="form-control mt-25" placeholder="user@email.com">
                     <button type="submit" class="btn btn-sm btn-success">Add</button>
                   </form>
                 </div>
@@ -177,7 +177,7 @@
                   </form>
                 </div>
 
-                <div class="ind-contact-all contactJs flex flex-dir-col align-item-center">
+                <div class="ind-contact-all contactJs flex flex-dir-col align-item-center" id="all-user-contact">
 
                   <div class="ind-contact">
                     <div class="flex">

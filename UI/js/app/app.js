@@ -189,3 +189,100 @@ const getSentMessages = () => {
 };
 
 getSentMessages();
+
+const addContact = () => {
+  const contactEmail = document.querySelector('#contactEmail');
+  if (contactEmail.value) {
+    const email = contactEmail.value;
+    const data = {
+      email,
+    };
+    fetch(`${baseUrl}/api/v1/contacts`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        const contacts = document.querySelector('#all-user-contact');
+        console.log('====>', res);
+        if (res.status === 200) {
+          contacts.innerHTML += `
+          <div class="ind-contact">
+            <div class="flex">
+              <div class="ab-avatar">FA</div>
+              <div class="contact-info flex align-item-center justify-content-sb">
+                <h4 class="elipsis">Frank Angelo</h4>
+                <div class="flex ">
+                  <button class="btn btn-sm btn-success ">Email</button>
+                  <button class="btn btn-sm btn-danger ">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          `;
+        } else {
+          const str = res.data;
+          openModal(str);
+        }
+      }).catch((err) => {
+        openModal('An Error must have occurred');
+      });
+  } else {
+    openModal('Field cannot be empty and must an email');
+  }
+};
+
+const showAllUserContacts = () => {
+  fetch(`${baseUrl}/api/v1/contacts`, {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      const contacts = document.querySelector('#all-user-contact');
+      console.log('====>', res);
+      // if (res.status === 200) {
+      // } else {
+      //   }
+      // }
+    }).catch((err) => {
+      console.log('err', err);
+      const contacts = document.querySelector('#all-user-contact');
+    });
+
+
+  const contacts = document.querySelector('#all-user-contact');
+  contacts.innerHTML = '';
+  contacts.innerHTML = `
+    <div class="ind-contact">
+      <div class="flex">
+        <div class="ab-avatar">FA</div>
+        <div class="contact-info flex align-item-center justify-content-sb">
+          <h4 class="elipsis">Frank Angelo</h4>
+          <div class="flex ">
+            <button class="btn btn-sm btn-success ">Email</button>
+            <button class="btn btn-sm btn-danger ">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `;
+
+  // Error html
+  // contacts.innerHTML = `
+  //   <div class="ind-contact">
+  //     <div class="flex">
+  //       <div class="ab-avatar">Er</div>
+  //       <div class="contact-info flex align-item-center justify-content-sb">
+  //         <h4 class="elipsis">An Error must have Occurred</h4>
+  //       </div>
+  //     </div>
+  //   </div>
+  // `;
+};
+
+showAllUserContacts();
