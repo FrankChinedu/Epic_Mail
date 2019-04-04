@@ -15,7 +15,9 @@ const unSetToken = () => {
   window.localStorage.removeItem('userLastname');
 };
 
-document.querySelector('#user-name').innerHTML = userFirstname;
+const userName = document.querySelector('#user-name');
+userName.innerHTML = userFirstname;
+userName.setAttribute('title', `${userFirstname} ${userLastname}`);
 document.querySelector('#user-email').innerHTML = userEmail;
 
 const isAuthenticated = () => {
@@ -65,7 +67,7 @@ const deleteSentMessage = (id) => {
       },
     }).then(res => res.json())
       .then((res) => {
-        // getSentMessages();
+        getSentMessages();
       });
   }
 };
@@ -81,7 +83,7 @@ const deleteInboxMessage = (id) => {
       },
     }).then(res => res.json())
       .then((res) => {
-        // getInboxMessages();
+        getInboxMessages();
       });
   }
 };
