@@ -190,6 +190,29 @@ const getSentMessages = () => {
 
 getSentMessages();
 
+const messageContact = (email) => {
+  const mail = email;
+  createContent();
+  const receipient = document.getElementById('receipient');
+  receipient.value = mail;
+};
+
+const deleteContact = (id) => {
+  // eslint-disable-next-line no-alert
+  const confirmed = confirm('Are You sure you want to delete this contact');
+  if (confirmed) {
+    fetch(`${baseUrl}/api/v1/contacts/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        showAllUserContacts();
+      });
+  }
+};
+
 const addContact = () => {
   const contactEmail = document.querySelector('#contactEmail');
   if (contactEmail.value) {
@@ -207,22 +230,15 @@ const addContact = () => {
     }).then(res => res.json())
       .then((res) => {
         const contacts = document.querySelector('#all-user-contact');
-        console.log('====>', res);
-        if (res.status === 200) {
-          contacts.innerHTML += `
-          <div class="ind-contact">
-            <div class="flex">
-              <div class="ab-avatar">FA</div>
-              <div class="contact-info flex align-item-center justify-content-sb">
-                <h4 class="elipsis">Frank Angelo</h4>
-                <div class="flex ">
-                  <button class="btn btn-sm btn-success ">Email</button>
-                  <button class="btn btn-sm btn-danger ">Delete</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          `;
+        if (res.status === 201) {
+          const str = 'Contact added';
+          const head = 'SUCCESS';
+          const type = 'success';
+          openModal(str, head, type);
+          setTimeout(() => {
+            closeModal();
+          }, 3000);
+          showAllUserContacts();
         } else {
           const str = res.data;
           openModal(str);
@@ -244,45 +260,52 @@ const showAllUserContacts = () => {
   }).then(res => res.json())
     .then((res) => {
       const contacts = document.querySelector('#all-user-contact');
-      console.log('====>', res);
-      // if (res.status === 200) {
-      // } else {
-      //   }
-      // }
+      contacts.innerHTML = '';
+      if (res.status === 200) {
+        const result = res.data;
+        result.forEach((resp) => {
+          contacts.innerHTML += `
+          <div class="ind-contact">
+            <div class="flex">
+              <div class="ab-avatar">${resp.firstname.charAt(0).toUpperCase()}${resp.lastname.charAt(0).toUpperCase()}</div>
+              <div class="contact-info flex align-item-center justify-content-sb">
+                <h4 class="elipsis">${resp.firstname} ${resp.lastname}</h4>
+                <div class="flex ">
+                  <button class="btn btn-sm btn-success " onclick="messageContact('${resp.email}')" >Email</button>
+                  <button class="btn btn-sm btn-danger " onclick="deleteContact('${resp.id}')" >Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          `;
+        });
+      } else {
+        // Error html
+        contacts.innerHTML = `
+        <div class="ind-contact">
+          <div class="flex">
+            <div class="ab-avatar">Er</div>
+            <div class="contact-info flex align-item-center justify-content-sb">
+              <h4 class="elipsis">You have no Contacts.</h4>
+            </div>
+          </div>
+        </div>
+      `;
+      }
     }).catch((err) => {
-      console.log('err', err);
       const contacts = document.querySelector('#all-user-contact');
-    });
-
-
-  const contacts = document.querySelector('#all-user-contact');
-  contacts.innerHTML = '';
-  contacts.innerHTML = `
-    <div class="ind-contact">
-      <div class="flex">
-        <div class="ab-avatar">FA</div>
-        <div class="contact-info flex align-item-center justify-content-sb">
-          <h4 class="elipsis">Frank Angelo</h4>
-          <div class="flex ">
-            <button class="btn btn-sm btn-success ">Email</button>
-            <button class="btn btn-sm btn-danger ">Delete</button>
+      // Error html
+      contacts.innerHTML = `
+      <div class="ind-contact">
+        <div class="flex">
+          <div class="ab-avatar">Er</div>
+          <div class="contact-info flex align-item-center justify-content-sb">
+            <h4 class="elipsis">An Error must have Occurred</h4>
           </div>
         </div>
       </div>
-    </div>
     `;
-
-  // Error html
-  // contacts.innerHTML = `
-  //   <div class="ind-contact">
-  //     <div class="flex">
-  //       <div class="ab-avatar">Er</div>
-  //       <div class="contact-info flex align-item-center justify-content-sb">
-  //         <h4 class="elipsis">An Error must have Occurred</h4>
-  //       </div>
-  //     </div>
-  //   </div>
-  // `;
+    });
 };
 
 showAllUserContacts();
