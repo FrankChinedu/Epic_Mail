@@ -6,7 +6,11 @@ const openModal = (body, head = 'ERROR', type = 'error') => {
   modal.style.display = 'block';
   const header = document.querySelector('#modal-header');
   const bod = document.querySelector('#modal-body');
+  header.classList.remove('success');
+  header.classList.remove('error');
   header.classList.add(type);
+  bod.classList.remove('success');
+  bod.classList.remove('error');
   bod.classList.add(type);
   header.innerHTML = head;
   bod.innerHTML = body;

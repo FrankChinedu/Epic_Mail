@@ -213,6 +213,131 @@ const deleteContact = (id) => {
   }
 };
 
+const addGroup = () => {
+  let groupContact = document.querySelector('#groupContact');
+  groupContact = groupContact.value.trim();
+  if (groupContact.length) {
+    const name = groupContact;
+    const data = {
+      name,
+    };
+    fetch(`${baseUrl}/api/v1/groups`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        if (res.status === 201) {
+          const str = 'group created';
+          const head = 'SUCCESS';
+          const type = 'success';
+          openModal(str, head, type);
+          setTimeout(() => {
+            closeModal();
+          }, 3000);
+          showAllUserGroup();
+        } else {
+          const str = res.message;
+          openModal(str);
+        }
+      }).catch((err) => {
+        openModal('An Error must have occurred');
+      });
+  } else {
+    openModal('Field cannot be empty');
+  }
+};
+
+const deleteGroup = (id) => {
+  console.log('id', id);
+  // eslint-disable-next-line no-alert
+  const confirmed = confirm('Are You sure you want to delete this group');
+  if (confirmed) {
+    fetch(`${baseUrl}/api/v1/groups/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        showAllUserGroup();
+      });
+  }
+};
+
+const editGroupName = (name) => {
+  console.log('name', name);
+};
+
+const sendBulkMessage = (id) => {
+  console.log('id ==>', id);
+};
+
+const showAllUserGroup = () => {
+  fetch(`${baseUrl}/api/v1/groups`, {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      const groups = document.querySelector('#all-user-grps');
+      groups.innerHTML = '';
+      if (res.status === 200) {
+        const result = res.data;
+        result.forEach((resp) => {
+          groups.innerHTML += `
+          <div class="ind-contact group-name">
+            <div class="flex">
+              <div class="ab-avatar cursor" onclick="listMember()">
+                ${resp.name.charAt(0).toUpperCase()}${resp.name.charAt(1).toUpperCase()}
+              </div>
+              <div class="contact-info flex align-item-center justify-content-sb" >
+                <h4 class="elipsis cursor" onclick="listMember()" >${resp.name}</h4>
+                <div class="flex ">
+                  <button class="btn btn-sm" onclick="editGroupName('${resp.name}')" >Edit</button>
+                  <button class="btn btn-sm btn-success " onclick="sendBulkMessage('${resp.id}')" >Email</button>
+                  <button class="btn btn-sm btn-danger " onclick="deleteGroup(${resp.id})" >Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          `;
+        });
+      } else {
+        // Error html
+        groups.innerHTML = `
+        <div class="ind-contact group-name">
+          <div class="flex">
+            <div class="ab-avatar cursor" >ER</div>
+            <div class="contact-info flex align-item-center justify-content-sb" >
+              <h4 class="elipsis cursor" >You dont have any groups</h4>
+            </div>
+          </div>
+        </div>
+      `;
+      }
+    }).catch((err) => {
+      const groups = document.querySelector('#all-user-grps');
+      // Error html
+      groups.innerHTML = `
+      <div class="ind-contact group-name">
+        <div class="flex">
+          <div class="ab-avatar cursor" >Er</div>
+          <div class="contact-info flex align-item-center justify-content-sb" >
+            <h4 class="elipsis cursor" >An Error must have Occurred</h4>
+          </div>
+        </div>
+      </div>
+    `;
+    });
+};
+
+// showAllUserGroup();
+
 const addContact = () => {
   const contactEmail = document.querySelector('#contactEmail');
   if (contactEmail.value) {
