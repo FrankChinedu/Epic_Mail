@@ -252,7 +252,6 @@ const addGroup = () => {
 };
 
 const deleteGroup = (id) => {
-  console.log('id', id);
   // eslint-disable-next-line no-alert
   const confirmed = confirm('Are You sure you want to delete this group');
   if (confirmed) {
@@ -290,7 +289,7 @@ const showAllUserGroup = () => {
         const result = res.data;
         result.forEach((resp) => {
           groups.innerHTML += `
-          <div class="ind-contact group-name">
+          <div class="ind-contact group-name ind-contact-width">
             <div class="flex">
               <div class="ab-avatar cursor" onclick="listMember()">
                 ${resp.name.charAt(0).toUpperCase()}${resp.name.charAt(1).toUpperCase()}
@@ -310,7 +309,7 @@ const showAllUserGroup = () => {
       } else {
         // Error html
         groups.innerHTML = `
-        <div class="ind-contact group-name">
+        <div class="ind-contact group-name ind-contact-width">
           <div class="flex">
             <div class="ab-avatar cursor" >ER</div>
             <div class="contact-info flex align-item-center justify-content-sb" >
@@ -324,7 +323,7 @@ const showAllUserGroup = () => {
       const groups = document.querySelector('#all-user-grps');
       // Error html
       groups.innerHTML = `
-      <div class="ind-contact group-name">
+      <div class="ind-contact group-name ind-contact-width">
         <div class="flex">
           <div class="ab-avatar cursor" >Er</div>
           <div class="contact-info flex align-item-center justify-content-sb" >
@@ -336,7 +335,7 @@ const showAllUserGroup = () => {
     });
 };
 
-// showAllUserGroup();
+showAllUserGroup();
 
 const addContact = () => {
   const contactEmail = document.querySelector('#contactEmail');
