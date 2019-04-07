@@ -55,6 +55,15 @@ export default class UserController {
     res.status(response.status).send(response);
   }
 
+  static async getAllGroupMembers(req, res) {
+    const userId = req.user.id;
+    const { groupId } = req.params;
+
+    const data = { userId, groupId };
+    const response = await GroupServices.getAllGroupMembers(data);
+    res.status(response.status).send(response);
+  }
+
   static async sendGroupMessage(req, res) {
     const userId = req.user.id;
     const { groupId } = req.params;

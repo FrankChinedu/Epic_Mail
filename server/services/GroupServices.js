@@ -14,6 +14,10 @@ export default class UserServices {
     };
   }
 
+  static async getAllGroupMembers(data) {
+    return GroupMember.getAllGroupMembers(data);
+  }
+
   static async editGroup(data) {
     const response = await Group.editGroup(data);
     if (response.success) {

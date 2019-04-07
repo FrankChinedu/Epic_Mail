@@ -9,7 +9,7 @@ groupRoute.get('/groups', Auth.verifyToken, GroupController.getAllGroup);
 groupRoute.patch('/groups/:id/name', Auth.trimmer, Auth.verifyToken, Auth.magicValidator, GroupController.editGroup);
 groupRoute.delete('/groups/:id', Auth.verifyToken, GroupController.deleteGroup);
 groupRoute.post('/groups/:id/users', Auth.verifyToken, GroupController.addContactToGroup);
-// groupRoute.post('/groups/:groupId/members', Auth.verifyToken, GroupController.getAllGroupMembers);
+groupRoute.get('/groups/:groupId/members', Auth.verifyToken, GroupController.getAllGroupMembers);
 groupRoute.post('/groups/:groupId/messages', Auth.trimmer, Auth.verifyToken, Auth.magicValidator, GroupController.sendGroupMessage);
 groupRoute.delete('/groups/:groupId/users/:memberId', Auth.verifyToken, GroupController.removeMemberFromGroup);
 
