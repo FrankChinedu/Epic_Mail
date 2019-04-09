@@ -176,6 +176,18 @@
                     <button type="submit" class="btn btn-sm btn-success">Add</button>
                   </form>
                 </div>
+                
+                <div class="addIndContact  formAddContactJs " id="edit-group-name-form" style="display:none;">
+                  <div class="flex justify-content-sb mb-25">
+                    <h4>Edit Group Name</h4>
+                    <span onclick="closeAddPanel()">X</span>
+                  </div>
+                  <form onsubmit="event.preventDefault(); updateGroupName()">
+                    <label for="groupContact">Group Name</label>
+                    <input type="text" minlength="3" id="edit-group-name" required class="form-control mt-25" placeholder="group name">
+                    <button type="submit" class="btn btn-sm btn-success">Edit</button>
+                  </form>
+                </div>
 
                 <div class="ind-contact-all contactJs flex flex-dir-col align-item-center" id="all-user-contact">
                 </div>
