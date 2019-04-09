@@ -10,7 +10,7 @@ const unSetToken = () => {
 };
 unSetToken();
 
-const baseUrl = 'https://epic-mail-ocf.herokuapp.com/';
+const baseUrl = 'https://epic-mail-ocf.herokuapp.com';
 
 const resetPassword = () => {
   const urlParams = new URLSearchParams(window.location.search);
