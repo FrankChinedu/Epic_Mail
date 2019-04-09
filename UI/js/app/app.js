@@ -278,15 +278,22 @@ const removeMemberFromGroup = (groupId, memberId) => {
       },
     }).then(res => res.json())
       .then((res) => {
-        getGroupMembers();
+        const str = 'contact deleted successfully';
+        const head = 'SUCCESS';
+        const type = 'success';
+        openModal(str, head, type);
+        setTimeout(() => {
+          closeModal();
+        }, 3000);
+        const groupName = document.querySelector('#grp-name').innerText;
+        getGroupMembers(groupId, groupName);
       }).catch((err) => {
         console.log('===>', err);
       });
   }
-  // console.log()
 };
 
-const displayContactOptions = () => {
+const displayContactOptions = (id) => {
   fetch(`${baseUrl}/api/v1/contacts`, {
     method: 'GET',
     headers: {
@@ -301,6 +308,7 @@ const displayContactOptions = () => {
         add.style.display = 'block';
         btn.style.display = 'block';
         displayContacts.style.display = 'block';
+        displayContacts.setAttribute('groupid', id);
         const info = res.data;
         info.forEach((data) => {
           displayContacts.innerHTML += `
@@ -308,35 +316,64 @@ const displayContactOptions = () => {
           `;
         });
       }
-      console.log('--->', res);
     })
     .catch((err) => {
-      console.log('ee', err);
+      console.log(err);
     });
 };
 
 const addMembersToGroup = () => {
   const contact = document.querySelector('#all-contacts');
+  const groupId = contact.getAttribute('groupid');
   if (!contact.options[contact.selectedIndex]) {
   // eslint-disable-next-line no-alert
     alert('You must select at least one contact');
     return;
   }
-
   // eslint-disable-next-line no-alert
-  // const confirmed = confirm('You want to add the selected contacts to this group');
-  // if (confirmed) {
-  // console.log('yes==>');
-  const arr = Array.from(contact);
-  console.log('arr', arr);
+  const confirmed = confirm('You want to add the selected contacts to this group');
+  if (confirmed) {
+    const arr = Array.from(contact);
 
-  const emails = [];
-  arr.forEach((e) => {
-    if (e.selected) {
-      emails.push(e.value);
-    }
-  });
-  // }
+    const emails = [];
+    arr.forEach((e) => {
+      if (e.selected) {
+        emails.push(e.value);
+      }
+    });
+    const data = {
+      emails,
+    };
+    fetch(`${baseUrl}/api/v1/groups/${groupId}/users`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          const str = 'Selected contact(s)have been added';
+          const head = 'SUCCESS';
+          const type = 'success';
+          const groupName = document.querySelector('#grp-name').innerText;
+          getGroupMembers(groupId, groupName);
+          openModal(str, head, type);
+          setTimeout(() => {
+            closeModal();
+          }, 3000);
+        } else {
+          openModal(res.data);
+          setTimeout(() => {
+            closeModal();
+          }, 3000);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 };
 
 const getGroupMembers = (id, groupName) => {
@@ -354,7 +391,7 @@ const getGroupMembers = (id, groupName) => {
 
         grpMember.innerHTML = `
           <div class="flex justify-content-sb" style="margin-bottom: 20px;">
-            <h3>${groupName}</h3>
+            <h3 id="grp-name">${groupName}</h3>
             <span class="cursor grp-back" onclick="backToList()"><i class="fas fa-arrow-left"></i></span>
           </div>
           <div class="add-member flex align-item-center mb-25 justify-content-ctr">
@@ -383,7 +420,7 @@ const getGroupMembers = (id, groupName) => {
           };
           showMembersEmail();
         }
-        displayContactOptions();
+        displayContactOptions(id);
       } else {
         grpMember.innerHTML = `
         <div class="flex justify-content-sb" style="margin-bottom: 20px;">
@@ -391,7 +428,7 @@ const getGroupMembers = (id, groupName) => {
           <span class="cursor grp-back" onclick="backToList()"><i class="fas fa-arrow-left"></i></span>
         </div>
         `;
-        displayContactOptions();
+        displayContactOptions(id);
       }
     })
     .catch((err) => {
