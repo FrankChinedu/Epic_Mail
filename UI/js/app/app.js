@@ -484,7 +484,82 @@ const editGroupName = (name, groupId) => {
 };
 
 const sendBulkMessage = (id) => {
-  console.log('id ==>', id);
+  const head = document.querySelector('#bulk-header');
+  const body = document.querySelector('#bulk-body');
+  const message = document.querySelector('#bulk-message');
+  const form = document.querySelector('#bulk-form');
+  head.style.display = 'flex';
+  body.style.display = 'block';
+  message.style.display = 'block';
+  form.setAttribute('groupid', id);
+};
+
+const closeBulkMessage = () => {
+  const head = document.querySelector('#bulk-header');
+  const body = document.querySelector('#bulk-body');
+  const message = document.querySelector('#bulk-message');
+  head.style.display = 'none';
+  body.style.display = 'none';
+  message.style.display = 'none';
+};
+
+const postMessage = () => {
+  const form = document.querySelector('#bulk-form');
+  const groupId = form.getAttribute('groupid');
+  const subject = document.querySelector('#bulk-subject').value;
+  const message = document.querySelector('#bulk-text-area').value;
+
+  if (subject === '') {
+    const str = 'subject cannot be empty';
+    openModal(str);
+    setTimeout(() => {
+      closeModal();
+    }, 4000);
+    return;
+  } if (message === '') {
+    const str = 'Body of the email cannot be empty';
+    openModal(str);
+    setTimeout(() => {
+      closeModal();
+    }, 4000);
+    return;
+  }
+  const data = {
+    subject,
+    message,
+  };
+  fetch(`${baseUrl}/api/v1/groups/${groupId}/messages`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      if (res.status === 201) {
+        document.querySelector('#bulk-subject').value = '';
+        document.querySelector('#bulk-text-area').value = '';
+        const str = 'Messages has been posted';
+        const head = 'SUCCESS';
+        const type = 'success';
+
+        getInboxMessages();
+        getSentMessages();
+        openModal(str, head, type);
+        setTimeout(() => {
+          closeModal();
+        }, 3000);
+      } else {
+        const str = res.error;
+        openModal(str);
+        setTimeout(() => {
+          closeModal();
+        }, 4000);
+      }
+    }).catch((e) => {
+      openModal('An Error must have occurred');
+    });
 };
 
 const showAllUserGroup = () => {
