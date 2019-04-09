@@ -5,7 +5,7 @@
 /* eslint-disable no-param-reassign */
 
 
-const baseUrl = 'https://epic-mail-ocf.herokuapp.com';
+const baseUrl = 'https://epic-mail-ocf.herokuapp.com/';
 
 const profilePanel = document.getElementById('profile-panel');
 

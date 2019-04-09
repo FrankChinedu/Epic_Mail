@@ -311,6 +311,10 @@
   box-shadow: 0px 1px 1px black;
 }
 
+.ind-contact-width {
+  width:179%;
+}
+
 .add-contact {
   width: 50px;
   height: 50px;
@@ -540,6 +544,10 @@
 
     .ind-contact {
       width: 99%;
+    }
+
+    .ind-contact-width {
+      width: 104%;
     }
 
     .email-body{

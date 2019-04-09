@@ -83,7 +83,8 @@ const sendMessage = () => {
           }, 4000);
         }
         // window.location.href = './inbox-page.html';
-      }).catch(() => {
+      }).catch((e) => {
+        // console.log(e);
       });
   }
 };

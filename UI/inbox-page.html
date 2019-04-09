@@ -29,7 +29,8 @@
         <div class="align-self user-panel flex align-item-center">
           <div class="prof-img mr-25"></div>
           <h3 class="m-0 mr-25">
-            <a href="#" class="li-sty-none" id="user-name" style="text-transform: capitalize;"></a>
+            <a href="#" class="li-sty-none" id="user-name" style="text-transform: capitalize; overflow: hidden;
+              text-overflow: ellipsis; white-space: nowrap; display: block; width: 92px;"></a>
           </h3>
           <span id="profile-panel">
             <a href="#" id="drop-down">
@@ -157,9 +158,9 @@
                     <h4>Add contact</h4>
                     <span onclick="closeAddPanel()">X</span>
                   </div>
-                  <form class="">
+                  <form onsubmit="event.preventDefault(); addContact()">
                     <label for="addIndContact">Email</label>
-                    <input type="email" required class="form-control mt-25" placeholder="user@email.com">
+                    <input type="email" id="contactEmail" required class="form-control mt-25" placeholder="user@email.com">
                     <button type="submit" class="btn btn-sm btn-success">Add</button>
                   </form>
                 </div>
@@ -169,47 +170,21 @@
                     <h4>Create Group</h4>
                     <span onclick="closeAddPanel()">X</span>
                   </div>
-                  <form class="">
-                    <label for="addIndContact1">Group Name</label>
-                    <input type="text" minlength="3" id="addIndContact1" required class="form-control mt-25" placeholder="group name">
+                  <form onsubmit="event.preventDefault(); addGroup()">
+                    <label for="groupContact">Group Name</label>
+                    <input type="text" minlength="3" id="groupContact" required class="form-control mt-25" placeholder="group name">
                     <button type="submit" class="btn btn-sm btn-success">Add</button>
                   </form>
                 </div>
 
-                <div class="ind-contact-all contactJs flex flex-dir-col align-item-center">
-
-                  <div class="ind-contact">
-                    <div class="flex">
-                      <div class="ab-avatar">FA</div>
-                      <div class="contact-info flex align-item-center justify-content-sb">
-                        <h4 class="elipsis">Frank Angelo</h4>
-                        <div class="flex ">
-                          <button class="btn btn-sm btn-success ">Email</button>
-                          <button class="btn btn-sm btn-danger ">Delete</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="ind-contact">
-                    <div class="flex">
-                      <div class="ab-avatar">FA</div>
-                      <div class="contact-info flex align-item-center justify-content-sb">
-                        <h4 class="elipsis">Frank Angelo</h4>
-                        <div class="flex ">
-                          <button class="btn btn-sm btn-success ">Email</button>
-                          <button class="btn btn-sm btn-danger ">Delete</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
+                <div class="ind-contact-all contactJs flex flex-dir-col align-item-center" id="all-user-contact">
                 </div>
 
                 <div class="ind-contact-grp contactJs flex flex-dir-col align-item-center" style="display:none;">
 
-                    <div class="ind-contact group-name">
+                  <div class=" flex flex-dir-col align-item-center " id="all-user-grps" >
+
+                    <div class="ind-contact group-name ind-contact-width">
                       <div class="flex">
                         <div class="ab-avatar cursor" onclick="listMember()">G1</div>
                         <div class="contact-info flex align-item-center justify-content-sb" >
@@ -222,10 +197,12 @@
                         </div>
                       </div>
                     </div>
-
-                  <div class="group-members" style="display:none;">
+                  
+                  </div>
+                  
+                  <div class="group-members" style="display:none;" id="display-group-member">
                     <div class="flex justify-content-sb" style="margin-bottom: 20px;">
-                      <h3>Group 1</h3>
+                      <h3 id="grp-name">Group 1</h3>
                       <span class="cursor grp-back" onclick="backToList()"><i class="fas fa-arrow-left"></i></span>
                     </div>
                     <div class="add-member flex align-item-center mb-25 justify-content-ctr">
@@ -236,7 +213,7 @@
                       </select>
                       <button class="btn btn-sm ml-25 cursor"> add </button>
                     </div>
-                    <div class="members-list">
+                    <div class="members-list" id="members-list">
                       <div class="a-member flex cursor ">
                         <p>frank@ang.com</p>
                         <span class="cursor">x</span>
@@ -255,8 +232,9 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
+
+                
               </div>
 
             </div>
