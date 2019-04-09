@@ -46,6 +46,7 @@ const displayPanel = (id) => {
 
 const createContent = () => {
   populate(false);
+  closeBulkMessage();
   const emailMainBody = document.querySelector('.email-main-body');
   const emailBody = document.querySelector('.email-body');
   const emailHead = document.querySelector('.email-header');
