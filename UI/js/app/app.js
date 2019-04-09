@@ -442,8 +442,45 @@ const getGroupMembers = (id, groupName) => {
     });
 };
 
-const editGroupName = (name) => {
-  console.log('name', name);
+
+const updateGroupName = () => {
+  const updateField = document.querySelector('#edit-group-name');
+  let name = updateField.value;
+  const groupId = updateField.getAttribute('groupid');
+  name = name.trim();
+  if (name.length > 2) {
+    const data = {
+      name,
+    };
+    fetch(`${baseUrl}/api/v1/groups/${groupId}/name`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          showAllUserGroup();
+        } else {
+          openModal('Somethings not right maybe go left');
+        }
+      })
+      .catch((err) => {
+        openModal('An error must have occurred pls try again');
+      });
+  } else {
+    openModal('group name filed cannot be empty and less that three characters');
+  }
+};
+
+const editGroupName = (name, groupId) => {
+  const editForm = document.querySelector('#edit-group-name-form');
+  editForm.style.display = 'block';
+  const field = document.querySelector('#edit-group-name');
+  field.setAttribute('groupid', groupId);
+  field.value = name;
 };
 
 const sendBulkMessage = (id) => {
@@ -472,7 +509,7 @@ const showAllUserGroup = () => {
               <div class="contact-info flex align-item-center justify-content-sb" >
                 <h4 class="elipsis cursor" onclick="listMember(); getGroupMembers(${resp.id}, '${resp.name}')" >${resp.name}</h4>
                 <div class="flex ">
-                  <button class="btn btn-sm" onclick="editGroupName('${resp.name}')" >Edit</button>
+                  <button class="btn btn-sm" onclick="editGroupName('${resp.name}', ${resp.id})" >Edit</button>
                   <button class="btn btn-sm btn-success " onclick="sendBulkMessage('${resp.id}')" >Email</button>
                   <button class="btn btn-sm btn-danger " onclick="deleteGroup(${resp.id})" >Delete</button>
                 </div>
