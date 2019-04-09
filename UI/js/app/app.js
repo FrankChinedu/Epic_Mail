@@ -267,6 +267,144 @@ const deleteGroup = (id) => {
   }
 };
 
+const removeMemberFromGroup = (groupId, memberId) => {
+  // eslint-disable-next-line no-alert
+  const confirmed = confirm('Are You sure you want to delete this member from this group');
+  if (confirmed) {
+    fetch(`${baseUrl}/api/v1/groups/${groupId}/users/${memberId}`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        getGroupMembers();
+      }).catch((err) => {
+        console.log('===>', err);
+      });
+  }
+  // console.log()
+};
+
+const displayContactOptions = () => {
+  fetch(`${baseUrl}/api/v1/contacts`, {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      if (res.status === 200) {
+        const displayContacts = document.querySelector('#all-contacts');
+        const add = document.querySelector('#add-select');
+        const btn = document.querySelector('#add-btn');
+        add.style.display = 'block';
+        btn.style.display = 'block';
+        displayContacts.style.display = 'block';
+        const info = res.data;
+        info.forEach((data) => {
+          displayContacts.innerHTML += `
+            <option value="${data.email}">${data.email}</option>
+          `;
+        });
+      }
+      console.log('--->', res);
+    })
+    .catch((err) => {
+      console.log('ee', err);
+    });
+};
+
+const addMembersToGroup = () => {
+  const contact = document.querySelector('#all-contacts');
+  if (!contact.options[contact.selectedIndex]) {
+  // eslint-disable-next-line no-alert
+    alert('You must select at least one contact');
+    return;
+  }
+
+  // eslint-disable-next-line no-alert
+  // const confirmed = confirm('You want to add the selected contacts to this group');
+  // if (confirmed) {
+  // console.log('yes==>');
+  const arr = Array.from(contact);
+  console.log('arr', arr);
+
+  const emails = [];
+  arr.forEach((e) => {
+    if (e.selected) {
+      emails.push(e.value);
+    }
+  });
+  // }
+};
+
+const getGroupMembers = (id, groupName) => {
+  fetch(`${baseUrl}/api/v1/groups/${id}/members`, {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      const grpMember = document.querySelector('#display-group-member');
+      grpMember.innerHTML = '';
+      if (res.status === 200) {
+        const field = res.data;
+
+        grpMember.innerHTML = `
+          <div class="flex justify-content-sb" style="margin-bottom: 20px;">
+            <h3>${groupName}</h3>
+            <span class="cursor grp-back" onclick="backToList()"><i class="fas fa-arrow-left"></i></span>
+          </div>
+          <div class="add-member flex align-item-center mb-25 justify-content-ctr">
+            <span class="mr-25" id="add-select" style="display:none;">Add</span>
+            <select class="mr-25 cursor" id="all-contacts"  multiple size="2" style="display:none;" >
+            </select>
+            <button class="btn btn-sm ml-25 cursor" id="add-btn" style="display:none;" onclick="addMembersToGroup()" > add </button>
+          </div>
+          <div class="members-list" id="members-list">
+          </div>
+        </div>
+          `;
+
+        if (field.length) {
+          const showMembersEmail = () => {
+            const memEmail = document.querySelector('#members-list');
+            memEmail.innerHTML = '';
+            field.forEach((mem) => {
+              memEmail.innerHTML += `
+              <div class="a-member flex cursor ">
+                <p>${mem.email}</p>
+                <span class="cursor" onclick="removeMemberFromGroup(${mem.groupid}, ${mem.memberid})" >x</span>
+              </div>
+              `;
+            });
+          };
+          showMembersEmail();
+        }
+        displayContactOptions();
+      } else {
+        grpMember.innerHTML = `
+        <div class="flex justify-content-sb" style="margin-bottom: 20px;">
+          <h3>${groupName}</h3>
+          <span class="cursor grp-back" onclick="backToList()"><i class="fas fa-arrow-left"></i></span>
+        </div>
+        `;
+        displayContactOptions();
+      }
+    })
+    .catch((err) => {
+      const grpMember = document.querySelector('#display-group-member');
+      grpMember.innerHTML = `
+          <div class="flex justify-content-sb" style="margin-bottom: 20px;">
+            <h3>An Error must have occurred  try again</h3>
+            <span class="cursor grp-back" onclick="backToList()"><i class="fas fa-arrow-left"></i></span>
+          </div>
+          `;
+    });
+};
+
 const editGroupName = (name) => {
   console.log('name', name);
 };
@@ -295,7 +433,7 @@ const showAllUserGroup = () => {
                 ${resp.name.charAt(0).toUpperCase()}${resp.name.charAt(1).toUpperCase()}
               </div>
               <div class="contact-info flex align-item-center justify-content-sb" >
-                <h4 class="elipsis cursor" onclick="listMember()" >${resp.name}</h4>
+                <h4 class="elipsis cursor" onclick="listMember(); getGroupMembers(${resp.id}, '${resp.name}')" >${resp.name}</h4>
                 <div class="flex ">
                   <button class="btn btn-sm" onclick="editGroupName('${resp.name}')" >Edit</button>
                   <button class="btn btn-sm btn-success " onclick="sendBulkMessage('${resp.id}')" >Email</button>
