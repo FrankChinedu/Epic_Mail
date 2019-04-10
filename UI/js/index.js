@@ -150,6 +150,13 @@ const getOnesentMessage = (num) => {
         `;
       }
     }).catch((e) => {
+      display.innerHTML = `
+      <div class="main-flex message-list">
+        <article class="col-10 mail-body center-text">
+          An Error or something must have occured try reloading this page.
+        </article>
+      </div>
+      `;
     });
 };
 
@@ -196,6 +203,13 @@ const getOneInboxMessage = (num) => {
         `;
       }
     }).catch((e) => {
+      display.innerHTML = `
+      <div class="main-flex message-list">
+        <article class="col-10 mail-body center-text">
+          An Error or something must have occured try reloading this page.
+        </article>
+      </div>
+      `;
     });
 };
 

@@ -292,6 +292,7 @@ class Email {
     emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn
     FROM ${table}
     INNER JOIN emails ON ${table}.messageid = emails.id WHERE ${table}.${field} = $1
+    ORDER BY ${table}.createdat DESC;
     `;
 
     try {
