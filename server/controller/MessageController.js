@@ -35,6 +35,12 @@ export default class MessageController {
     res.status(response.status).send(response);
   }
 
+  static async getDraftEmails(req, res) {
+    const userId = req.user.id;
+    const response = await MessageServices.getDraftEmails(userId);
+    res.status(response.status).send(response);
+  }
+
   static async getUnReadEmails(req, res) {
     const userId = req.user.id;
     const response = await MessageServices.getUnReadEmails(userId);

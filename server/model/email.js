@@ -283,6 +283,30 @@ class Email {
     return this.queryToRun(userId, 'senderid', 'sents', 'receiverid');
   }
 
+  static async getDraftEmails(userId) {
+    const table = 'drafts';
+    const field = 'senderid';
+    const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
+    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn
+    FROM ${table}
+    INNER JOIN emails ON ${table}.messageid = emails.id WHERE ${table}.${field} = $1
+    `;
+
+    try {
+      const { rows } = await query(dbQuery, [userId]);
+      const data = rows;
+      return {
+        success: true,
+        data,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: 'something went wrong',
+      };
+    }
+  }
+
   static async getUnReadEmails(userId) {
     const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
     emails.status as status, inboxs.receiverid as receiverId, inboxs.senderid as senderId, inboxs.read as read, inboxs.createdat as createdOn

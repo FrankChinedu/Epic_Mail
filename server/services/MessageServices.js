@@ -37,6 +37,20 @@ export default class MessageServices {
     };
   }
 
+  static async getDraftEmails(userId) {
+    const response = await Email.getDraftEmails(userId);
+    if (response.success) {
+      return {
+        status: 200,
+        data: response.data,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
   static async getUnReadEmails(userId) {
     return Email.getUnReadEmails(userId);
   }
