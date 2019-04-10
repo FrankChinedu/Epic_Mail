@@ -171,13 +171,13 @@ const getDraftMessages = () => {
           data.forEach((draft) => {
             draftMsg.innerHTML += `
             <div class="main-flex message-list" >
-              <span class="col-3 flex" onclick="openDraft()">
+              <span class="col-3 flex" onclick="openDraft(${draft.id})">
                 <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
                   <i class="fas fa-bookmark dark-col ml-25"></i>
                 </span>
                 <span class="col-10 mail-head draft-t">DRAFT</span>
               </span>
-              <article class="col-7 mail-body" onclick="openDraft()" >${draft.message}</article>
+              <article class="col-7 mail-body" onclick="openDraft(${draft.id})" >${draft.message}</article>
               <span class="col-2 flex justify-content-sb">
                 <span class="col-2 center-text start-text" title="delete" onclick="deleteDraft(${draft.id})"  ><i class="fas fa-trash delete"></i></span>
                 <span class="col-8 center-text start-text">${formatDate(draft.createdon)}</span>

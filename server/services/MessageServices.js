@@ -63,6 +63,10 @@ export default class MessageServices {
     return Email.getASentMessage({ userId, messageId });
   }
 
+  static async viewADraftMessage({ userId, messageId }) {
+    return Email.viewADraftMessage({ userId, messageId });
+  }
+
   static async deleteAnInboxMessage(data) {
     return Email.deleteInboxMessage(data);
   }

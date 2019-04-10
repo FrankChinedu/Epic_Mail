@@ -12,7 +12,7 @@ messageRoute.get('/messages/sent', Auth.verifyToken, MessageController.getSentEm
 
 messageRoute.get('/messages/draft', Auth.verifyToken, MessageController.getDraftEmails);
 
-// messageRoute.get('/messages/draft/:id', Auth.verifyToken, MessageController.viewADraftMessage);
+messageRoute.get('/messages/draft/:id', Auth.verifyToken, MessageController.viewADraftMessage);
 
 messageRoute.get('/messages/sent/:id', Auth.verifyToken, MessageController.viewASentMessage);
 

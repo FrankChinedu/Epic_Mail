@@ -206,7 +206,8 @@ const goBack = (from, to) => {
   displayPanel(to);
 };
 
-const openDraft = () => {
+const openDraft = (id) => {
+  console.log('id', id);
   createContentFromDraft();
   populate();
 };

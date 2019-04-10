@@ -67,6 +67,16 @@ export default class MessageController {
     res.status(response.status).send(response);
   }
 
+  static async viewADraftMessage(req, res) {
+    const userId = req.user.id;
+    const { id } = req.params;
+    const messageId = id;
+
+    const data = { userId, messageId };
+    const response = await MessageServices.viewADraftMessage(data);
+    res.status(response.status).send(response);
+  }
+
   static async deleteAnInboxMessage(req, res) {
     const userId = req.user.id;
     const { id } = req.params;

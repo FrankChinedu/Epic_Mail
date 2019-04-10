@@ -494,6 +494,56 @@ class Email {
     };
   }
 
+  static async viewADraftMessage({ userId, messageId }) {
+    const exists = await this.messageExists(userId, messageId, 'drafts', 'senderid');
+
+    const getMsg = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
+    emails.status as status, drafts.receiverid as receiverId, drafts.senderid as senderId, drafts.read as read, drafts.createdat as createdOn
+    FROM drafts
+    INNER JOIN emails ON drafts.messageid = emails.id WHERE drafts.senderid = $1 AND drafts.messageid = $2`;
+
+    const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
+    emails.status as status, drafts.receiverid as receiverId, drafts.senderid as senderId, drafts.read as read, drafts.createdat as createdOn,
+    users.firstname as firstname, users.lastname as lastname, users.email as email
+    FROM drafts
+    INNER JOIN users ON drafts.receiverid = users.id 
+    INNER JOIN emails ON drafts.messageid = emails.id WHERE drafts.senderid = $1 AND drafts.messageid = $2`;
+
+    if (exists.success) {
+      if (exists.data.receiverid) {
+        try {
+          const { rows } = await query(dbQuery, [userId, messageId]);
+          return {
+            status: 200,
+            data: rows,
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            error: 'An Error must have occurred',
+          };
+        }
+      } else {
+        try {
+          const { rows } = await query(getMsg, [userId, messageId]);
+          return {
+            status: 200,
+            data: rows,
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            error: 'An Error must have occurred',
+          };
+        }
+      }
+    }
+    return {
+      status: 200,
+      data: [],
+    };
+  }
+
   static async getASentMessage({ userId, messageId }) {
     const exists = await this.messageExists(userId, messageId, 'sents', 'senderid');
     if (exists.success) {
