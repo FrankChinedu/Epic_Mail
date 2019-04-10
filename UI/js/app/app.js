@@ -139,6 +139,72 @@ const getInboxMessages = () => {
 
 getInboxMessages();
 
+const deleteDraft = (id) => {
+  // eslint-disable-next-line no-alert
+  const confirmed = confirm('Are You sure you want to delete this draft');
+  if (confirmed) {
+    fetch(`${baseUrl}/api/v1/messages/draft/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        getDraftMessages();
+      });
+  }
+};
+
+const getDraftMessages = () => {
+  fetch(`${baseUrl}/api/v1/messages/draft`, {
+    method: 'GET',
+    headers: {
+      'x-access-token': token,
+    },
+  }).then(res => res.json())
+    .then((res) => {
+      if (res.status === 200) {
+        const draftMsg = document.querySelector('#draft-message');
+        draftMsg.innerHTML = '';
+        const { data } = res;
+        if (data.length) {
+          data.forEach((draft) => {
+            draftMsg.innerHTML += `
+            <div class="main-flex message-list" >
+              <span class="col-3 flex" onclick="openDraft()">
+                <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                  <i class="fas fa-bookmark dark-col ml-25"></i>
+                </span>
+                <span class="col-10 mail-head draft-t">DRAFT</span>
+              </span>
+              <article class="col-7 mail-body" onclick="openDraft()" >${draft.message}</article>
+              <span class="col-2 flex justify-content-sb">
+                <span class="col-2 center-text start-text" title="delete" onclick="deleteDraft(${draft.id})"  ><i class="fas fa-trash delete"></i></span>
+                <span class="col-8 center-text start-text">${formatDate(draft.createdon)}</span>
+              </span>
+            </div>
+            `;
+          });
+        } else {
+          draftMsg.innerHTML = `
+          <div class="main-flex message-list" >
+            <article class="col-10 mail-body center-text">Draft Box Is Empty until you save some Messages as draft.... </article>
+          </div>
+          `;
+        }
+      }
+    }).catch((err) => {
+      const draftMsg = document.querySelector('#draft-message');
+      draftMsg.innerHTML = `
+      <div class="main-flex message-list" >
+        <article class="col-10 mail-body center-text">An Error or something must have occured try reloading this page. </article>
+      </div>
+      `;
+    });
+};
+
+getDraftMessages();
+
 const getSentMessages = () => {
   fetch(`${baseUrl}/api/v1/messages/sent`, {
     method: 'GET',

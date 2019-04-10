@@ -70,4 +70,8 @@ export default class MessageServices {
   static async deleteASentMessage(data) {
     return Email.deleteASentMessage(data);
   }
+
+  static async deleteADraftMessage(data) {
+    return Email.deleteADraftMessage(data);
+  }
 }

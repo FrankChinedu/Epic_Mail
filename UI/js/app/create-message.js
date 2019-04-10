@@ -233,9 +233,7 @@ const saveDraft = () => {
           const head = 'SUCCESS';
           const type = 'success';
 
-
-          getInboxMessages();
-          getSentMessages();
+          getDraftMessages();
           openModal(str, head, type);
           setTimeout(() => {
             closeModal();

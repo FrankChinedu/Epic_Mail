@@ -22,6 +22,7 @@ messageRoute.get('/messages/:id', Auth.verifyToken, MessageController.viewAnInbo
 
 messageRoute.delete('/messages/:id', Auth.verifyToken, MessageController.deleteAnInboxMessage);
 messageRoute.delete('/messages/sent/:id', Auth.verifyToken, MessageController.deleteASentMessage);
+messageRoute.delete('/messages/draft/:id', Auth.verifyToken, MessageController.deleteADraftMessage);
 
 
 module.exports = messageRoute;
