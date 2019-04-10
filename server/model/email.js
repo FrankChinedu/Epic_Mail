@@ -515,7 +515,7 @@ class Email {
           const { rows } = await query(dbQuery, [userId, messageId]);
           return {
             status: 200,
-            data: rows,
+            data: rows[0],
           };
         } catch (error) {
           return {
@@ -528,7 +528,7 @@ class Email {
           const { rows } = await query(getMsg, [userId, messageId]);
           return {
             status: 200,
-            data: rows,
+            data: rows[0],
           };
         } catch (error) {
           return {

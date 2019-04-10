@@ -207,9 +207,36 @@ const goBack = (from, to) => {
 };
 
 const openDraft = (id) => {
-  console.log('id', id);
-  createContentFromDraft();
-  populate();
+  let show = document.querySelector('#draft-display');
+  show = show.style.display;
+  if (show === 'none') {
+    fetch(`${baseUrl}/api/v1/messages/draft/${id}`, {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        const { subject } = res.data;
+        const { message } = res.data;
+        let { email } = res.data;
+        if (!email) {
+          email = '';
+        }
+        const data = {
+          subject,
+          message,
+          email,
+        };
+        createContentFromDraft();
+        populate(true, data);
+      })
+      .catch((err) => {
+        openModal('An Error must have occurred');
+      });
+  } else {
+    createContentFromDraft();
+  }
 };
 
 const closeDraft = () => {
@@ -224,7 +251,6 @@ const closeDraft = () => {
 };
 
 const createContentFromDraft = () => {
-  populate(false);
   closeBulkMessage();
   const draftBody = document.querySelector('#draft-body');
   const draftdisplay = document.querySelector('#draft-display');
@@ -244,20 +270,15 @@ const createContentFromDraft = () => {
 };
 
 
-const populate = (flag = true) => {
+const populate = (flag = true, data = {}) => {
   const receipient = document.getElementById('draft-receipient');
   const subject = document.getElementById('draft-subject');
   const textArea = document.getElementById('draft-text-area');
 
   if (flag) {
-    receipient.value = 'fromDraft@draft.com';
-    subject.value = 'Being an amazing guy';
-    textArea.value = `
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-    Ab exercitationem dicta, illo dolorum quia
-    ,asperiores distinctio voluptate iure eum labore debitis.
-    Vero possimus doloribus laudantium illo soluta obcaecati tempore ipsam.
-    `;
+    receipient.value = data.email;
+    subject.value = data.subject;
+    textArea.value = data.message;
   } else {
     receipient.value = '';
     subject.value = '';
