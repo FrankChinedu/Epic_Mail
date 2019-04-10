@@ -156,6 +156,25 @@ class GroupMember {
 
     return groupMembersEmails;
   }
+
+  static async getAllGroupMembers({ userId, groupId }) {
+    const getMembers = `SELECT groupmembers.id as id, groupmembers.groupid as groupid,
+      groupmembers.memberid as memberid, contacts.email as email
+      FROM groupmembers
+      INNER JOIN contacts ON groupmembers.memberid = contacts.id
+      WHERE groupmembers.groupid=$1 AND contacts.contact_owner_id = $2`;
+
+    try {
+      const { rows } = await query(getMembers, [groupId, userId]);
+
+      return {
+        status: 200,
+        data: rows,
+      };
+    } catch (err) {
+      return err;
+    }
+  }
 }
 
 export { GroupMember };

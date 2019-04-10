@@ -160,7 +160,7 @@
                   </div>
                   <form onsubmit="event.preventDefault(); addContact()">
                     <label for="addIndContact">Email</label>
-                    <input type="email" required class="form-control mt-25" placeholder="user@email.com">
+                    <input type="email" id="contactEmail" required class="form-control mt-25" placeholder="user@email.com">
                     <button type="submit" class="btn btn-sm btn-success">Add</button>
                   </form>
                 </div>
@@ -170,47 +170,33 @@
                     <h4>Create Group</h4>
                     <span onclick="closeAddPanel()">X</span>
                   </div>
-                  <form class="">
-                    <label for="addIndContact1">Group Name</label>
-                    <input type="text" minlength="3" id="addIndContact1" required class="form-control mt-25" placeholder="group name">
+                  <form onsubmit="event.preventDefault(); addGroup()">
+                    <label for="groupContact">Group Name</label>
+                    <input type="text" minlength="3" id="groupContact" required class="form-control mt-25" placeholder="group name">
                     <button type="submit" class="btn btn-sm btn-success">Add</button>
                   </form>
                 </div>
-
-                <div class="ind-contact-all contactJs flex flex-dir-col align-item-center">
-
-                  <div class="ind-contact">
-                    <div class="flex">
-                      <div class="ab-avatar">FA</div>
-                      <div class="contact-info flex align-item-center justify-content-sb">
-                        <h4 class="elipsis">Frank Angelo</h4>
-                        <div class="flex ">
-                          <button class="btn btn-sm btn-success ">Email</button>
-                          <button class="btn btn-sm btn-danger ">Delete</button>
-                        </div>
-                      </div>
-                    </div>
+                
+                <div class="addIndContact  formAddContactJs " id="edit-group-name-form" style="display:none;">
+                  <div class="flex justify-content-sb mb-25">
+                    <h4>Edit Group Name</h4>
+                    <span onclick="closeAddPanel()">X</span>
                   </div>
-                  
-                  <div class="ind-contact">
-                    <div class="flex">
-                      <div class="ab-avatar">FA</div>
-                      <div class="contact-info flex align-item-center justify-content-sb">
-                        <h4 class="elipsis">Frank Angelo</h4>
-                        <div class="flex ">
-                          <button class="btn btn-sm btn-success ">Email</button>
-                          <button class="btn btn-sm btn-danger ">Delete</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <form onsubmit="event.preventDefault(); updateGroupName()">
+                    <label for="groupContact">Group Name</label>
+                    <input type="text" minlength="3" id="edit-group-name" required class="form-control mt-25" placeholder="group name">
+                    <button type="submit" class="btn btn-sm btn-success">Edit</button>
+                  </form>
+                </div>
 
-
+                <div class="ind-contact-all contactJs flex flex-dir-col align-item-center" id="all-user-contact">
                 </div>
 
                 <div class="ind-contact-grp contactJs flex flex-dir-col align-item-center" style="display:none;">
 
-                    <div class="ind-contact group-name">
+                  <div class=" flex flex-dir-col align-item-center " id="all-user-grps" >
+
+                    <div class="ind-contact group-name ind-contact-width">
                       <div class="flex">
                         <div class="ab-avatar cursor" onclick="listMember()">G1</div>
                         <div class="contact-info flex align-item-center justify-content-sb" >
@@ -223,41 +209,15 @@
                         </div>
                       </div>
                     </div>
-
-                  <div class="group-members" style="display:none;">
-                    <div class="flex justify-content-sb" style="margin-bottom: 20px;">
-                      <h3>Group 1</h3>
-                      <span class="cursor grp-back" onclick="backToList()"><i class="fas fa-arrow-left"></i></span>
-                    </div>
-                    <div class="add-member flex align-item-center mb-25 justify-content-ctr">
-                      <span class="mr-25">Add</span>
-                      <select class="mr-25 cursor">
-                        <option value="frank@ang.com">frank@ang.com</option>
-                        <option value="frank@ang.com">frank@ang.com</option>
-                      </select>
-                      <button class="btn btn-sm ml-25 cursor"> add </button>
-                    </div>
-                    <div class="members-list">
-                      <div class="a-member flex cursor ">
-                        <p>frank@ang.com</p>
-                        <span class="cursor">x</span>
-                      </div>
-                      <div class="a-member flex cursor ">
-                        <p>frank@ang.com</p>
-                        <span class="cursor">x</span>
-                      </div>
-                      <div class="a-member flex cursor ">
-                        <p>frank@ang.com</p>
-                        <span class="cursor">x</span>
-                      </div>
-                      <div class="a-member flex cursor ">
-                        <p>frank@ang.com</p>
-                        <span class="cursor">x</span>
-                      </div>
-                    </div>
+                  
                   </div>
-
+                  
+                  <div class="group-members" style="display:none;" id="display-group-member">
+                    
+                  </div>
                 </div>
+
+                
               </div>
 
             </div>
@@ -292,6 +252,26 @@
           </form>
         </div>
       </div>
+
+      <div class="email-body" id="bulk-message">
+        <div class="email-header flex align-item-center justify-content-sb" id="bulk-header" style="display:none;" >
+          <p>Bulk Message</p>
+          <span onclick="closeBulkMessage()">X</span>
+        </div>
+        <div class="email-main-body" id="bulk-body" style="display:none;">
+          <form onsubmit="event.preventDefault(); postMessage()" id="bulk-form" >
+              <input type="text" id="bulk-subject" class="form-ctrl mt-25" required autocomplete="off" placeholder="Subject">
+            <div>
+              <textarea id="bulk-text-area" class="form-ctrl mt-25" required  cols="30" placeholder="Message Here" rows="10"></textarea>
+            </div>
+            <div class="mt-25 flex justify-content-sb ">
+              <button type="submit" class="btn btn-success" title="send message to user" 
+              >Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
     </main>
   </div>
 <div id="myModal" class="modal">
