@@ -247,7 +247,27 @@
               <button type="submit" class="btn btn-success" title="send message to user" 
               >Send</button>
               <button type="button" class=" btn btn-default" title="Saves message as draft"
-              onclick="event.saveDraft()">Draft</button>
+              onclick="saveDraft()">Draft</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="email-body" id="draft-display">
+        <div class="email-header flex align-item-center justify-content-sb" id="draft-head" style="display:none;" >
+          <p>New Message</p>
+          <span onclick="createContentFromDraft()">X</span>
+        </div>
+        <div class="email-main-body" id="draft-body" style="display:none;">
+          <form onsubmit="event.preventDefault(); sendDraftMessage()" >
+              <input type="email" id="draft-receipient" class="form-ctrl pt-25" required autocomplete="off" placeholder="Receipient">
+              <input type="text" id="draft-subject" class="form-ctrl mt-25" required autocomplete="off" placeholder="Subject">
+            <div>
+              <textarea id="draft-text-area" class="form-ctrl mt-25" required  cols="30" placeholder="Message Here" rows="10"></textarea>
+            </div>
+            <div class="mt-25 flex justify-content-sb ">
+              <button type="submit" class="btn btn-success" title="send message to user" 
+              >Send</button>
             </div>
           </form>
         </div>

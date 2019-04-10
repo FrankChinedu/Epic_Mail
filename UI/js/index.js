@@ -47,6 +47,7 @@ const displayPanel = (id) => {
 const createContent = () => {
   populate(false);
   closeBulkMessage();
+  closeDraft();
   const emailMainBody = document.querySelector('.email-main-body');
   const emailBody = document.querySelector('.email-body');
   const emailHead = document.querySelector('.email-header');
@@ -206,14 +207,46 @@ const goBack = (from, to) => {
 };
 
 const openDraft = () => {
-  createContent();
+  createContentFromDraft();
   populate();
 };
 
+const closeDraft = () => {
+  const draftBody = document.querySelector('#draft-body');
+  const draftdisplay = document.querySelector('#draft-display');
+  const draftHead = document.querySelector('#draft-head');
+  const value = 'none';
+
+  draftdisplay.style.display = value;
+  draftBody.style.display = value;
+  draftHead.style.display = value;
+};
+
+const createContentFromDraft = () => {
+  populate(false);
+  closeBulkMessage();
+  const draftBody = document.querySelector('#draft-body');
+  const draftdisplay = document.querySelector('#draft-display');
+  const draftHead = document.querySelector('#draft-head');
+  // const mobileCreateBtn = document.querySelector('#mobile-create');
+  const value = 'none';
+
+  if (draftBody.style.display === value) {
+    draftBody.style.display = 'block';
+    draftdisplay.style.display = 'block';
+    draftHead.style.display = 'flex';
+  } else {
+    draftdisplay.style.display = value;
+    draftBody.style.display = value;
+    draftHead.style.display = value;
+  }
+};
+
+
 const populate = (flag = true) => {
-  const receipient = document.getElementById('receipient');
-  const subject = document.getElementById('subject');
-  const textArea = document.getElementById('text-area');
+  const receipient = document.getElementById('draft-receipient');
+  const subject = document.getElementById('draft-subject');
+  const textArea = document.getElementById('draft-text-area');
 
   if (flag) {
     receipient.value = 'fromDraft@draft.com';
