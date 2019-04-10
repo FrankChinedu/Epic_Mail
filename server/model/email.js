@@ -246,6 +246,8 @@ class Email {
     FROM ${table}
     INNER JOIN users ON ${table}.${otherField} = users.id 
     INNER JOIN emails ON ${table}.messageid = emails.id WHERE ${table}.${field} = $1
+    ORDER BY ${table}.createdat DESC;
+    
      `;
     return dbQuery;
   }
