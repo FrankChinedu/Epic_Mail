@@ -85,5 +85,7 @@ const signUp = () => {
       } else {
         error.innerHTML = 'something went wrong';
       }
+    }).catch((err) => {
+      error.innerHTML = 'something went wrong';
     });
 };
