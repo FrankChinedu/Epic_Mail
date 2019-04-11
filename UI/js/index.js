@@ -47,6 +47,7 @@ const displayPanel = (id) => {
 const createContent = () => {
   populate(false);
   closeBulkMessage();
+  closeDraft();
   const emailMainBody = document.querySelector('.email-main-body');
   const emailBody = document.querySelector('.email-body');
   const emailHead = document.querySelector('.email-header');
@@ -149,6 +150,13 @@ const getOnesentMessage = (num) => {
         `;
       }
     }).catch((e) => {
+      display.innerHTML = `
+      <div class="main-flex message-list">
+        <article class="col-10 mail-body center-text">
+          An Error or something must have occured try reloading this page.
+        </article>
+      </div>
+      `;
     });
 };
 
@@ -195,6 +203,13 @@ const getOneInboxMessage = (num) => {
         `;
       }
     }).catch((e) => {
+      display.innerHTML = `
+      <div class="main-flex message-list">
+        <article class="col-10 mail-body center-text">
+          An Error or something must have occured try reloading this page.
+        </article>
+      </div>
+      `;
     });
 };
 
@@ -205,25 +220,79 @@ const goBack = (from, to) => {
   displayPanel(to);
 };
 
-const openDraft = () => {
-  createContent();
-  populate();
+const openDraft = (id) => {
+  let show = document.querySelector('#draft-display');
+  show = show.style.display;
+  if (show === 'none') {
+    fetch(`${baseUrl}/api/v1/messages/draft/${id}`, {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        const { subject } = res.data;
+        const { message } = res.data;
+        let { email } = res.data;
+        if (!email) {
+          email = '';
+        }
+        const data = {
+          subject,
+          message,
+          email,
+        };
+        createContentFromDraft();
+        populate(true, data);
+      })
+      .catch((err) => {
+        openModal('An Error must have occurred');
+      });
+  } else {
+    createContentFromDraft();
+  }
 };
 
-const populate = (flag = true) => {
-  const receipient = document.getElementById('receipient');
-  const subject = document.getElementById('subject');
-  const textArea = document.getElementById('text-area');
+const closeDraft = () => {
+  const draftBody = document.querySelector('#draft-body');
+  const draftdisplay = document.querySelector('#draft-display');
+  const draftHead = document.querySelector('#draft-head');
+  const value = 'none';
+
+  draftdisplay.style.display = value;
+  draftBody.style.display = value;
+  draftHead.style.display = value;
+};
+
+const createContentFromDraft = () => {
+  closeBulkMessage();
+  const draftBody = document.querySelector('#draft-body');
+  const draftdisplay = document.querySelector('#draft-display');
+  const draftHead = document.querySelector('#draft-head');
+  // const mobileCreateBtn = document.querySelector('#mobile-create');
+  const value = 'none';
+
+  if (draftBody.style.display === value) {
+    draftBody.style.display = 'block';
+    draftdisplay.style.display = 'block';
+    draftHead.style.display = 'flex';
+  } else {
+    draftdisplay.style.display = value;
+    draftBody.style.display = value;
+    draftHead.style.display = value;
+  }
+};
+
+
+const populate = (flag = true, data = {}) => {
+  const receipient = document.getElementById('draft-receipient');
+  const subject = document.getElementById('draft-subject');
+  const textArea = document.getElementById('draft-text-area');
 
   if (flag) {
-    receipient.value = 'fromDraft@draft.com';
-    subject.value = 'Being an amazing guy';
-    textArea.value = `
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-    Ab exercitationem dicta, illo dolorum quia
-    ,asperiores distinctio voluptate iure eum labore debitis.
-    Vero possimus doloribus laudantium illo soluta obcaecati tempore ipsam.
-    `;
+    receipient.value = data.email;
+    subject.value = data.subject;
+    textArea.value = data.message;
   } else {
     receipient.value = '';
     subject.value = '';
