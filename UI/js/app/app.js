@@ -636,32 +636,34 @@ const showAllUserGroup = () => {
     },
   }).then(res => res.json())
     .then((res) => {
+      console.log('===>', res);
       const groups = document.querySelector('#all-user-grps');
       groups.innerHTML = '';
       if (res.status === 200) {
         const result = res.data;
-        result.forEach((resp) => {
-          groups.innerHTML += `
-          <div class="ind-contact group-name ind-contact-width">
-            <div class="flex">
-              <div class="ab-avatar cursor" onclick="listMember()">
-                ${resp.name.charAt(0).toUpperCase()}${resp.name.charAt(1).toUpperCase()}
-              </div>
-              <div class="contact-info flex align-item-center justify-content-sb" >
-                <h4 class="elipsis cursor" onclick="listMember(); getGroupMembers(${resp.id}, '${resp.name}')" >${resp.name}</h4>
-                <div class="flex ">
-                  <button class="btn btn-sm" onclick="editGroupName('${resp.name}', ${resp.id})" >Edit</button>
-                  <button class="btn btn-sm btn-success " onclick="sendBulkMessage('${resp.id}')" >Email</button>
-                  <button class="btn btn-sm btn-danger " onclick="deleteGroup(${resp.id})" >Delete</button>
+        if (result.length) {
+          result.forEach((resp) => {
+            groups.innerHTML += `
+            <div class="ind-contact group-name ind-contact-width">
+              <div class="flex">
+                <div class="ab-avatar cursor" onclick="listMember()">
+                  ${resp.name.charAt(0).toUpperCase()}${resp.name.charAt(1).toUpperCase()}
+                </div>
+                <div class="contact-info flex align-item-center justify-content-sb" >
+                  <h4 class="elipsis cursor" onclick="listMember(); getGroupMembers(${resp.id}, '${resp.name}')" >${resp.name}</h4>
+                  <div class="flex ">
+                    <button class="btn btn-sm" onclick="editGroupName('${resp.name}', ${resp.id})" >Edit</button>
+                    <button class="btn btn-sm btn-success " onclick="sendBulkMessage('${resp.id}')" >Email</button>
+                    <button class="btn btn-sm btn-danger " onclick="deleteGroup(${resp.id})" >Delete</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          `;
-        });
-      } else {
-        // Error html
-        groups.innerHTML = `
+            `;
+          });
+        } else {
+          // Error html
+          groups.innerHTML = `
         <div class="ind-contact group-name ind-contact-width">
           <div class="flex">
             <div class="ab-avatar cursor" >ER</div>
@@ -671,6 +673,7 @@ const showAllUserGroup = () => {
           </div>
         </div>
       `;
+        }
       }
     }).catch((err) => {
       const groups = document.querySelector('#all-user-grps');
