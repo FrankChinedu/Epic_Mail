@@ -246,6 +246,8 @@ class Email {
     FROM ${table}
     INNER JOIN users ON ${table}.${otherField} = users.id 
     INNER JOIN emails ON ${table}.messageid = emails.id WHERE ${table}.${field} = $1
+    ORDER BY ${table}.createdat DESC;
+    
      `;
     return dbQuery;
   }
@@ -283,6 +285,31 @@ class Email {
     return this.queryToRun(userId, 'senderid', 'sents', 'receiverid');
   }
 
+  static async getDraftEmails(userId) {
+    const table = 'drafts';
+    const field = 'senderid';
+    const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
+    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn
+    FROM ${table}
+    INNER JOIN emails ON ${table}.messageid = emails.id WHERE ${table}.${field} = $1
+    ORDER BY ${table}.createdat DESC;
+    `;
+
+    try {
+      const { rows } = await query(dbQuery, [userId]);
+      const data = rows;
+      return {
+        success: true,
+        data,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: 'something went wrong',
+      };
+    }
+  }
+
   static async getUnReadEmails(userId) {
     const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
     emails.status as status, inboxs.receiverid as receiverId, inboxs.senderid as senderId, inboxs.read as read, inboxs.createdat as createdOn
@@ -314,6 +341,32 @@ class Email {
           data: 'no result',
         };
       }
+      return {
+        status: 202,
+        data: 'deleted successfully',
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        error: 'something went wrong',
+      };
+    }
+  }
+
+  static async deleteADraftMessage({ userId, id }) {
+    const dbQuery = 'DELETE FROM drafts WHERE messageid=$1 AND senderid=$2 returning *';
+    const dbry = 'DELETE FROM emails WHERE id=$1 returning *';
+
+    try {
+      const { rows } = await query(dbQuery, [id, userId]);
+      if (!rows[0]) {
+        return {
+          status: 404,
+          data: 'no result',
+        };
+      }
+
+      await query(dbry, [id]);
       return {
         status: 202,
         data: 'deleted successfully',
@@ -437,6 +490,56 @@ class Email {
         status: 500,
         error: res.error,
       };
+    }
+    return {
+      status: 200,
+      data: [],
+    };
+  }
+
+  static async viewADraftMessage({ userId, messageId }) {
+    const exists = await this.messageExists(userId, messageId, 'drafts', 'senderid');
+
+    const getMsg = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
+    emails.status as status, drafts.receiverid as receiverId, drafts.senderid as senderId, drafts.read as read, drafts.createdat as createdOn
+    FROM drafts
+    INNER JOIN emails ON drafts.messageid = emails.id WHERE drafts.senderid = $1 AND drafts.messageid = $2`;
+
+    const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
+    emails.status as status, drafts.receiverid as receiverId, drafts.senderid as senderId, drafts.read as read, drafts.createdat as createdOn,
+    users.firstname as firstname, users.lastname as lastname, users.email as email
+    FROM drafts
+    INNER JOIN users ON drafts.receiverid = users.id 
+    INNER JOIN emails ON drafts.messageid = emails.id WHERE drafts.senderid = $1 AND drafts.messageid = $2`;
+
+    if (exists.success) {
+      if (exists.data.receiverid) {
+        try {
+          const { rows } = await query(dbQuery, [userId, messageId]);
+          return {
+            status: 200,
+            data: rows[0],
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            error: 'An Error must have occurred',
+          };
+        }
+      } else {
+        try {
+          const { rows } = await query(getMsg, [userId, messageId]);
+          return {
+            status: 200,
+            data: rows[0],
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            error: 'An Error must have occurred',
+          };
+        }
+      }
     }
     return {
       status: 200,

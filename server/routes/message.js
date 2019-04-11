@@ -10,6 +10,10 @@ messageRoute.get('/messages', Auth.verifyToken, MessageController.getRecievedEma
 
 messageRoute.get('/messages/sent', Auth.verifyToken, MessageController.getSentEmails);
 
+messageRoute.get('/messages/draft', Auth.verifyToken, MessageController.getDraftEmails);
+
+messageRoute.get('/messages/draft/:id', Auth.verifyToken, MessageController.viewADraftMessage);
+
 messageRoute.get('/messages/sent/:id', Auth.verifyToken, MessageController.viewASentMessage);
 
 messageRoute.get('/messages/unread', Auth.verifyToken, MessageController.getUnReadEmails);
@@ -18,6 +22,7 @@ messageRoute.get('/messages/:id', Auth.verifyToken, MessageController.viewAnInbo
 
 messageRoute.delete('/messages/:id', Auth.verifyToken, MessageController.deleteAnInboxMessage);
 messageRoute.delete('/messages/sent/:id', Auth.verifyToken, MessageController.deleteASentMessage);
+messageRoute.delete('/messages/draft/:id', Auth.verifyToken, MessageController.deleteADraftMessage);
 
 
 module.exports = messageRoute;

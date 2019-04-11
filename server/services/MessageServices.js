@@ -37,6 +37,20 @@ export default class MessageServices {
     };
   }
 
+  static async getDraftEmails(userId) {
+    const response = await Email.getDraftEmails(userId);
+    if (response.success) {
+      return {
+        status: 200,
+        data: response.data,
+      };
+    }
+    return {
+      status: 500,
+      error: response.error,
+    };
+  }
+
   static async getUnReadEmails(userId) {
     return Email.getUnReadEmails(userId);
   }
@@ -49,11 +63,19 @@ export default class MessageServices {
     return Email.getASentMessage({ userId, messageId });
   }
 
+  static async viewADraftMessage({ userId, messageId }) {
+    return Email.viewADraftMessage({ userId, messageId });
+  }
+
   static async deleteAnInboxMessage(data) {
     return Email.deleteInboxMessage(data);
   }
 
   static async deleteASentMessage(data) {
     return Email.deleteASentMessage(data);
+  }
+
+  static async deleteADraftMessage(data) {
+    return Email.deleteADraftMessage(data);
   }
 }
