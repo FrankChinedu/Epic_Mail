@@ -95,6 +95,15 @@ export default class MessageController {
     res.status(response.status).send(response);
   }
 
+  static async retractMessage(req, res) {
+    const userId = req.user.id;
+    const { id } = req.params;
+    const data = { userId, id };
+
+    const response = await MessageServices.retractMessage(data);
+    res.status(response.status).send(response);
+  }
+
   static async deleteADraftMessage(req, res) {
     const userId = req.user.id;
     const { id } = req.params;

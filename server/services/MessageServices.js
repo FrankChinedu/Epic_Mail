@@ -75,6 +75,10 @@ export default class MessageServices {
     return Email.deleteASentMessage(data);
   }
 
+  static async retractMessage(data) {
+    return Email.retractMessage(data);
+  }
+
   static async deleteADraftMessage(data) {
     return Email.deleteADraftMessage(data);
   }

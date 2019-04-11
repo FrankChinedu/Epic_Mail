@@ -16,10 +16,12 @@ messageRoute.get('/messages/draft/:id', Auth.verifyToken, MessageController.view
 
 messageRoute.get('/messages/sent/:id', Auth.verifyToken, MessageController.viewASentMessage);
 
+
 messageRoute.get('/messages/unread', Auth.verifyToken, MessageController.getUnReadEmails);
 
 messageRoute.get('/messages/:id', Auth.verifyToken, MessageController.viewAnInboxMessage);
 
+messageRoute.delete('/messages/retract/:id', Auth.verifyToken, MessageController.retractMessage);
 messageRoute.delete('/messages/:id', Auth.verifyToken, MessageController.deleteAnInboxMessage);
 messageRoute.delete('/messages/sent/:id', Auth.verifyToken, MessageController.deleteASentMessage);
 messageRoute.delete('/messages/draft/:id', Auth.verifyToken, MessageController.deleteADraftMessage);

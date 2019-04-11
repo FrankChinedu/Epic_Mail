@@ -241,7 +241,8 @@ class Email {
 
   static qry(field, table, otherField) {
     const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
-    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn,
+    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read,
+    ${table}.createdat as createdOn, ${table}.retract as retract,
     users.firstname as firstname, users.lastname as lastname, users.email as email
     FROM ${table}
     INNER JOIN users ON ${table}.${otherField} = users.id 
@@ -395,6 +396,35 @@ class Email {
         data: 'deleted successfully',
       };
     } catch (error) {
+      return {
+        status: 500,
+        error: 'something went wrong',
+      };
+    }
+  }
+
+  static async retractMessage({ userId, id }) {
+    const dbQuery = 'DELETE FROM inboxs WHERE messageid=$1 AND senderid=$2 returning *';
+
+    try {
+      await query('BEGIN');
+      const { rows } = await query(dbQuery, [id, userId]);
+      if (!rows[0]) {
+        return {
+          status: 404,
+          data: 'no result',
+        };
+      }
+      const update = 'UPDATE sents SET retract=$1 WHERE messageid=$2 AND senderid=$3 returning *';
+
+      await query(update, ['true', id, userId]);
+      await query('COMMIT');
+      return {
+        status: 202,
+        data: 'message has been successfully retracted',
+      };
+    } catch (error) {
+      await query('ROLLBACK');
       return {
         status: 500,
         error: 'something went wrong',
