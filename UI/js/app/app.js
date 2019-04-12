@@ -209,7 +209,6 @@ const retractMessage = (id) => {
   // eslint-disable-next-line no-alert
   const confirmed = confirm('Are You sure you want to retract this message');
   if (confirmed) {
-    console.log('id', id);
     fetch(`${baseUrl}/api/v1/messages/retract/${id}`, {
       method: 'DELETE',
       headers: {
@@ -217,26 +216,132 @@ const retractMessage = (id) => {
       },
     }).then(res => res.json())
       .then((res) => {
+        openModal(res.data, 'SUCCESS', 'success');
         getSentMessages();
       });
   }
 };
 
-const resendMessage = (id) => {
-  // eslint-disable-next-line no-alert
-  const confirmed = confirm('Are You sure you want to resend this message');
-  // if (confirmed) {
-  //   console.log('id', id);
-  //   fetch(`${baseUrl}/api/v1/messages/retract/${id}`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       'x-access-token': token,
-  //     },
-  //   }).then(res => res.json())
-  //     .then((res) => {
-  //       getSentMessages();
-  //     });
-  // }
+const openResendForm = (id) => {
+  const body = document.querySelector('#resend-body');
+  const display = document.querySelector('#resend-display');
+  const head = document.querySelector('#resend-head');
+  const value = 'none';
+
+  if (body.style.display === value) {
+    body.style.display = 'block';
+    display.style.display = 'block';
+    head.style.display = 'flex';
+
+    fetch(`${baseUrl}/api/v1/messages/sent/${id}`, {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          body.setAttribute('messageid', id);
+          const data = {
+            email: res.data.email,
+            subject: res.data.subject,
+            message: res.data.message,
+          };
+          fillResendForm(data);
+        } else {
+          openModal('An error must have occured');
+        }
+      }).catch((e) => {
+        openModal('An error must have occurred try again');
+      });
+  } else {
+    display.style.display = value;
+    body.style.display = value;
+    head.style.display = value;
+  }
+};
+
+const fillResendForm = (data) => {
+  const receipient = document.getElementById('resend-receipient');
+  const subject = document.getElementById('resend-subject');
+  const textArea = document.getElementById('resend-text-area');
+
+  receipient.value = data.email;
+  subject.value = data.subject;
+  textArea.innerText = data.message;
+};
+
+const closeResendForm = () => {
+  const body = document.querySelector('#resend-body');
+  const display = document.querySelector('#resend-display');
+  const head = document.querySelector('#resend-head');
+  const value = 'none';
+  display.style.display = value;
+  body.style.display = value;
+  head.style.display = value;
+};
+
+const resendMessage = () => {
+  let recieversEmail = document.getElementById('resend-receipient').value;
+  const subject = document.getElementById('resend-subject').value;
+  const message = document.getElementById('resend-text-area').value;
+  const body = document.querySelector('#resend-body');
+  const status = 'sent';
+  recieversEmail = recieversEmail.trim();
+
+  const validate = () => {
+    // eslint-disable-next-line no-useless-escape
+    const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (recieversEmail === '' || !re.test(recieversEmail)) {
+      const str = 'receipient must not be empty and you must be a valid email';
+      openModal(str);
+      setTimeout(() => {
+        closeModal();
+      }, 4000);
+      return false;
+    } if (subject === '') {
+      const str = 'subject cannot be empty';
+      openModal(str);
+      setTimeout(() => {
+        closeModal();
+      }, 4000);
+      return false;
+    } if (message === '') {
+      const str = 'Body of the email cannot be empty';
+      openModal(str);
+      setTimeout(() => {
+        closeModal();
+      }, 4000);
+      return false;
+    }
+    return true;
+  };
+  const valid = validate();
+
+  if (valid) {
+    const data = {
+      recieversEmail,
+      subject,
+      status,
+      message,
+    };
+    const id = body.getAttribute('messageid');
+    fetch(`${baseUrl}/api/v1/resend/${id}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        closeResendForm();
+        getSentMessages();
+        openModal(res.data, 'SUCCESS', 'success');
+      }).catch((e) => {
+        openModal('An error must have occurred');
+      });
+  }
 };
 
 const getSentMessages = () => {
@@ -247,7 +352,6 @@ const getSentMessages = () => {
     },
   }).then(res => res.json())
     .then((res) => {
-      console.log('===>', res);
       if (res.status === 200) {
         const sentMsg = document.querySelector('#sent-message');
         sentMsg.innerHTML = '';
@@ -266,7 +370,7 @@ const getSentMessages = () => {
                 <article class="col-7 mail-body" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >${sent.message} </article>
                 <span class="col-2 flex justify-content-sb">
                   <span class="col-2 center-text start-text" title="delete" onclick="deleteSentMessage(${sent.id})" ><i class="fas fa-trash delete"></i></span>
-                  <span class="col-2 center-text start-text retracted" title="ReSend Message" onclick="resendMessage(${sent.id})">
+                  <span class="col-2 center-text start-text retracted" title="ReSend Message" onclick="openResendForm(${sent.id})">
                     <i class="fas fa-share-square"></i>
                   </span>
                   <span class="col-6 center-text start-text">${formatDate(sent.createdon)}</span>
@@ -817,7 +921,7 @@ const showAllUserContacts = () => {
       } else {
         // Error html
         contacts.innerHTML = `
-        <div class="ind-contact">
+        <div class="ind-contact" >
           <div class="flex">
             <div class="ab-avatar">Er</div>
             <div class="contact-info flex align-item-center justify-content-sb">

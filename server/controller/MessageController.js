@@ -15,6 +15,15 @@ export default class MessageController {
     res.status(response.status).send(response);
   }
 
+  static async resendMessage(req, res) {
+    const userId = req.user.id;
+    const { id } = req.params;
+    const messageId = id;
+    const data = { ...req.body, userId, messageId };
+    const response = await MessageServices.resendMessage(data);
+    res.status(response.status).send(response);
+  }
+
   static async saveAsDraft(data) {
     return MessageServices.saveDraft(data);
   }

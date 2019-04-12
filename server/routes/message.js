@@ -6,6 +6,8 @@ const messageRoute = express.Router();
 
 messageRoute.post('/messages', Auth.trimmer, Auth.verifyToken, Auth.spoof, MessageController.createMessage);
 
+messageRoute.post('/resend/:id', Auth.trimmer, Auth.verifyToken, Auth.spoof, MessageController.resendMessage);
+
 messageRoute.get('/messages', Auth.verifyToken, MessageController.getRecievedEmails);
 
 messageRoute.get('/messages/sent', Auth.verifyToken, MessageController.getSentEmails);

@@ -9,6 +9,10 @@ export default class MessageServices {
     return Email.sendMessage(data);
   }
 
+  static async resendMessage(data) {
+    return Email.resendMessage(data);
+  }
+
   static async getRecievedEmails(userId) {
     const response = await Email.getInboxMessages(userId);
     if (response.success) {
