@@ -48,6 +48,7 @@ const createContent = () => {
   populate(false);
   closeBulkMessage();
   closeDraft();
+  closeResendForm();
   const emailMainBody = document.querySelector('.email-main-body');
   const emailBody = document.querySelector('.email-body');
   const emailHead = document.querySelector('.email-header');
@@ -115,39 +116,72 @@ const getOnesentMessage = (num) => {
     .then((res) => {
       if (res.status === 200) {
         const sent = res.data;
-        display.innerHTML = `
-        <div>
-          <span class="go-back" onclick="goBack('sentMail', 'sent')"><i class="fas fa-arrow-left"></i></span>
-          <span class="tag mr-25">
-            <i class="fas fa-plane-departure mr-5 dark-col"></i>Sent
-          </span>
-          <span class="tag cursor" title="Retract this message">
-            <i class="fas fa-undo danger-col"></i>Retract
-          </span>
-        </div>
-        <div class="read-mailContent">
-          <div class="flex">
-            <h2>${sent.subject}</h2> <span></span>
-          </div>
+        if (res.data.retract) {
+          display.innerHTML = `
           <div>
+            <span class="go-back" onclick="goBack('sentMail', 'sent')"><i class="fas fa-arrow-left"></i></span>
+            <span class="tag mr-25">
+              <i class="fas fa-plane-departure mr-5 dark-col"></i>Sent
+            </span>
+          </div>
+          <div class="read-mailContent">
             <div class="flex">
-              <span>To: &nbsp; </span>
-              <b>${sent.firstname} ${sent.lastname}</b>
+              <h2>${sent.subject}</h2> <span></span>
             </div>
+            <div>
+              <div class="flex">
+                <span>To: &nbsp; </span>
+                <b>${sent.firstname} ${sent.lastname}</b>
+              </div>
+              <div class="flex">
+                  <span>From: &nbsp; </span>
+                  <b>me</b>
+              </div>
+            </div>
+  
+            <div class="mailContent">
+            ${sent.message}
+            </div>
+            <div class="mt-25">
+              <button class="btn btn-sm btn-default">Reply</button>
+            </div>
+          </div>
+          `;
+        } else {
+          display.innerHTML = `
+          <div>
+            <span class="go-back" onclick="goBack('sentMail', 'sent')"><i class="fas fa-arrow-left"></i></span>
+            <span class="tag mr-25">
+              <i class="fas fa-plane-departure mr-5 dark-col"></i>Sent
+            </span>
+            <span class="tag cursor" title="Retract this message" onclick="retractMessage(${sent.id})">
+              <i class="fas fa-undo danger-col"></i>Retract
+            </span>
+          </div>
+          <div class="read-mailContent">
             <div class="flex">
-                <span>From: &nbsp; </span>
-                <b>me</b>
+              <h2>${sent.subject}</h2> <span></span>
+            </div>
+            <div>
+              <div class="flex">
+                <span>To: &nbsp; </span>
+                <b>${sent.firstname} ${sent.lastname}</b>
+              </div>
+              <div class="flex">
+                  <span>From: &nbsp; </span>
+                  <b>me</b>
+              </div>
+            </div>
+  
+            <div class="mailContent">
+            ${sent.message}
+            </div>
+            <div class="mt-25">
+              <button class="btn btn-sm btn-default">Reply</button>
             </div>
           </div>
-
-          <div class="mailContent">
-          ${sent.message}
-          </div>
-          <div class="mt-25">
-            <button class="btn btn-sm btn-default">Reply</button>
-          </div>
-        </div>
-        `;
+          `;
+        }
       }
     }).catch((e) => {
       display.innerHTML = `

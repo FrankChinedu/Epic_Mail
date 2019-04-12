@@ -9,6 +9,10 @@ export default class MessageServices {
     return Email.sendMessage(data);
   }
 
+  static async resendMessage(data) {
+    return Email.resendMessage(data);
+  }
+
   static async getRecievedEmails(userId) {
     const response = await Email.getInboxMessages(userId);
     if (response.success) {
@@ -73,6 +77,10 @@ export default class MessageServices {
 
   static async deleteASentMessage(data) {
     return Email.deleteASentMessage(data);
+  }
+
+  static async retractMessage(data) {
+    return Email.retractMessage(data);
   }
 
   static async deleteADraftMessage(data) {

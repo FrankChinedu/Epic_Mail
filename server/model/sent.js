@@ -47,6 +47,7 @@ class Sent {
         senderId INTEGER,
         messageId INTEGER,
         read BOOLEAN,
+        retract BOOLEAN DEFAULT FALSE,
         createdAt TIMESTAMP DEFAULT NOW(),
         updatedAt TIMESTAMP DEFAULT NOW(),
         FOREIGN KEY (receiverId) REFERENCES users (id) ON DELETE CASCADE,

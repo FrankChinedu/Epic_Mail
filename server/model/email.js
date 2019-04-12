@@ -241,7 +241,8 @@ class Email {
 
   static qry(field, table, otherField) {
     const dbQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
-    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn,
+    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read,
+    ${table}.createdat as createdOn, ${table}.retract as retract,
     users.firstname as firstname, users.lastname as lastname, users.email as email
     FROM ${table}
     INNER JOIN users ON ${table}.${otherField} = users.id 
@@ -402,6 +403,86 @@ class Email {
     }
   }
 
+  static async retractMessage({ userId, id }) {
+    const dbQuery = 'DELETE FROM inboxs WHERE messageid=$1 AND senderid=$2 returning *';
+
+    try {
+      await query('BEGIN');
+      const { rows } = await query(dbQuery, [id, userId]);
+      if (!rows[0]) {
+        return {
+          status: 404,
+          data: 'no result',
+        };
+      }
+      const update = 'UPDATE sents SET retract=$1 WHERE messageid=$2 AND senderid=$3 returning *';
+
+      await query(update, ['true', id, userId]);
+      await query('COMMIT');
+      return {
+        status: 202,
+        data: 'message has been successfully retracted',
+      };
+    } catch (error) {
+      await query('ROLLBACK');
+      return {
+        status: 500,
+        error: 'something went wrong',
+      };
+    }
+  }
+
+  static async resendMessage(data) {
+    const {
+      recieversEmail, subject, message, userId, messageId,
+    } = data;
+
+    const getReceiver = 'SELECT * FROM users WHERE email=$1';
+    const res = await query(getReceiver, [recieversEmail]);
+
+    if (res.rows[0] === undefined) {
+      return {
+        status: 404,
+        error: `User with email ${recieversEmail} not found`,
+      };
+    }
+    try {
+      await query('BEGIN');
+      const update = 'UPDATE emails SET subject=$1, message=$2 WHERE id=$3 returning *';
+      await query(update, [subject, message, messageId]);
+
+      const receiverId = res.rows[0].id;
+
+      const inboxQuery = `INSERT INTO
+      inboxs(senderid, receiverid, messageid, read) 
+      VALUES ($1, $2, $3, $4) RETURNING *
+      `;
+
+      const inboxValue = [
+        userId,
+        receiverId,
+        messageId,
+        false,
+      ];
+
+      await query(inboxQuery, inboxValue);
+
+      const updateSent = 'UPDATE sents SET retract=$1 WHERE id=$2 AND senderid=$3';
+      await query(updateSent, [false, messageId, userId]);
+      await query('COMMIT');
+      return {
+        status: 200,
+        data: 'Message have been resent',
+      };
+    } catch (error) {
+      await query('ROLLBACK');
+      return {
+        status: 500,
+        data: 'An error must have occurred',
+      };
+    }
+  }
+
   static async messageExists(userId, messageId, table, field) {
     const dbQuery = `SELECT * FROM ${table} WHERE ${field}=$1 AND messageid=$2`;
     try {
@@ -454,7 +535,8 @@ class Email {
       await query(dbQuery, ['true', messageId, userId]);
 
       const getQuery = `SELECT emails.id as id,  emails.subject as subject, emails.message as message, emails.parentmessageid as parentMessageId,
-    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId, ${table}.read as read, ${table}.createdat as createdOn,
+    emails.status as status, ${table}.receiverid as receiverId, ${table}.senderid as senderId,
+    ${table}.read as read, ${table}.retract as retract, ${table}.createdat as createdOn,
     users.firstname as firstname, users.lastname as lastname, users.email as email
     FROM ${table}
     INNER JOIN users ON ${table}.${otherfield} = users.id
