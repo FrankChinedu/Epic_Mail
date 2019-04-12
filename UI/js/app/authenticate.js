@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-const baseUrl = 'https://epic-mail-ocf.herokuapp.com';
+const baseUrl = 'http://127.0.0.1:4000';
 
 const {
   accessToken, userFirstname, userLastname, userEmail,
@@ -85,5 +85,7 @@ const signUp = () => {
       } else {
         error.innerHTML = 'something went wrong';
       }
+    }).catch((err) => {
+      error.innerHTML = 'something went wrong';
     });
 };

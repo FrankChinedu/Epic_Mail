@@ -273,6 +273,26 @@
         </div>
       </div>
 
+      <div class="email-body" id="resend-display" style="display:none">
+        <div class="email-header flex align-item-center justify-content-sb" id="resend-head" style="display:none;" >
+          <p>New Message</p>
+          <span onclick="closeResendForm()">X</span>
+        </div>
+        <div class="email-main-body" id="resend-body" style="display:none;">
+          <form onsubmit="event.preventDefault(); resendMessage()" >
+              <input type="email" id="resend-receipient" class="form-ctrl pt-25" required autocomplete="off" placeholder="Receipient">
+              <input type="text" id="resend-subject" class="form-ctrl mt-25" required autocomplete="off" placeholder="Subject">
+            <div>
+              <textarea id="resend-text-area" class="form-ctrl mt-25" required  cols="30" placeholder="Message Here" rows="10"></textarea>
+            </div>
+            <div class="mt-25 flex justify-content-sb ">
+              <button type="submit" class="btn btn-success" title="send message to user" 
+              >Resend</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <div class="email-body" id="bulk-message">
         <div class="email-header flex align-item-center justify-content-sb" id="bulk-header" style="display:none;" >
           <p>Bulk Message</p>

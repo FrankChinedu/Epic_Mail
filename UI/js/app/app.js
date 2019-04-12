@@ -205,6 +205,145 @@ const getDraftMessages = () => {
 
 getDraftMessages();
 
+const retractMessage = (id) => {
+  // eslint-disable-next-line no-alert
+  const confirmed = confirm('Are You sure you want to retract this message');
+  if (confirmed) {
+    fetch(`${baseUrl}/api/v1/messages/retract/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        openModal(res.data, 'SUCCESS', 'success');
+        getSentMessages();
+      });
+  }
+};
+
+const openResendForm = (id) => {
+  const body = document.querySelector('#resend-body');
+  const display = document.querySelector('#resend-display');
+  const head = document.querySelector('#resend-head');
+  const value = 'none';
+
+  if (body.style.display === value) {
+    body.style.display = 'block';
+    display.style.display = 'block';
+    head.style.display = 'flex';
+
+    fetch(`${baseUrl}/api/v1/messages/sent/${id}`, {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          body.setAttribute('messageid', id);
+          const data = {
+            email: res.data.email,
+            subject: res.data.subject,
+            message: res.data.message,
+          };
+          fillResendForm(data);
+        } else {
+          openModal('An error must have occured');
+        }
+      }).catch((e) => {
+        openModal('An error must have occurred try again');
+      });
+  } else {
+    display.style.display = value;
+    body.style.display = value;
+    head.style.display = value;
+  }
+};
+
+const fillResendForm = (data) => {
+  const receipient = document.getElementById('resend-receipient');
+  const subject = document.getElementById('resend-subject');
+  const textArea = document.getElementById('resend-text-area');
+
+  receipient.value = data.email;
+  subject.value = data.subject;
+  textArea.innerText = data.message;
+};
+
+const closeResendForm = () => {
+  const body = document.querySelector('#resend-body');
+  const display = document.querySelector('#resend-display');
+  const head = document.querySelector('#resend-head');
+  const value = 'none';
+  display.style.display = value;
+  body.style.display = value;
+  head.style.display = value;
+};
+
+const resendMessage = () => {
+  let recieversEmail = document.getElementById('resend-receipient').value;
+  const subject = document.getElementById('resend-subject').value;
+  const message = document.getElementById('resend-text-area').value;
+  const body = document.querySelector('#resend-body');
+  const status = 'sent';
+  recieversEmail = recieversEmail.trim();
+
+  const validate = () => {
+    // eslint-disable-next-line no-useless-escape
+    const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (recieversEmail === '' || !re.test(recieversEmail)) {
+      const str = 'receipient must not be empty and you must be a valid email';
+      openModal(str);
+      setTimeout(() => {
+        closeModal();
+      }, 4000);
+      return false;
+    } if (subject === '') {
+      const str = 'subject cannot be empty';
+      openModal(str);
+      setTimeout(() => {
+        closeModal();
+      }, 4000);
+      return false;
+    } if (message === '') {
+      const str = 'Body of the email cannot be empty';
+      openModal(str);
+      setTimeout(() => {
+        closeModal();
+      }, 4000);
+      return false;
+    }
+    return true;
+  };
+  const valid = validate();
+
+  if (valid) {
+    const data = {
+      recieversEmail,
+      subject,
+      status,
+      message,
+    };
+    const id = body.getAttribute('messageid');
+    fetch(`${baseUrl}/api/v1/resend/${id}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+    }).then(res => res.json())
+      .then((res) => {
+        closeResendForm();
+        getSentMessages();
+        openModal(res.data, 'SUCCESS', 'success');
+      }).catch((e) => {
+        openModal('An error must have occurred');
+      });
+  }
+};
+
 const getSentMessages = () => {
   fetch(`${baseUrl}/api/v1/messages/sent`, {
     method: 'GET',
@@ -219,22 +358,43 @@ const getSentMessages = () => {
         const { data } = res;
         if (data.length) {
           data.forEach((sent) => {
-            sentMsg.innerHTML += `
-            <div class="main-flex message-list" >
-              <span class="col-3 flex" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >
-                <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
-                  <i class="fas fa-plane-departure dark-col ml-25" title="sent message"></i>
+            if (sent.retract) {
+              sentMsg.innerHTML += `
+              <div class="main-flex message-list">
+                <span class="col-3 flex" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >
+                  <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                    <i class="fas fa-exclamation-triangle ml-25 danger-col" title="retracted Message"></i>
+                  </span>
+                  <span class="col-9 mail-head draft-t">To : ${sent.firstname} ${sent.lastname}</span>
                 </span>
-                <span class="col-9 mail-head draft-t">To : ${sent.firstname} ${sent.lastname}</span>
-              </span>
-              <article class="col-7 mail-body" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >${sent.message} </article>
-              <span class="col-2 flex justify-content-sb">
-                <span class="col-2 center-text start-text" title="delete" onclick="deleteSentMessage(${sent.id})"  ><i class="fas fa-trash delete"></i></span>
-                <span class="col-2 center-text start-text retract" title="Retract this Sent Message"><i class="fas fa-undo"></i></span>
-                <span class="col-6 center-text start-text">${formatDate(sent.createdon)}</span>
-              </span>
-            </div>
-            `;
+                <article class="col-7 mail-body" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >${sent.message} </article>
+                <span class="col-2 flex justify-content-sb">
+                  <span class="col-2 center-text start-text" title="delete" onclick="deleteSentMessage(${sent.id})" ><i class="fas fa-trash delete"></i></span>
+                  <span class="col-2 center-text start-text retracted" title="ReSend Message" onclick="openResendForm(${sent.id})">
+                    <i class="fas fa-share-square"></i>
+                  </span>
+                  <span class="col-6 center-text start-text">${formatDate(sent.createdon)}</span>
+                </span>
+              </div>
+              `;
+            } else {
+              sentMsg.innerHTML += `
+              <div class="main-flex message-list" >
+                <span class="col-3 flex" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >
+                  <span class="col-1 arrow-cover flex"><i class="fas fa-arrow-circle-right arrow mr-25"></i>
+                    <i class="fas fa-plane-departure dark-col ml-25" title="sent message"></i>
+                  </span>
+                  <span class="col-9 mail-head draft-t">To : ${sent.firstname} ${sent.lastname}</span>
+                </span>
+                <article class="col-7 mail-body" onclick="openMessage('sentMail'); getOnesentMessage(${sent.id})" >${sent.message} </article>
+                <span class="col-2 flex justify-content-sb">
+                  <span class="col-2 center-text start-text" title="delete" onclick="deleteSentMessage(${sent.id})" ><i class="fas fa-trash delete"></i></span>
+                  <span class="col-2 center-text start-text retract" title="Retract this Sent Message" onclick="retractMessage(${sent.id})" ><i class="fas fa-undo"></i></span>
+                  <span class="col-6 center-text start-text">${formatDate(sent.createdon)}</span>
+                </span>
+              </div>
+              `;
+            }
           });
         } else {
           sentMsg.innerHTML = `
@@ -640,28 +800,29 @@ const showAllUserGroup = () => {
       groups.innerHTML = '';
       if (res.status === 200) {
         const result = res.data;
-        result.forEach((resp) => {
-          groups.innerHTML += `
-          <div class="ind-contact group-name ind-contact-width">
-            <div class="flex">
-              <div class="ab-avatar cursor" onclick="listMember()">
-                ${resp.name.charAt(0).toUpperCase()}${resp.name.charAt(1).toUpperCase()}
-              </div>
-              <div class="contact-info flex align-item-center justify-content-sb" >
-                <h4 class="elipsis cursor" onclick="listMember(); getGroupMembers(${resp.id}, '${resp.name}')" >${resp.name}</h4>
-                <div class="flex ">
-                  <button class="btn btn-sm" onclick="editGroupName('${resp.name}', ${resp.id})" >Edit</button>
-                  <button class="btn btn-sm btn-success " onclick="sendBulkMessage('${resp.id}')" >Email</button>
-                  <button class="btn btn-sm btn-danger " onclick="deleteGroup(${resp.id})" >Delete</button>
+        if (result.length) {
+          result.forEach((resp) => {
+            groups.innerHTML += `
+            <div class="ind-contact group-name ind-contact-width">
+              <div class="flex">
+                <div class="ab-avatar cursor" onclick="listMember()">
+                  ${resp.name.charAt(0).toUpperCase()}${resp.name.charAt(1).toUpperCase()}
+                </div>
+                <div class="contact-info flex align-item-center justify-content-sb" >
+                  <h4 class="elipsis cursor" onclick="listMember(); getGroupMembers(${resp.id}, '${resp.name}')" >${resp.name}</h4>
+                  <div class="flex ">
+                    <button class="btn btn-sm" onclick="editGroupName('${resp.name}', ${resp.id})" >Edit</button>
+                    <button class="btn btn-sm btn-success " onclick="sendBulkMessage('${resp.id}')" >Email</button>
+                    <button class="btn btn-sm btn-danger " onclick="deleteGroup(${resp.id})" >Delete</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          `;
-        });
-      } else {
-        // Error html
-        groups.innerHTML = `
+            `;
+          });
+        } else {
+          // Error html
+          groups.innerHTML = `
         <div class="ind-contact group-name ind-contact-width">
           <div class="flex">
             <div class="ab-avatar cursor" >ER</div>
@@ -671,6 +832,7 @@ const showAllUserGroup = () => {
           </div>
         </div>
       `;
+        }
       }
     }).catch((err) => {
       const groups = document.querySelector('#all-user-grps');
@@ -759,7 +921,7 @@ const showAllUserContacts = () => {
       } else {
         // Error html
         contacts.innerHTML = `
-        <div class="ind-contact">
+        <div class="ind-contact" >
           <div class="flex">
             <div class="ab-avatar">Er</div>
             <div class="contact-info flex align-item-center justify-content-sb">
